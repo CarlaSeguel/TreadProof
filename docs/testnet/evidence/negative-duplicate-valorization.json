@@ -1,0 +1,30 @@
+{
+  "utc": "2026-10-02T13:21:32.6320312Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "contract",
+    "invoke",
+    "--id",
+    "CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS",
+    "--source-account",
+    "tp-demo-plant",
+    "--network",
+    "testnet",
+    "--send",
+    "no",
+    "--",
+    "confirm_valorization",
+    "--id",
+    "1",
+    "--valorized_mass",
+    "4900000",
+    "--evidence_hash",
+    "6c5f78dde113ab9230b1ea4546df0d369ad98b77b93925ea92ab37e808657ff0"
+  ],
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "❌ error: transaction simulation failed: HostError: Error(Contract, #3)\r\n\r\nEvent log (newest first):\r\n   0: [Diagnostic Event] contract:CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS, topics:[error, Error(Contract, #3)], data:\"escalating Ok(ScErrorType::Contract) frame-exit to Err\"\r\n   1: [Diagnostic Event] topics:[fn_call, CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS, confirm_valorization], data:[1, 4900000, Bytes(6c5f78dde113ab9230b1ea4546df0d369ad98b77b93925ea92ab37e808657ff0)]\r\n\r\n",
+  "transaction_hashes": []
+}

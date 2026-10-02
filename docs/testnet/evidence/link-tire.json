@@ -1,0 +1,24 @@
+{
+  "utc": "2026-10-02T13:21:39.5311528Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "contract",
+    "invoke",
+    "--id",
+    "CC5NLEIIWPEEWVZZWJXQQ55VXWR7XWFSY3R2DJXRKCKULMDUD34GYL5U",
+    "--source-account",
+    "tp-demo-company",
+    "--network",
+    "testnet",
+    "--send",
+    "no",
+    "--",
+    "get_tire_registry"
+  ],
+  "exit_code": 0,
+  "stdout": "\"CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS\"",
+  "stderr": "",
+  "transaction_hashes": []
+}

@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-02T13:21:49.8079323Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "contract",
+    "invoke",
+    "--id",
+    "CCCIKAMAWIPURGD2NXENEO3H5FD4L4VADM7O366DJFJC7NAZKJ7DYKKA",
+    "--source-account",
+    "tp-demo-company",
+    "--network",
+    "testnet",
+    "--send",
+    "no",
+    "--",
+    "get_company_badges",
+    "--company",
+    "GAKJ5RYDSIWDHRIXGSAYIYEYP2LKNQD6D6F5BEBOEOLNWRFFURRP5WTI"
+  ],
+  "exit_code": 0,
+  "stdout": "[{\"company\":\"GAKJ5RYDSIWDHRIXGSAYIYEYP2LKNQD6D6F5BEBOEOLNWRFFURRP5WTI\",\"credited_batch_count\":1,\"impact_registry\":\"CC5NLEIIWPEEWVZZWJXQQ55VXWR7XWFSY3R2DJXRKCKULMDUD34GYL5U\",\"level\":\"Trace\",\"rules_version\":1,\"threshold_grams\":\"1000000\",\"unlocked_at\":1790947277,\"unlocked_ledger\":4984738,\"verified_grams\":\"4900000\"}]",
+  "stderr": "",
+  "transaction_hashes": []
+}

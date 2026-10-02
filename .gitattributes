@@ -1,0 +1,2 @@
+# Preserve the exact bytes whose SHA-256 is registered on Stellar Testnet.
+docs/testnet/evidence/TP-DEMO-0001.txt -text whitespace=cr-at-eol

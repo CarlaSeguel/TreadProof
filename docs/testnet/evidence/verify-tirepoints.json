@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-02T13:21:43.9866948Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "contract",
+    "invoke",
+    "--id",
+    "CC5NLEIIWPEEWVZZWJXQQ55VXWR7XWFSY3R2DJXRKCKULMDUD34GYL5U",
+    "--source-account",
+    "tp-demo-company",
+    "--network",
+    "testnet",
+    "--send",
+    "no",
+    "--",
+    "get_tirepoints",
+    "--company",
+    "GAKJ5RYDSIWDHRIXGSAYIYEYP2LKNQD6D6F5BEBOEOLNWRFFURRP5WTI"
+  ],
+  "exit_code": 0,
+  "stdout": "{\"remainder_grams\":0,\"whole\":\"4900\"}",
+  "stderr": "",
+  "transaction_hashes": []
+}

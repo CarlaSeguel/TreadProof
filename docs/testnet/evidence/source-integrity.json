@@ -1,0 +1,102 @@
+[
+  {
+    "path": "contracts\\badge\\Cargo.toml",
+    "sha256": "960ee6fefc4fc48d7c8869ea4ab924d239e2195a23faa6a01c03dd996b7450a4",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\badge\\README.md",
+    "sha256": "6d71b981e978e6e22f0fce6b191fa0134cb27cba7c46460209b4f117a61dd835",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\badge\\src\\impact.rs",
+    "sha256": "c6b3086c877e8b4259b530b3756ff76113e2ac1a45d7bc4295d83fd67d5f6963",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\badge\\src\\lib.rs",
+    "sha256": "42729d2d59d71c25e8766f491d17e718275fbbab4021728b0a37eee1d4b79a05",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\badge\\src\\storage.rs",
+    "sha256": "2deaede98052e021f8986f7bb959919bd311641fe2e4e4e6fe12ab01e2b1c976",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\badge\\src\\test.rs",
+    "sha256": "c4d6375e0e24e0bd808548247d096c644def702f743bfbb49f18d2e5b47f1c5c",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\badge\\src\\types.rs",
+    "sha256": "c90935893cd781092b48a79dba80070a53392ece00b06a0341f226d6f9392838",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\impact_registry\\Cargo.toml",
+    "sha256": "9e3da6913216e8f3a3e6b79b8680908d6ddf3fe2eac954fa2285f9391adb838b",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\impact_registry\\README.md",
+    "sha256": "29eb46b9bc04d1237b93243a95d055c04840029635b0dd95c6cac2ed824b6715",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\impact_registry\\src\\lib.rs",
+    "sha256": "7ad46b791fdc3cf56e210cbc31d616db4bdec79c567851278234380d8b5fdc5c",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\impact_registry\\src\\storage.rs",
+    "sha256": "fbae3226dfc1b2af09fb61036c3be5b05987c43d38e201fae9a5bebb423a966c",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\impact_registry\\src\\test.rs",
+    "sha256": "4c9cc9612e2c023d6c4790b3db5bfe79414e88c27f436e424c2ea475c8f0e15e",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\impact_registry\\src\\tire.rs",
+    "sha256": "59505c0ad70af1c22e0ab87fa010c8ae824fcf97b57f49fd92854f7a7c7f3393",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\impact_registry\\src\\types.rs",
+    "sha256": "f0615a743335bf107749e5939aa4753496577af95c247ef258316ef0dd318fca",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\tire_registry\\Cargo.toml",
+    "sha256": "7eaa50dcce9747637acbab4c68dc3ea010f91230725efe19acaea5e25becbe11",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\tire_registry\\README.md",
+    "sha256": "fc98beffe5203fe206951d07f8a340ecbc429e15a8d54139ab6c65fc3a6622d5",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\tire_registry\\src\\lib.rs",
+    "sha256": "a9632621012b0d9735fe6e6c0b9e7c1e58f8c3fc3453eaeea637522e12601383",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\tire_registry\\src\\storage.rs",
+    "sha256": "5b15563ba0a3e055ce23f3a5d1b5dbab0b2cb04af2eff295d598e2ec7a193aa0",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\tire_registry\\src\\test.rs",
+    "sha256": "1158214cb2d6970dae8d49e51d5f5f3b1d740119ffda6eb581bc8685803867d5",
+    "unchanged": true
+  },
+  {
+    "path": "contracts\\tire_registry\\src\\types.rs",
+    "sha256": "c134e87050e840a47c0fc4c141c805927b839977dee20cbe880d6edc698f3db1",
+    "unchanged": true
+  }
+]

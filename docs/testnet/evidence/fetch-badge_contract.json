@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-02T13:25:00.7748764Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "contract",
+    "fetch",
+    "--id",
+    "CCCIKAMAWIPURGD2NXENEO3H5FD4L4VADM7O366DJFJC7NAZKJ7DYKKA",
+    "--network",
+    "testnet",
+    "--out-file",
+    ".tools/stellar-testnet/badge_contract.fetched.wasm"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "",
+  "transaction_hashes": []
+}

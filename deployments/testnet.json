@@ -1,0 +1,107 @@
+{
+  "network": "testnet",
+  "network_passphrase": "Test SDF Network ; September 2015",
+  "deployed_at_utc": "2026-10-02T13:19:52.8548935Z",
+  "tire_registry": "CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS",
+  "impact_registry": "CC5NLEIIWPEEWVZZWJXQQ55VXWR7XWFSY3R2DJXRKCKULMDUD34GYL5U",
+  "badge_contract": "CCCIKAMAWIPURGD2NXENEO3H5FD4L4VADM7O366DJFJC7NAZKJ7DYKKA",
+  "company": "GAKJ5RYDSIWDHRIXGSAYIYEYP2LKNQD6D6F5BEBOEOLNWRFFURRP5WTI",
+  "carrier": "GD66X5HC256LFZYWW22ERBSNGC3ISUTWV5ZYJVVCQPAAXAK5NCQD7D2L",
+  "plant": "GDNQRJFA2PV5HGGISZG3I77BFNVIELZ6YHAPVYQ73BYM2KCOVWOMF5FU",
+  "aliases": {
+    "company": "tp-demo-company",
+    "carrier": "tp-demo-carrier",
+    "plant": "tp-demo-plant"
+  },
+  "wasm_sha256": {
+    "tire_registry": "13e4cf397b1fa987376108b012b3c86a30d759beed1472bde494a180b80fcfda",
+    "impact_registry": "23116e4d2beebfb2e45c89f57b6a1e3ed250638031cb5af7b38cefa8f115fbe4",
+    "badge_contract": "af86361eef95b5b994ee6992a15e181f76768fd00b6f9da2b9d24a008de89ea7"
+  },
+  "transactions": [
+    {
+      "step": "deploy-badge_contract",
+      "hash": "39eaa41716ca7b4c846e04d3ff259f72d8c905e053e6ec1af307d120fd04461a",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/39eaa41716ca7b4c846e04d3ff259f72d8c905e053e6ec1af307d120fd04461a"
+    },
+    {
+      "step": "deploy-badge_contract",
+      "hash": "4d25204d73cd061cf0772e40376f7b50cfbe56d53d5ea6623f4a8bd628cbfb3e",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/4d25204d73cd061cf0772e40376f7b50cfbe56d53d5ea6623f4a8bd628cbfb3e"
+    },
+    {
+      "step": "deploy-impact_registry",
+      "hash": "a4c9e7f86737293e7108f021b2ea23e8969b530c6d7a431e626e06447841d025",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/a4c9e7f86737293e7108f021b2ea23e8969b530c6d7a431e626e06447841d025"
+    },
+    {
+      "step": "deploy-impact_registry",
+      "hash": "4b1389b460f32f80bc6b46717383a9e4e06424e6e1870ad2dd86c83d90d8b036",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/4b1389b460f32f80bc6b46717383a9e4e06424e6e1870ad2dd86c83d90d8b036"
+    },
+    {
+      "step": "deploy-tire_registry",
+      "hash": "885301f71ed91857d5349e161bd1ea087290cb7c94e0513e683df7242df5a6db",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/885301f71ed91857d5349e161bd1ea087290cb7c94e0513e683df7242df5a6db"
+    },
+    {
+      "step": "deploy-tire_registry",
+      "hash": "1f17a132b59507f3edd6607db0dc6da5f3f8ff565b709687ec2ac5445c4c1b8e",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/1f17a132b59507f3edd6607db0dc6da5f3f8ff565b709687ec2ac5445c4c1b8e"
+    },
+    {
+      "step": "demo-01-create",
+      "hash": "8955da167c3cdb0440c7223c96d6863b76f85fbb5d6e10c5590b727463d13d8c",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/8955da167c3cdb0440c7223c96d6863b76f85fbb5d6e10c5590b727463d13d8c"
+    },
+    {
+      "step": "demo-02-pickup",
+      "hash": "c14f841739a382381e4f9cbb84465009d2de9a158bb3b7f5bb9060387ddeb5eb",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/c14f841739a382381e4f9cbb84465009d2de9a158bb3b7f5bb9060387ddeb5eb"
+    },
+    {
+      "step": "demo-03-transit",
+      "hash": "83d1506066e6f3372873427a74406eb75ba4358a806b57258a791d2ba870644c",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/83d1506066e6f3372873427a74406eb75ba4358a806b57258a791d2ba870644c"
+    },
+    {
+      "step": "demo-04-reception",
+      "hash": "340a6153828919ed8229a46b9dd7ad51c2ba32adbcd0a2f8b57c1a68a034bfbc",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/340a6153828919ed8229a46b9dd7ad51c2ba32adbcd0a2f8b57c1a68a034bfbc"
+    },
+    {
+      "step": "demo-05-valorization",
+      "hash": "1c52d40934c5f99ab3a85a82cb9fcf80ff4739cefb33afb16d6125b1db6f9b61",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/1c52d40934c5f99ab3a85a82cb9fcf80ff4739cefb33afb16d6125b1db6f9b61"
+    },
+    {
+      "step": "demo-06-credit",
+      "hash": "448078b8c48d43d465a5fd4b4d0f8e30198391d568ee65f6e6f0f8dac3899e13",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/448078b8c48d43d465a5fd4b4d0f8e30198391d568ee65f6e6f0f8dac3899e13"
+    },
+    {
+      "step": "demo-07-unlock",
+      "hash": "e246a31da47ec2030a8bb43a892570b0dbef7ec641ef602b085e3a173b352d04",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/e246a31da47ec2030a8bb43a892570b0dbef7ec641ef602b085e3a173b352d04"
+    },
+    {
+      "step": "negative-repeat-unlock",
+      "hash": "27ab17a5fe6d4c1bcc69b0610beea210dcd2f2723c432a2c3ac0141a2f606213",
+      "status": "tx_success",
+      "explorer": "https://stellar.expert/explorer/testnet/tx/27ab17a5fe6d4c1bcc69b0610beea210dcd2f2723c432a2c3ac0141a2f606213"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "utc": "2026-10-02T13:21:40.3206662Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "contract",
+    "invoke",
+    "--id",
+    "CCCIKAMAWIPURGD2NXENEO3H5FD4L4VADM7O366DJFJC7NAZKJ7DYKKA",
+    "--source-account",
+    "tp-demo-company",
+    "--network",
+    "testnet",
+    "--send",
+    "no",
+    "--",
+    "get_impact_registry"
+  ],
+  "exit_code": 0,
+  "stdout": "\"CC5NLEIIWPEEWVZZWJXQQ55VXWR7XWFSY3R2DJXRKCKULMDUD34GYL5U\"",
+  "stderr": "",
+  "transaction_hashes": []
+}

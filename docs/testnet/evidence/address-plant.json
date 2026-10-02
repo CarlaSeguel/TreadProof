@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-02T13:19:08.5393479Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "keys",
+    "address",
+    "tp-demo-plant"
+  ],
+  "exit_code": 0,
+  "stdout": "GDNQRJFA2PV5HGGISZG3I77BFNVIELZ6YHAPVYQ73BYM2KCOVWOMF5FU",
+  "stderr": "",
+  "transaction_hashes": []
+}

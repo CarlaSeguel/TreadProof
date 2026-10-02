@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-02T13:24:58.4331140Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "contract",
+    "fetch",
+    "--id",
+    "CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS",
+    "--network",
+    "testnet",
+    "--out-file",
+    ".tools/stellar-testnet/tire_registry.fetched.wasm"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "",
+  "transaction_hashes": []
+}

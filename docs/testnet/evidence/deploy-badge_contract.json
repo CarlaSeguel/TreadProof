@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-02T13:19:52.8505584Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "contract",
+    "deploy",
+    "--wasm",
+    "target/wasm32v1-none/release/badge_contract.wasm",
+    "--source-account",
+    "tp-demo-company",
+    "--network",
+    "testnet",
+    "--",
+    "--impact_registry",
+    "CC5NLEIIWPEEWVZZWJXQQ55VXWR7XWFSY3R2DJXRKCKULMDUD34GYL5U"
+  ],
+  "exit_code": 0,
+  "stdout": "CCCIKAMAWIPURGD2NXENEO3H5FD4L4VADM7O366DJFJC7NAZKJ7DYKKA",
+  "stderr": "ℹ️  Uploading contract WASM…\r\nℹ️  Simulating transaction…\r\nℹ️  Signing transaction: 39eaa41716ca7b4c846e04d3ff259f72d8c905e053e6ec1af307d120fd04461a\r\n🌎 Sending transaction…\r\n✅ Transaction submitted successfully!\r\n🔗 https://stellar.expert/explorer/testnet/tx/39eaa41716ca7b4c846e04d3ff259f72d8c905e053e6ec1af307d120fd04461a\r\nℹ️  Deploying contract using wasm hash af86361eef95b5b994ee6992a15e181f76768fd00b6f9da2b9d24a008de89ea7\r\nℹ️  Simulating transaction…\r\nℹ️  Signing transaction: 4d25204d73cd061cf0772e40376f7b50cfbe56d53d5ea6623f4a8bd628cbfb3e\r\n🌎 Sending transaction…\r\n✅ Transaction submitted successfully!\r\n🔗 https://stellar.expert/explorer/testnet/tx/4d25204d73cd061cf0772e40376f7b50cfbe56d53d5ea6623f4a8bd628cbfb3e\r\n🔗 https://lab.stellar.org/r/testnet/contract/CCCIKAMAWIPURGD2NXENEO3H5FD4L4VADM7O366DJFJC7NAZKJ7DYKKA\r\n✅ Deployed!\r\n",
+  "transaction_hashes": [
+    "39eaa41716ca7b4c846e04d3ff259f72d8c905e053e6ec1af307d120fd04461a",
+    "4d25204d73cd061cf0772e40376f7b50cfbe56d53d5ea6623f4a8bd628cbfb3e"
+  ]
+}

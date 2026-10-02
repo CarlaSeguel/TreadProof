@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-02T13:21:31.6586825Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "contract",
+    "invoke",
+    "--id",
+    "CC5NLEIIWPEEWVZZWJXQQ55VXWR7XWFSY3R2DJXRKCKULMDUD34GYL5U",
+    "--source-account",
+    "tp-demo-company",
+    "--network",
+    "testnet",
+    "--send",
+    "no",
+    "--",
+    "credit_batch",
+    "--batch_id",
+    "1"
+  ],
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "❌ error: transaction simulation failed: HostError: Error(Contract, #2)\r\n\r\nEvent log (newest first):\r\n   0: [Diagnostic Event] contract:CC5NLEIIWPEEWVZZWJXQQ55VXWR7XWFSY3R2DJXRKCKULMDUD34GYL5U, topics:[error, Error(Contract, #2)], data:\"escalating Ok(ScErrorType::Contract) frame-exit to Err\"\r\n   1: [Diagnostic Event] topics:[fn_call, CC5NLEIIWPEEWVZZWJXQQ55VXWR7XWFSY3R2DJXRKCKULMDUD34GYL5U, credit_batch], data:1\r\n\r\n",
+  "transaction_hashes": []
+}

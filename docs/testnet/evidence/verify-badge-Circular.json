@@ -1,0 +1,28 @@
+{
+  "utc": "2026-10-02T13:21:46.3085127Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "contract",
+    "invoke",
+    "--id",
+    "CCCIKAMAWIPURGD2NXENEO3H5FD4L4VADM7O366DJFJC7NAZKJ7DYKKA",
+    "--source-account",
+    "tp-demo-company",
+    "--network",
+    "testnet",
+    "--send",
+    "no",
+    "--",
+    "has_badge",
+    "--company",
+    "GAKJ5RYDSIWDHRIXGSAYIYEYP2LKNQD6D6F5BEBOEOLNWRFFURRP5WTI",
+    "--badge_level",
+    "\"Circular\""
+  ],
+  "exit_code": 0,
+  "stdout": "false",
+  "stderr": "",
+  "transaction_hashes": []
+}

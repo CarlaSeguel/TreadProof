@@ -1,0 +1,18 @@
+{
+  "utc": "2026-10-02T13:18:57.9279011Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "network",
+    "info",
+    "--network",
+    "testnet",
+    "--output",
+    "json"
+  ],
+  "exit_code": 0,
+  "stdout": "{\"id\":\"cee0302d59844d32bdca915c8203dd44b33fbb7edc19051ea37abedf28ecd472\",\"version\":\"29.0.0-b2b701685c79aee17fe4eb22dbd08a5dfd11594d\",\"commit_hash\":\"b2b701685c79aee17fe4eb22dbd08a5dfd11594d\",\"build_timestamp\":\"2026-09-22T14:52:44\",\"captive_core_version\":\"stellar-core 29.0.0 (4eb83337380a29ad0907f4e32196ce97b8dc7649)\",\"protocol_version\":29,\"passphrase\":\"Test SDF Network ; September 2015\",\"friendbot_url\":\"https://friendbot.stellar.org/\"}",
+  "stderr": "",
+  "transaction_hashes": []
+}

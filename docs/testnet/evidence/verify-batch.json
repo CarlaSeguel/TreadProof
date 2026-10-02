@@ -1,0 +1,26 @@
+{
+  "utc": "2026-10-02T13:21:41.0282454Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "contract",
+    "invoke",
+    "--id",
+    "CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS",
+    "--source-account",
+    "tp-demo-company",
+    "--network",
+    "testnet",
+    "--send",
+    "no",
+    "--",
+    "get_batch",
+    "--id",
+    "1"
+  ],
+  "exit_code": 0,
+  "stdout": "{\"carrier\":\"GD66X5HC256LFZYWW22ERBSNGC3ISUTWV5ZYJVVCQPAAXAK5NCQD7D2L\",\"company\":\"GAKJ5RYDSIWDHRIXGSAYIYEYP2LKNQD6D6F5BEBOEOLNWRFFURRP5WTI\",\"created_at\":1790947247,\"declared_mass\":5000000,\"evidence_hash\":\"6c5f78dde113ab9230b1ea4546df0d369ad98b77b93925ea92ab37e808657ff0\",\"history\":[{\"actor\":\"GAKJ5RYDSIWDHRIXGSAYIYEYP2LKNQD6D6F5BEBOEOLNWRFFURRP5WTI\",\"from\":\"Creation\",\"reason\":null,\"timestamp\":1790947247,\"to\":\"Created\"},{\"actor\":\"GD66X5HC256LFZYWW22ERBSNGC3ISUTWV5ZYJVVCQPAAXAK5NCQD7D2L\",\"from\":{\"State\":\"Created\"},\"reason\":null,\"timestamp\":1790947252,\"to\":\"PickedUp\"},{\"actor\":\"GD66X5HC256LFZYWW22ERBSNGC3ISUTWV5ZYJVVCQPAAXAK5NCQD7D2L\",\"from\":{\"State\":\"PickedUp\"},\"reason\":null,\"timestamp\":1790947257,\"to\":\"InTransit\"},{\"actor\":\"GDNQRJFA2PV5HGGISZG3I77BFNVIELZ6YHAPVYQ73BYM2KCOVWOMF5FU\",\"from\":{\"State\":\"InTransit\"},\"reason\":null,\"timestamp\":1790947262,\"to\":\"Received\"},{\"actor\":\"GDNQRJFA2PV5HGGISZG3I77BFNVIELZ6YHAPVYQ73BYM2KCOVWOMF5FU\",\"from\":{\"State\":\"Received\"},\"reason\":null,\"timestamp\":1790947267,\"to\":\"Valorized\"}],\"id\":1,\"pickup_mass\":4980000,\"plant\":\"GDNQRJFA2PV5HGGISZG3I77BFNVIELZ6YHAPVYQ73BYM2KCOVWOMF5FU\",\"received_mass\":4950000,\"status\":\"Valorized\",\"updated_at\":1790947267,\"valorized_mass\":4900000}",
+  "stderr": "",
+  "transaction_hashes": []
+}

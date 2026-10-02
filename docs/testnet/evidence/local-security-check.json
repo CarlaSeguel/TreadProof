@@ -1,0 +1,15 @@
+{
+  "checked_at_utc": "2026-10-02T13:53:15.9110513Z",
+  "git_status": "No valid Git repository; git status failed; no commits created",
+  "ignore_check": [
+    ".gitignore:2:/.tools/\t.tools/stellar-testnet/identity/tp-demo-company.toml",
+    ".gitignore:1:/target/\ttarget/check.wasm",
+    ".gitignore:9:/secrets/\tsecrets/check.seed",
+    ".gitignore:4:.env\t.env",
+    ".gitignore:7:/.stellar/\t.stellar/identity/test.toml"
+  ],
+  "public_files_scanned": 108,
+  "local_secret_values_checked": 3,
+  "secret_matches": 0,
+  "contract_files_unchanged": 20
+}

@@ -1,0 +1,17 @@
+{
+  "utc": "2026-10-02T13:19:08.1533909Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "keys",
+    "fund",
+    "tp-demo-carrier",
+    "--network",
+    "testnet"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "✅ Account tp-demo-carrier funded on \"Test SDF Network ; September 2015\"\r\n",
+  "transaction_hashes": []
+}

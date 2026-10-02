@@ -1,0 +1,30 @@
+{
+  "utc": "2026-10-02T13:21:04.0079079Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "contract",
+    "invoke",
+    "--id",
+    "CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS",
+    "--source-account",
+    "tp-demo-plant",
+    "--network",
+    "testnet",
+    "--send",
+    "yes",
+    "--",
+    "confirm_reception",
+    "--id",
+    "1",
+    "--received_mass",
+    "4950000"
+  ],
+  "exit_code": 0,
+  "stdout": "null",
+  "stderr": "ℹ️  Simulating transaction…\r\nℹ️  Signing transaction: 340a6153828919ed8229a46b9dd7ad51c2ba32adbcd0a2f8b57c1a68a034bfbc\r\n🌎 Sending transaction…\r\n✅ Transaction submitted successfully!\r\n🔗 https://stellar.expert/explorer/testnet/tx/340a6153828919ed8229a46b9dd7ad51c2ba32adbcd0a2f8b57c1a68a034bfbc\r\n",
+  "transaction_hashes": [
+    "340a6153828919ed8229a46b9dd7ad51c2ba32adbcd0a2f8b57c1a68a034bfbc"
+  ]
+}

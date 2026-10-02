@@ -1,0 +1,21 @@
+{
+  "utc": "2026-10-02T13:25:13.4589178Z",
+  "command": [
+    "stellar",
+    "--config-dir",
+    ".tools/stellar-testnet",
+    "tx",
+    "fetch",
+    "result",
+    "--hash",
+    "448078b8c48d43d465a5fd4b4d0f8e30198391d568ee65f6e6f0f8dac3899e13",
+    "--network",
+    "testnet",
+    "--output",
+    "json"
+  ],
+  "exit_code": 0,
+  "stdout": "{\"fee_charged\":\"1189996\",\"result\":{\"tx_success\":[{\"op_inner\":{\"invoke_host_function\":{\"success\":\"0529f0c3c186791edcdb4c46096ff8082ffb946a228017a7cf34eddc145f6b8a\"}}}]},\"ext\":\"v0\"}",
+  "stderr": "",
+  "transaction_hashes": []
+}
