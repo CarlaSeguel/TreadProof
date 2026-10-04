@@ -1,0 +1,116 @@
+    Finished `test` profile [unoptimized] target(s) in 0.30s
+     Running unittests src\lib.rs (target\debug\deps\badge_contract-44b946d7a824720e.exe)
+
+running 29 tests
+test test::inaccessible_source_fails_without_issuing_credentials ... ok
+test test::incorrect_contract_interface_fails_closed ... ok
+test test::empty_queries_return_none_false_and_empty_list ... ok
+test test::maximum_u128_snapshot_is_compared_without_truncation ... ok
+test test::fractional_grams_accumulate_without_rounding_up_threshold ... ok
+test test::noncanonical_impact_registry_cannot_supply_the_balance ... ok
+test test::credentials_cannot_be_transferred ... ok
+test test::champion_unlocks_all_lower_badges_in_ascending_order ... ok
+test test::eligibility_is_not_issued_until_check_is_executed ... ok
+test test::companies_have_independent_credentials ... ok
+test test::highest_badge_tracks_recorded_progression ... ok
+test test::response_for_another_company_is_rejected ... ok
+test test::source_is_fixed_and_constructor_cannot_be_replayed ... ok
+test test::persistent_credentials_and_configuration_extend_ttl ... ok
+test test::source_error_preserves_existing_credentials_and_queries_still_work ... ok
+test test::repeated_checks_return_empty_and_never_replace_records ... ok
+test test::stores_unlock_evidence_and_rule_version ... ok
+test test::trigger_requires_no_signature_and_cannot_redirect_credentials ... ok
+test test::progressive_unlocks_preserve_original_snapshot_and_timestamp ... ok
+test test::one_gram_above_each_threshold_unlocks_that_level ... ok
+test test::one_gram_below_each_threshold_does_not_unlock_that_level ... ok
+test test::unlocking_preserves_both_source_contracts_data ... ok
+test test::unlocks_champion_at_exact_threshold ... ok
+test test::unlocks_recover_at_exact_threshold ... ok
+test test::unlocks_trace_at_exact_threshold ... ok
+test test::unlocks_circular_at_exact_threshold ... ok
+test test::unlocks_impact_at_exact_threshold ... ok
+test test::valorized_but_uncredited_batch_cannot_unlock_a_badge ... ok
+test test::zero_impact_does_not_unlock_badges ... ok
+
+test result: ok. 29 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.41s
+
+     Running unittests src\lib.rs (target\debug\deps\impact_registry-265045bed959e279.exe)
+
+running 29 tests
+test test::configured_source_is_fixed_and_constructor_cannot_be_replayed ... ok
+test test::credit_does_not_modify_tire_batch ... ok
+test test::credits_only_valorized_mass_not_declared_or_received ... ok
+test test::duplicate_credit_preserves_totals_count_and_original_receipt ... ok
+test test::credit_valid_valorized_batch ... ok
+test test::count_overflow_does_not_partially_increase_grams ... ok
+test test::beneficiary_comes_only_from_source_batch ... ok
+test test::failed_early_credit_can_be_retried_after_valorization ... ok
+test test::converts_4900000_grams_to_4900_tirepoints ... ok
+test test::fractional_grams_accumulate_before_whole_point_conversion ... ok
+test test::accumulates_multiple_batches ... ok
+test test::keeps_companies_separate ... ok
+test test::missing_batch_returns_explicit_error_without_creating_impact ... ok
+test test::permissionless_trigger_needs_no_signature_and_cannot_redirect ... ok
+test test::one_gram_is_not_rounded_up_or_lost ... ok
+test test::rejects_mismatched_batch_id ... ok
+test test::rejects_every_active_non_valorized_state ... ok
+test test::persistent_totals_and_receipts_have_extended_lifetimes ... ok
+test test::rejects_cancelled_rejected_and_disputed_batches ... ok
+test test::multiple_max_u64_batches_accumulate_without_u64_truncation ... ok
+test test::rejects_invalid_received_mass_and_excess_valorization ... ok
+test test::rejects_missing_valorized_mass_at_trust_boundary ... ok
+test test::rejects_zero_valorized_mass_at_trust_boundary ... ok
+test test::rejects_missing_or_empty_evidence ... ok
+test test::same_id_in_another_registry_cannot_supply_impact ... ok
+test test::unknown_company_has_zero_impact_points_and_count ... ok
+test test::unavailable_source_fails_closed ... ok
+test test::total_can_reach_exact_u128_maximum_without_wrapping ... ok
+test test::total_overflow_rolls_back_receipt_and_count ... ok
+
+test result: ok. 29 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.93s
+
+     Running unittests src\lib.rs (target\debug\deps\tire_registry-56c29b7051b1021b.exe)
+
+running 40 tests
+test test::dispute_unrelated_actor_rejected ... ok
+test test::id_overflow_cannot_reuse_a_batch_id ... ok
+test test::creation_zero_mass_does_not_consume_id ... ok
+test test::dispute_cannot_impersonate_assigned_actor ... ok
+test test::creation_requires_company_authorization ... ok
+test test::cancellation_wrong_actor_rejected ... ok
+test test::cancellation_only_before_pickup_and_requires_company ... ok
+test test::creation_valid ... ok
+test test::duplicate_valorization_rejected_without_changes ... ok
+test test::exception_reason_required_and_bounded ... ok
+test test::dispute_accepts_each_assigned_actor_and_preserves_previous_state ... ok
+test test::dispute_allows_all_active_states ... ok
+test test::nonexistent_batch_returns_explicit_error ... ok
+test test::missing_authorization_rejected ... ok
+test test::ids_are_unique_and_batches_independent ... ok
+test test::pickup_valid_preserves_declared_mass ... ok
+test test::pickup_wrong_state_preserves_measurement ... ok
+test test::pickup_zero_mass_rejected ... ok
+test test::pickup_wrong_actor_rejected ... ok
+test test::reception_cannot_overwrite_previous_measurement ... ok
+test test::reception_higher_than_pickup_does_not_dispute ... ok
+test test::integer_grams_support_one_gram_and_maximum_u64 ... ok
+test test::rejection_before_transit_rejected ... ok
+test test::state_skips_rejected ... ok
+test test::reception_wrong_actor_rejected_without_changes ... ok
+test test::reception_zero_mass_rejected ... ok
+test test::reception_valid_with_lower_mass ... ok
+test test::rejection_from_received_preserves_mass_and_blocks_closure ... ok
+test test::storage_lifetimes_are_extended ... ok
+test test::rejection_from_transit_does_not_invent_received_mass ... ok
+test test::rejection_wrong_actor_rejected ... ok
+test test::transit_requires_carrier_authorization ... ok
+test test::transit_valid_preserves_masses ... ok
+test test::valorization_above_received_rejected_without_changes ... ok
+test test::valorization_empty_hash_rejected ... ok
+test test::valorization_equal_to_received_allowed ... ok
+test test::valorization_wrong_actor_rejected ... ok
+test test::valorization_zero_mass_rejected ... ok
+test test::valorization_valid_preserves_actors_masses_and_history ... ok
+test test::valorized_batch_cannot_go_back_or_enter_exception ... ok
+
+test result: ok. 40 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.71s

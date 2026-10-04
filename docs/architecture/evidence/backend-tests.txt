@@ -1,0 +1,61 @@
+
+> treadproof-backend@0.1.0 test
+> node --test --test-concurrency=1 test/*.test.js
+
+✔ valid organizations include three roles (1.9648ms)
+✔ invalid role rejected (0.2099ms)
+✔ batch input rejects canonical fields (1.5337ms)
+✔ u64 IDs preserved and floats rejected (0.6587ms)
+✔ metadata created after chain actor verification (0.8124ms)
+✔ mismatched actor cannot link metadata (0.3939ms)
+✔ other company cannot create metadata (0.1313ms)
+✔ hidden or missing batch gives 404 before chain access (0.2049ms)
+✔ nonexistent onchain batch propagates 404 (0.1821ms)
+✔ metadata for another registry is never called verified (0.2491ms)
+✔ recognition comes from chain service (0.7425ms)
+✔ evidence hash computed from bytes, not client declaration (2.4285ms)
+✔ evidence input rejects path traversal and false MIME (0.1849ms)
+✔ tampered downloaded evidence rejected (0.3773ms)
+✔ matching file hash does not imply onchain match (0.1937ms)
+✔ Stellar reader permits read-only commands and exact large integers (0.9025ms)
+✔ bad source address fails closed (0.6822ms)
+✔ Stellar failures do not leak stderr or secrets (0.4744ms)
+✔ Supabase configuration refuses privileged keys (0.1301ms)
+✔ Supabase forwards user JWT and uses online identity validation (6.7585ms)
+✔ Supabase errors do not expose upstream bodies (0.242ms)
+✔ HTTP unauthenticated requests denied (67.9477ms)
+✔ HTTP rejects canonical fields before insert (13.5377ms)
+✔ HTTP metadata listing explicitly marked offchain (6.1979ms)
+✔ HTTP request rate limited (7.381ms)
+✔ company reads assigned batch, evidence and events (2824.4275ms)
+✔ carrier reads assigned batch, evidence and events (19.8964ms)
+✔ plant reads assigned batch, evidence and events (6.1191ms)
+✔ unrelated organization cannot read batch/evidence/events/storage (4.422ms)
+✔ anonymous has no table access (4.3787ms)
+✔ profile membership is not self assignable (59.3521ms)
+✔ profile can update own display name only (9.5336ms)
+✔ organization address and role cannot be edited by client (5.5133ms)
+✔ client cannot register an organization (8.8513ms)
+✔ company creates metadata linked to an onchain ID (9.8485ms)
+✔ external code uniqueness (4.8584ms)
+✔ contract and onchain ID uniqueness (5.0796ms)
+✔ wrong organization type rejected by composite FK (8.2154ms)
+✔ u64 limit enforced in database (5.8089ms)
+✔ cross-company insertion denied (4.6826ms)
+✔ carrier cannot create company batch (4.2049ms)
+✔ metadata link and actors immutable to clients (4.175ms)
+✔ no canonical mass column exists (2.9779ms)
+✔ no canonical state, points or badges columns (16.5319ms)
+✔ evidence hash and structured storage path required (4.485ms)
+✔ cannot forge event records (2.8863ms)
+✔ private evidence bucket (1.033ms)
+✔ storage rejects unregistered path (5.5334ms)
+✔ storage objects cannot be replaced or removed (8.137ms)
+ℹ tests 49
+ℹ suites 0
+ℹ pass 49
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4122.5281

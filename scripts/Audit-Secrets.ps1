@@ -23,7 +23,7 @@ $patterns = [ordered]@{
     github_token = '(?:gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,})'
     jwt = 'eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}'
     credential_url = '://[^\s/:]+:[^\s/@]+@'
-    secret_assignment = '(?im)^\s*(?:export\s+)?(?:[A-Z0-9_]*(?:SECRET|PRIVATE_KEY|SERVICE_ROLE_KEY|TOKEN|PASSWORD|SEED_PHRASE)[A-Z0-9_]*)\s*[:=]\s*["'']?[A-Za-z0-9_+/=-]{12,}'
+    secret_assignment = '(?im)^[ \t]*(?:export[ \t]+)?(?:[A-Z0-9_]*(?:SECRET|PRIVATE_KEY|SERVICE_ROLE_KEY|TOKEN|PASSWORD|SEED_PHRASE)[A-Z0-9_]*)[ \t]*[:=][ \t]*["'']?[A-Za-z0-9_+/=-]{12,}'
 }
 $findings = @()
 foreach ($path in $paths) {

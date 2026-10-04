@@ -8,7 +8,7 @@ Repositorio oficial: https://github.com/CarlaSeguel/TreadProof
 
 ## Estado — MVP v0.1
 
-Fases 0 a 5 completadas: definición, reglas, TireRegistry, ImpactRegistry, BadgeContract y despliegue con demo end-to-end en Stellar Testnet. Fase 6 (Supabase y backend) pendiente del checkpoint inicial en GitHub. No hay frontend implementado.
+Fases 0 a 5 completadas: definición, reglas, TireRegistry, ImpactRegistry, BadgeContract y despliegue con demo end-to-end en Stellar Testnet. Fase 6 implementada: esquema Supabase con RLS aplicado al proyecto de Carla y backend/API local con consultas Stellar. Onboarding de usuarios y hosting de la API pendientes. No hay frontend implementado.
 
 ## Arquitectura actual
 
@@ -56,8 +56,16 @@ El modo offline requiere dependencias previamente descargadas. `--optimize=false
 - `contracts/`: los tres contratos Rust/Soroban y sus tests.
 - `deployments/`: manifiestos públicos.
 - `scripts/testnet/`: despliegue, demo y verificación reproducibles.
-- `backend/`, `supabase/`, `frontend/`: reservados para próximas etapas.
+- `backend/`: API Node.js, adaptadores Supabase/Stellar y 49 pruebas.
+- `supabase/`: migración, configuración y pruebas RLS remotas.
+- `frontend/`: reservado; no implementado.
 
 Contract IDs y public keys de prueba son públicos. Claves privadas, seeds, credenciales y `.env` deben permanecer fuera de Git. `.tools/stellar-testnet/`, `target/` y archivos sensibles están ignorados; no publicar esas carpetas. No se incluyen pagos, escrow, stablecoins, IoT, oráculos ni Mainnet.
 
 Reglas principales: [definición](docs/00_project_definition.md), [flujo](docs/04_workflow.md), [TirePoints](docs/05_tirepoints.md), [badges](docs/06_badges.md), [alcance](docs/07_mvp_scope.md).
+
+## Capa off-chain
+
+[Arquitectura](docs/architecture/offchain-architecture.md), [API](backend/README.md), [Supabase y migraciones](supabase/README.md).
+
+`npm --prefix backend ci --ignore-scripts` instala las dependencias fijadas; `npm --prefix backend test` ejecuta las 49 pruebas nuevas. Consultar la configuración local en `.env.example` sin versionar valores privados.

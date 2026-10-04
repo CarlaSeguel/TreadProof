@@ -1,0 +1,9 @@
+{
+  "project_ref": "eviifvhdipdqhxzqxmbm",
+  "url": "https://eviifvhdipdqhxzqxmbm.supabase.co",
+  "owner": "CarlaSeguel",
+  "migration": "20261002182133_offchain_mvp",
+  "applied_via": "Supabase SQL Editor; transaction with migration history",
+  "rls_live_test": "passed; fixtures rolled back",
+  "contains_credentials": false
+}
