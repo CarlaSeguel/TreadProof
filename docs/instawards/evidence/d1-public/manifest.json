@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "package_type": "treadproof_public_d1_evidence",
+  "source_archived_at": "2026-10-29T18:30:54.041Z",
+  "public_package_created_at": "2026-10-29T21:34:22.643Z",
+  "network_passphrase": "Test SDF Network ; September 2015",
+  "contract": "CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS",
+  "batch_id": "2",
+  "participants": {
+    "company": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF",
+    "carrier": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+    "plant": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE"
+  },
+  "software": {
+    "baseline_commit": "40d0bb027d17e29af6cbb92135517ae04b237e6e",
+    "baseline_role": "existing baseline; not the complete historical D1 software",
+    "historical_d1_release_commit": null,
+    "historical_source_complete": false,
+    "verifier_node_major": 24,
+    "stellar_sdk": "17.2.1"
+  },
+  "historical": {
+    "exact_result_preimages": 4,
+    "missing_result_preimages": [
+      "start_transit"
+    ],
+    "result_digest_algorithm": "SHA256(UTF8(result_xdr_base64 + result_meta_xdr_base64)); no separator; not a JSON hash",
+    "full_recovery_demonstrated": false
+  },
+  "evidence": {
+    "file": "simulated-valorization.pdf",
+    "sha256": "fbfbfa84e6925c34642970931983e7df2cfce129f46688f2a741a594d726bd0b",
+    "simulated": true,
+    "statement": "Technical demonstration only; no physical treatment, recycling or valorization certified."
+  },
+  "transactions": [
+    {
+      "directory": "01-create-batch",
+      "action": "create_batch",
+      "transaction_hash": "927c3e3b184cef6b19c8658d373780095a66de3f492f68413e7b2e7ea7316b81",
+      "ledger": 5435841,
+      "recorded_status": "SUCCESS",
+      "created_at": 1793202845,
+      "historical_result_digest": "fd79c9dfa8bdaffe45d695e6ffe7c3c0e254d09194210acb38ed937bc83bb1fe",
+      "historical_preimage_exact": true,
+      "xdr_sha256": {
+        "envelope_xdr": "5d8d66cda9ae292ac7177c0eb5079a5dd48117b0ce974da100f718abbb013868",
+        "result_xdr": "c62d29b95ab08b9244cc21c88e5d7f5c65d27fb2b472a94c243dc84ca44c85b5",
+        "result_meta_xdr": "8397c7fa6805688d726c1dba4a13a68449190e7d65617f84a3e2894464380160"
+      },
+      "source": {
+        "endpoint": "https://soroban-testnet.stellar.org/",
+        "envelope_method": "getTransaction",
+        "result_metadata_method": "getTransaction",
+        "format": "base64 copied literally; no XDR normalization"
+      }
+    },
+    {
+      "directory": "02-confirm-pickup",
+      "action": "confirm_pickup",
+      "transaction_hash": "993ef13571b2a944d33b3404c57466fb560170e1115e2ff4db0a369a3a6172ec",
+      "ledger": 5441241,
+      "recorded_status": "SUCCESS",
+      "created_at": 1793229845,
+      "historical_result_digest": "a785b21d2d2aa9c1745ed8f1a36a5b7b3fecebb55bf315c85ff26ef37200c134",
+      "historical_preimage_exact": true,
+      "xdr_sha256": {
+        "envelope_xdr": "821637149091b81772cb0839f5e57b4f160dfcdfabf28e79d98ad35b16467a37",
+        "result_xdr": "1427113506699c1848ef38424169a6ef15c89ee7a02d738bde6951fc91d22ae3",
+        "result_meta_xdr": "c47099556a8eac49326e24cf65e8a777831b460def3c11de0e78c3946a22a54e"
+      },
+      "source": {
+        "endpoint": "https://soroban-testnet.stellar.org/",
+        "envelope_method": "getTransaction",
+        "result_metadata_method": "getTransaction",
+        "format": "base64 copied literally; no XDR normalization"
+      }
+    },
+    {
+      "directory": "03-start-transit",
+      "action": "start_transit",
+      "transaction_hash": "eaccde7693387b4dd1ef12bd926d4a508ba307485339784f7d96a23342ed366b",
+      "ledger": 5443300,
+      "recorded_status": "SUCCESS",
+      "created_at": 1793240140,
+      "historical_result_digest": "959dbe0c12ae748bb132faffb5504d3247fcd44b918ab0ee1ae83708255f3ba3",
+      "historical_preimage_exact": false,
+      "xdr_sha256": {
+        "envelope_xdr": "ab162a1ffdd0a132944481e3829f0d267da73435c93239d99501e3a04f11b3f1",
+        "result_xdr": "9772ec73052ee52eb601340e2c62f05a91262881856dfa819af4b34aec0a9c90",
+        "result_meta_xdr": "55fa98cb27275499b6d68b63a0f27c0bff24c16deee85b3a29a8bfa700696da6"
+      },
+      "source": {
+        "endpoint": "https://soroban-testnet.stellar.org/",
+        "envelope_method": "getTransaction",
+        "result_metadata_method": "getTransaction",
+        "format": "base64 copied literally; no XDR normalization"
+      }
+    },
+    {
+      "directory": "04-confirm-reception",
+      "action": "confirm_reception",
+      "transaction_hash": "65ca2957354df031ce10845050efa2c862e9d7e9a010d3764d8192f0167bd90c",
+      "ledger": 5443668,
+      "recorded_status": "SUCCESS",
+      "created_at": 1793241980,
+      "historical_result_digest": "34d3768ea74563782ef6d44fec8fafa9c1cadb50261063502a12276c0fd94186",
+      "historical_preimage_exact": true,
+      "xdr_sha256": {
+        "envelope_xdr": "77949d28c9c91e29b3f91148070ef105e800aa7c2334b09ece37666b8f8ac426",
+        "result_xdr": "74f2b9a7ea6de69eeb4a27227c880bfeff489bd2479246735d3549808fceb412",
+        "result_meta_xdr": "ce032c05af88e12390b4bb6cf17412f2851020912ab591c1e62a3ade18782456"
+      },
+      "source": {
+        "endpoint": "https://soroban-testnet.stellar.org/",
+        "envelope_method": "getTransaction",
+        "result_metadata_method": "getTransaction",
+        "format": "base64 copied literally; no XDR normalization"
+      }
+    },
+    {
+      "directory": "05-confirm-valorization",
+      "action": "confirm_valorization",
+      "transaction_hash": "2ef618d436e3012e0527490654e7b2d360da8e127c61d7170fc74bdbdf354075",
+      "ledger": 5453544,
+      "recorded_status": "SUCCESS",
+      "created_at": 1793291360,
+      "historical_result_digest": "2fe46f889be5f0dfc092eb48cb50b2fc7c55a2884ea1abcca51e890e8cc1b5cf",
+      "historical_preimage_exact": true,
+      "xdr_sha256": {
+        "envelope_xdr": "996c2e81f512059a0243237a2adfbce997dacbe1a30179c9739f11d4b3b7874a",
+        "result_xdr": "3e1b22f75664acf6c2a9d14870295d1176ad6fca34ba995a7c01373132293ef1",
+        "result_meta_xdr": "77557f3e2c1798b00ce5d5a95fdd3ab112214cc750beb3ca9344ca46d685722a"
+      },
+      "source": {
+        "endpoint": "https://soroban-testnet.stellar.org/",
+        "envelope_method": "getTransaction",
+        "result_metadata_method": "getTransactions",
+        "format": "base64 copied literally; no XDR normalization"
+      }
+    }
+  ],
+  "batch_state": {
+    "file": "batch-state.json",
+    "method": "getLedgerEntries",
+    "archived_at": "2026-10-29T18:37:16.313Z",
+    "expected_state": "Valorized",
+    "contract_getter_invoked": false,
+    "ttl_modified": false
+  },
+  "sources": {
+    "rpc": "https://soroban-testnet.stellar.org/",
+    "horizon": "https://horizon-testnet.stellar.org/",
+    "source_format": "Selected Base64 fields and one original public ledger-entry response; not full original HTTP transaction responses."
+  },
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 47,
+      "sha256": "515359628a26efcedb88e595fec4579c3365dc4c26144c65b7f055ea1329bc3d"
+    },
+    {
+      "path": "01-create-batch/xdr.json",
+      "bytes": 6042,
+      "sha256": "ca0a041911e2da5767c6078daf558a9750c144d845e273a07ad88c191ef1fe06"
+    },
+    {
+      "path": "02-confirm-pickup/xdr.json",
+      "bytes": 6478,
+      "sha256": "a2ae7f4622edd38dac00313f4606735731f33d6228bab5d8fca30d5820e1e247"
+    },
+    {
+      "path": "03-start-transit/xdr.json",
+      "bytes": 7122,
+      "sha256": "cb7c6d4362423bd48e787beeeb6d225943b754c8bfaef9b3fd7ef7fdc61d4b07"
+    },
+    {
+      "path": "04-confirm-reception/xdr.json",
+      "bytes": 7774,
+      "sha256": "5409ab5276a5584703fac470d1fb07f6654c327dc366dabb5cde9477a625677d"
+    },
+    {
+      "path": "05-confirm-valorization/xdr.json",
+      "bytes": 8706,
+      "sha256": "3e0d876ad27f3875013e50582b6baf19c87a62d919ece2bfcaef64561e9c3020"
+    },
+    {
+      "path": "batch-state.json",
+      "bytes": 2712,
+      "sha256": "0a0d0ccf5c63ef0450261e5008a8599e080e655bf6e4bd7dd0147522c765b7a8"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 18144,
+      "sha256": "9d263b162fd5f8fe4da38d768fac3cfcccbb5c82d84fbff76fc0dfd4788acb2d"
+    },
+    {
+      "path": "package.json",
+      "bytes": 246,
+      "sha256": "8f96802bcff2d544bd01453e023940e5bd18f82bf4ff58a7677e64b820b74334"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5365,
+      "sha256": "ba8180ba3f566cf73a92640d136cc7d078ef92a0b780cf324c5300bcc7079058"
+    },
+    {
+      "path": "simulated-valorization.pdf",
+      "bytes": 75546,
+      "sha256": "fbfbfa84e6925c34642970931983e7df2cfce129f46688f2a741a594d726bd0b"
+    },
+    {
+      "path": "verify.mjs",
+      "bytes": 17654,
+      "sha256": "f4452fb00e89fc28a6bd1b8e0437ef15d7f72c92eb675f9be28cd8d5e6fb6afa"
+    }
+  ]
+}
