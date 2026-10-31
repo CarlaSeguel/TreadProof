@@ -1,0 +1,13 @@
+*
+!backend/
+!backend/package.json
+!backend/package-lock.json
+!backend/src/
+!backend/src/**
+!deploy/
+!deploy/d2-public/
+!deploy/d2-public/**
+!deploy/d2-readonly-server.mjs
+!deploy/d2-runtime-entrypoint.mjs
+!deployments/
+!deployments/testnet.json
