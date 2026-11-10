@@ -47,6 +47,7 @@ RUN node deploy/build-d2-public.mjs web/dist docs/instawards/evidence/d2-final/m
 
 COPY --from=stellar-cli /usr/local/bin/stellar /usr/local/bin/stellar
 RUN stellar --version && psql --version
+RUN usermod -aG 1000 treadproof
 USER treadproof
 EXPOSE 8080
 CMD ["node", "deploy/d2-runtime-entrypoint.mjs"]
