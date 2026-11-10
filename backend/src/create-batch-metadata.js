@@ -8,7 +8,8 @@ import {createBatchMetadataPlan} from './create-batch-metadata-plan.js';
 // authorize must reload the immutable intent and current JWT/RLS context from the server.
 // registerBatch must be the existing TreadProofService.createBatch capability under that JWT.
 // Neither dependency, nor the enable flag, can be supplied in a request.
-export function createBatchMetadataReconciler({manifest,rpc,authorize,registerBatch,enabled=false}={}){
+export function createBatchMetadataReconciler({manifest,rpc,authorize,registerBatch,enabled=false,minimumOnchainBatchId='2'}={}){
+ requireThat(typeof minimumOnchainBatchId==='string'&&/^[1-9][0-9]{0,18}$/.test(minimumOnchainBatchId)&&BigInt(minimumOnchainBatchId)>=2n,503,'invalid_metadata_configuration');
  requireThat(typeof enabled==='boolean'&&typeof authorize==='function'&&typeof registerBatch==='function',503,'invalid_metadata_configuration');
  async function authorized(hash,signal){
   requireThat(!signal?.aborted,409,'operation_cancelled');
@@ -30,7 +31,7 @@ export function createBatchMetadataReconciler({manifest,rpc,authorize,registerBa
    requireThat(current.fingerprint===before.fingerprint,403,'confirmation_authorization_changed');
    if(result.state!=='confirmed')return {...result,metadataPersisted:false,metadataState:'awaiting_verified_confirmation'};
    const id=batchId(result.receipt.onchainBatchId);
-   requireThat(BigInt(id)>1n,409,'historical_batch_protected');
+   requireThat(BigInt(id)>=BigInt(minimumOnchainBatchId),409,'historical_batch_protected');
    const metadata={onchain_batch_id:id,external_batch_code:current.plan.externalBatchCode,
     ...Object.fromEntries(roles.map(r=>[r+'_organization_id',current.plan.organizations[r]]))};
    // No SQL terminal row or browser receipt is accepted as Stellar evidence. The reader above

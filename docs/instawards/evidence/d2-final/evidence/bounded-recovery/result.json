@@ -1,0 +1,105 @@
+{
+  "schema": "treadproof-d2-bounded-recovery-completion-v1",
+  "verifiedAtUtc": "2026-11-10T18:34:53.190539+00:00",
+  "result": "ACL_GATE_NATIVE_RUNTIME_AND_BOUNDED_RECOVERY_PASS",
+  "scope": "bounded read-only D2 selected fixture, five confirmed pairs and their metadata/document; not full original history",
+  "fullOriginalHistoryRestored": false,
+  "managedSupabaseRestored": false,
+  "imageId": "sha256:111525bcc0dc1abe885147591b6886ad441c1bde816097f4ba5115f4f7473123",
+  "acl": {
+    "onlyGrant": "EXECUTE ON nfu_store.prepare_create_batch(jsonb) TO tp_nfu_app",
+    "committed": true,
+    "freshPostimageVerified": true,
+    "otherCatalogAndRolesUnchanged": true,
+    "businessRowsUnchanged": true,
+    "firstHarnessTransactionRolledBack": true
+  },
+  "native": {
+    "originalGate": "PASS",
+    "actualProductionEntryPoint": "PASS",
+    "apiFactoryReplaced": false,
+    "restoredClusterAutoStart": "PASS",
+    "http": 200,
+    "nfuRoutesBlocked": 10,
+    "unauthenticated": 401,
+    "pgHostAuthentication": "SCRAM",
+    "passwordlessLoginRejected": true
+  },
+  "tests": {
+    "focusedRegression": {
+      "pass": 258,
+      "fail": 0,
+      "skipped": 0,
+      "globalRepositorySuite": false
+    },
+    "nativeCases": {
+      "pass": 11,
+      "fail": 0,
+      "sameCasesRepeatedAfterRestart": true
+    },
+    "authContractNativeSqlSep53": {
+      "pass": true,
+      "roles": 3,
+      "visibleRecords": [
+        1,
+        2,
+        2
+      ],
+      "technicalReadGrants": 9,
+      "allConsumed": true,
+      "externalProvider": "synthetic gateway; no real JWT",
+      "realWalletsUsed": false
+    },
+    "backup": "PASS",
+    "restore": "PASS_COMPLETE_DECLARED_SET",
+    "allFourInitialTableFingerprintsMatch": true,
+    "catalogOwnersAclRlsCommentsMatch": true,
+    "restart": "PASS",
+    "rollback": "PASS_LAB_CONTROL_TRANSACTION",
+    "imageSaveLoad": "PASS",
+    "pdfBytesSizeSha256Match": true,
+    "bindingReceiptDigestLedgerMappings": "PASS_AGAINST_ARCHIVED_REFERENCES"
+  },
+  "integrity": {
+    "schemaSha256": "48d916971f8529afa2b2cec4be3439ce4d6764775d378c5c51e224ba25404c39",
+    "businessRowsSha256": "a0cca4e55404afbb66de05394f8055a4c8caa2de78aa6397c57c5c134c340fe4",
+    "pdfSha256": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d",
+    "pdfBytes": 76314,
+    "coverageManifestSha256": "797ab95ec519b6cc0f9ff8532496f9f4a18470da0dc3c8f7c6cc1e4ac06595c0",
+    "bundleFiles": 166,
+    "protectedSourcePinsUnchanged": 336
+  },
+  "isolation": {
+    "pass": true,
+    "allContainersStopped": true,
+    "network": "none; source native check shared only prior isolated lab loopback",
+    "publishedDatabaseOrHttpPorts": 0,
+    "sourceOriginalMounts": 0,
+    "productivePasswordsOrJwtsCopied": 0,
+    "sourceCredentialsCopied": 0,
+    "targetOnlyGeneratedPasswords": 2,
+    "secretsVolumeExcludedFromBackup": true,
+    "originalDatabaseConnections": 0,
+    "supabaseRemoteConnections": 0,
+    "stellarRequestsOrTransactions": 0,
+    "containersInspected": 6
+  },
+  "limits": {
+    "realSupabaseSession": "PENDING_MANUAL_HTTPS_ACCEPTANCE",
+    "tls": "NOT_TESTED",
+    "freshAccountReproduction": "NOT_EXECUTED",
+    "gitReleaseAndRender": "NOT_EXECUTED",
+    "newOnchainVerification": "NONE; prior archived proofs preserved",
+    "nfusCreated": 0,
+    "attemptsCreated": 0,
+    "reservationsCreated": 0,
+    "originalNfuWrites": 0,
+    "originalAclRlsIndexChanges": 0
+  },
+  "pendingMinimum": [
+    "authorize HTTPS resources/cost/origin and deploy same verified read-only composition with target-only credentials and real publishable key",
+    "manual real provider JWT/RLS/SEP53 and private evidence acceptance; current public composition has no Storage reader route",
+    "if required, separately authorize composition of existing read-only evidence component; never auto-enable uploads/NFU",
+    "separate fresh-account operational fixture/reviewer run and final commit/tag/video/release; maintenance clock not started"
+  ]
+}

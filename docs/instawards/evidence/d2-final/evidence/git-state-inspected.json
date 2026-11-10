@@ -1,0 +1,11 @@
+{
+  "inspectedAtUtc": "2026-11-10T03:35:11.8904573Z",
+  "head": "b128d1d69a4f1bd42954f8f08083d3bbd93f828d",
+  "branch": "codex/d2-hosted-demo",
+  "dirty": true,
+  "statusEntries": 419,
+  "statusSha256": "1ed166c5cf219dec2df8970765e5e3c900f9377f3e1550456f0267fc09d802ba",
+  "tags": [],
+  "commitCreated": false,
+  "tagCreated": false
+}

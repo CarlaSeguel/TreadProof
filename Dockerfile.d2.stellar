@@ -1,47 +1,52 @@
 FROM docker.io/stellar/stellar-cli@sha256:4c83ab3fb952748b30764f2a11f5df69173dd4e5aff8b122d1f39a7529a7c237 AS stellar-cli
 
-FROM node:24-trixie-slim AS dependencies
+FROM node:24.19.0-trixie-slim@sha256:ab3eebe934147fee049b5eb83c570f68c849a13c930bdfa482de99fcdfa3b3de AS frontend
+WORKDIR /app/web
+COPY web/package.json web/package-lock.json ./
+RUN npm ci --ignore-scripts
+COPY web/index.html web/nfu-lab.html web/nfu-tracking.html web/vite.config.mjs ./
+COPY web/src/ ./src/
+COPY web/public/ ./public/
+RUN npm run build
 
+FROM node:24.19.0-trixie-slim@sha256:ab3eebe934147fee049b5eb83c570f68c849a13c930bdfa482de99fcdfa3b3de AS dependencies
 WORKDIR /app/backend
-
 COPY backend/package.json backend/package-lock.json ./
+RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 
-RUN npm ci --omit=dev --ignore-scripts \
-    && npm cache clean --force
-
-FROM node:24-trixie-slim
-
+FROM node:24.19.0-trixie-slim@sha256:ab3eebe934147fee049b5eb83c570f68c849a13c930bdfa482de99fcdfa3b3de
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=8080
-
+ENV TP_HIGH1_LAB_DATABASE=treadproof_d2_high_integrated
 WORKDIR /app
 
-RUN groupadd --system treadproof \
-    && useradd --system --gid treadproof treadproof
+# The cluster must be restored separately with authorization. Never init a cluster at build/start.
+RUN mkdir -p /etc/postgresql-common \
+    && printf '%s\n' 'create_main_cluster = false' > /etc/postgresql-common/createcluster.conf \
+    && apt-get update \
+    && apt-get -o Dpkg::Options::="--force-confold" install -y --no-install-recommends \
+       postgresql-17 postgresql-client-17 libdbus-1-3 ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && groupadd --gid 10001 treadproof \
+    && useradd --uid 10001 --gid treadproof --no-create-home --home-dir /home/carla treadproof \
+    && install -d -o treadproof -g treadproof -m 0700 /home/carla /var/lib/treadproof/postgres
 
 COPY --from=dependencies /app/backend/node_modules ./backend/node_modules
-
 COPY backend/package.json ./backend/package.json
-COPY deployments/testnet.json ./deployments/testnet.json
 COPY backend/src/ ./backend/src/
+COPY backend/sql/d2-high1-high2-integrated-lab.sql backend/sql/d2-high-integrated-preparation.sql backend/sql/d2-high-integrated-journal.sql ./backend/sql/
+# Backend structural validators import these two exact relative modules.
+COPY web/src/d2-carrier-xdr-profile.mjs web/src/d2-company-xdr-profile.mjs ./web/src/
+COPY deployments/testnet.json ./deployments/testnet.json
 
-COPY deploy/d2-public/ ./deploy/d2-public/
-COPY deploy/d2-readonly-server.mjs ./deploy/d2-readonly-server.mjs
-COPY deploy/d2-runtime-entrypoint.mjs ./deploy/d2-runtime-entrypoint.mjs
+COPY --from=frontend /app/web/dist ./web/dist
+COPY docs/instawards/evidence/d2-final/manifest.json ./docs/instawards/evidence/d2-final/manifest.json
+COPY deploy/d2-readonly-server.mjs deploy/d2-runtime-entrypoint.mjs deploy/build-d2-public.mjs ./deploy/
+RUN node deploy/build-d2-public.mjs web/dist docs/instawards/evidence/d2-final/manifest.json deploy/d2-dist
 
 COPY --from=stellar-cli /usr/local/bin/stellar /usr/local/bin/stellar
-
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-       libdbus-1-3 \
-       ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN stellar --version
-
+RUN stellar --version && psql --version
 USER treadproof
-
 EXPOSE 8080
-
 CMD ["node", "deploy/d2-runtime-entrypoint.mjs"]

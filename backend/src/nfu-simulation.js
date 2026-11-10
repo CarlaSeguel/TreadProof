@@ -1,13 +1,19 @@
+import {nfuFeeCapStroops} from '../../web/src/nfu-xdr-budget.mjs';
+import {xdrProfileFields} from '../../web/src/d2-company-xdr-profile.mjs';
+import {remainingD2Scope} from '../../web/src/d2-carrier-xdr-profile.mjs';
 // Internal preparation. Synthetic lifecycle and separately branded Testnet read-only transport; no real sending.
 import {randomUUID,createHash} from 'node:crypto';
 import {TransactionBuilder,Address,SorobanDataBuilder,xdr,scValToNative} from '@stellar/stellar-sdk/base';
 import {assembleTransaction} from '@stellar/stellar-sdk/rpc';
 import {ApiError,requireThat} from './validation.js';
+import {noteSimulationResponseCause} from './nfu-simulation-diagnostics.js';
 import {decodeNfuBatchState} from './stellar-testnet-read.js';
 const NETWORK='Test SDF Network ; September 2015';
 const URL='https://soroban-testnet.stellar.org/';
 const MAX_BYTES=262144,MAX_FEE=1000000n;
 const realReaders=new WeakSet();
+// Private transport closures: no reusable network authority or HTTP-controlled preflight.
+const simulationNetworkPreflights=new WeakMap();
 const CONTRACT='CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS';
 const ACTIONS=['create_batch','confirm_pickup','start_transit','confirm_reception','confirm_valorization'];
 export const isTestnetReadOnlyRpc=rpc=>realReaders.has(rpc);
@@ -75,6 +81,16 @@ function createTestnetRpc({fetcher,endpoint=URL,timeoutMs=15000,mode,allowSend=f
   }catch(error){if(error instanceof ApiError)throw error;fail('simulation_rpc_unavailable',503);}
   finally{clearTimeout(timer);signal?.removeEventListener('abort',onAbort);}
  }
+ async function simulate(transactionXdr,{signal,onProgress=()=>{}}={},networkCheck=null){
+   requireThat(boundedString(transactionXdr),400,'invalid_simulation_transaction');
+   if(mode!=='synthetic')inspectUnsigned(transactionXdr);
+   const network=await (networkCheck??call('getNetwork',{},signal));
+   checkAbort(signal);
+   requireThat(network.passphrase===NETWORK,409,'simulation_network_mismatch');
+   onProgress('rpc_simulation_requested');
+   const result=await call('simulateTransaction',{transaction:transactionXdr,authMode:'record',xdrFormat:'base64'},signal);
+   onProgress('rpc_simulation_response');return result;
+ }
  const rpc={mode,
   async readBatch(id,{signal}={}){
    requireThat(typeof id==='string'&&/^[1-9][0-9]{0,19}$/.test(id)&&BigInt(id)>1n&&BigInt(id)<=18446744073709551615n,400,'historical_batch_protected');
@@ -92,15 +108,7 @@ function createTestnetRpc({fetcher,endpoint=URL,timeoutMs=15000,mode,allowSend=f
     Array.isArray(v)?v.map(normalize):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).map(([k,x])=>[k,normalize(x)])):v;
    return {batch:normalize(scValToNative(entry.value.val)),batchXdr:entry.value.val.toXdr('base64'),latestLedger:raw.latestLedger};
   },
-  async simulate(transactionXdr,{signal,onProgress=()=>{}}={}){
-   requireThat(boundedString(transactionXdr),400,'invalid_simulation_transaction');
-   if(mode!=='synthetic')inspectUnsigned(transactionXdr);
-   const network=await call('getNetwork',{},signal);
-   requireThat(network.passphrase===NETWORK,409,'simulation_network_mismatch');
-   onProgress('rpc_simulation_requested');
-   const result=await call('simulateTransaction',{transaction:transactionXdr,authMode:'record',xdrFormat:'base64'},signal);
-   onProgress('rpc_simulation_response');return result;
-  },
+  simulate(transactionXdr,options){return simulate(transactionXdr,options);},
   async sendTransaction(transactionXdr,{signal,beforeSend}={}){
    requireThat(mode==='synthetic'||allowSend,403,'dispatch_capability_disabled');
    requireThat(boundedString(transactionXdr),400,'invalid_simulation_transaction');
@@ -117,6 +125,17 @@ function createTestnetRpc({fetcher,endpoint=URL,timeoutMs=15000,mode,allowSend=f
    return call('getTransaction',{hash},signal);
   }
  };
+ // Starts only the fixed public getNetwork read. The closure belongs to one prepare()
+ // invocation and is disposed on every outcome, including a failed builder.
+ simulationNetworkPreflights.set(rpc,signal=>{
+  const controller=new AbortController(),abort=()=>controller.abort();
+  signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted)abort();
+  const network=call('getNetwork',{},controller.signal);network.catch(()=>{});
+  return {
+   simulate:(transactionXdr,options)=>simulate(transactionXdr,options,network),
+   dispose(){controller.abort();signal?.removeEventListener('abort',abort);}
+  };
+ });
  if(mode==='testnet_rpc_read_only')delete rpc.sendTransaction;
  return Object.freeze(rpc);
 }
@@ -133,12 +152,28 @@ function txFrom(draft){
   invocation.functionName.toStringStrict()===draft.action,409,'invalid_simulation_draft');
  return tx;
 }
-function validateResponse(raw,tx,action){
+// Post-rejection classification only. Never supplies authority or changes a validator decision.
+function simulationResponseCause(raw,maxFee=MAX_FEE){
+ if(!raw||Object.hasOwn(raw,'_parsed'))return undefined;
+ if(!Number.isInteger(raw.latestLedger)||raw.latestLedger<=0||raw.latestLedger>4294967295)return 'latest_ledger_invalid';
+ if(!decimal(raw.minResourceFee))return 'resource_fee_format_invalid';
+ if(BigInt(raw.minResourceFee)+100n>maxFee)return 'resource_fee_limit_exceeded';
+ if(!Array.isArray(raw.results)||raw.results.length!==1)return 'result_cardinality_invalid';
+ try{decode(raw.transactionData,xdr.SorobanTransactionData);}catch{return 'transaction_data_xdr_invalid';}
+ const result=raw.results[0];
+ try{decode(result?.xdr,xdr.ScVal);}catch{return 'return_value_xdr_invalid';}
+ if(Array.isArray(result?.auth))for(const entry of result.auth){
+  try{decode(entry,xdr.SorobanAuthorizationEntry);}catch{return 'authorization_xdr_invalid';}
+ }
+ return undefined;
+}
+function validateResponse(raw,tx,action,maxFee=MAX_FEE){
+ try{
  requireThat(raw&&!Object.hasOwn(raw,'_parsed'),502,'invalid_simulation_response');
  if(Object.hasOwn(raw,'error'))fail('simulation_contract_rejected');
  if(Object.hasOwn(raw,'restorePreamble'))fail('simulation_restore_required');
  requireThat(Number.isInteger(raw.latestLedger)&&raw.latestLedger>0&&raw.latestLedger<=4294967295&&
-  decimal(raw.minResourceFee)&&BigInt(raw.minResourceFee)+100n<=MAX_FEE&&
+  decimal(raw.minResourceFee)&&BigInt(raw.minResourceFee)+100n<=maxFee&&
   Array.isArray(raw.results)&&raw.results.length===1,502,'invalid_simulation_response');
  const data=decode(raw.transactionData,xdr.SorobanTransactionData);
  requireThat(data.resourceFee===BigInt(raw.minResourceFee),502,'simulation_fee_mismatch');
@@ -159,25 +194,45 @@ function validateResponse(raw,tx,action){
  // Empty auth is allowed for implicit source authorization; never invent entries.
  return {raw:structuredClone(raw),fee:BigInt(raw.minResourceFee)+100n,authCount:entries.length,
   transactionData:new SorobanDataBuilder(data)};
+ }catch(error){
+  // Causal labels are fixed and private; diagnostic failures cannot replace the original error.
+  if(error?.code==='invalid_simulation_response')try{noteSimulationResponseCause(error,simulationResponseCause(raw,maxFee));}catch{}
+  throw error;
+ }
 }
-export function createNfuSimulation({transactionBuilder,rpc,now=Date.now}){
+export function createNfuSimulation({transactionBuilder,rpc,now=Date.now,concurrentNetworkCheck=false}){
  requireThat(typeof transactionBuilder?.build==='function'&&(rpc?.mode==='synthetic'||isTestnetReadOnlyRpc(rpc))&&typeof rpc.simulate==='function'&&
-  typeof now==='function',503,'invalid_simulation_dependencies');
+  typeof now==='function'&&typeof concurrentNetworkCheck==='boolean'&&(!concurrentNetworkCheck||simulationNetworkPreflights.has(rpc)),503,'invalid_simulation_dependencies');
  return Object.freeze({
   async prepare(request,{signal,onProgress=()=>{}}={}){
    checkAbort(signal);const started=now(),input=structuredClone(request);
+   // Enabled by the exact server-owned start_transit composition only. Time still
+   // starts BEFORE both tasks; concurrency cannot extend the 30 s freshness bound.
+   const networkFlight=concurrentNetworkCheck?simulationNetworkPreflights.get(rpc)(signal):null;
+   try{
    const draft=await transactionBuilder.build(input),tx=txFrom(draft);
-   function live(){
+   if(concurrentNetworkCheck)requireThat(['start_transit','confirm_reception','confirm_valorization'].includes(input.action)&&draft.action===input.action&&
+    draft.source===input.wallet&&
+    remainingD2Scope(draft.xdrProfile,{action:draft.action,role:draft.action==='start_transit'?'carrier':'plant',userId:draft.userId,organizationId:draft.organizationId,
+     networkPassphrase:draft.networkPassphrase,contract:draft.contract,batchId:input.target?.batch_id,parameters:input.parameters}),
+    403,'simulation_scope_not_authorized');
+   let lastObserved=started;
+   function live(since=started){
     checkAbort(signal);const time=now();
-    requireThat(Number.isSafeInteger(time)&&time>=started&&time-started<=30000,409,'simulation_context_expired');
+    requireThat(Number.isSafeInteger(time)&&time>=lastObserved&&time-since<=30000,409,'simulation_context_expired');
+    lastObserved=time;
     requireThat(tx.timeBounds&&BigInt(tx.timeBounds.maxTime)*1000n>BigInt(time)&&
      Date.parse(draft.expiresAt)===Number(tx.timeBounds.maxTime)*1000,409,'simulation_transaction_expired');
+    return time;
    }
-   live();const response=await rpc.simulate(draft.transactionXdr,{signal,onProgress});live();
-   const checked=validateResponse(response,tx,draft.action);onProgress('rpc_result_validated');
+   live();const response=await (networkFlight??rpc).simulate(draft.transactionXdr,{signal,onProgress});const responseObservedAt=live();
+   const maxFee=nfuFeeCapStroops({action:draft.action,role:draft.action==='confirm_pickup'?'carrier':null,userId:draft.userId,organizationId:draft.organizationId,actor:draft.source,networkPassphrase:draft.networkPassphrase,contract:draft.contract,batchId:input.target?.batch_id,parameters:input.parameters});
+    const checked=validateResponse(response,tx,draft.action,maxFee);onProgress('rpc_result_validated');
    // Rebuild from the same request to recheck JWT/RLS context, directory/bindings and sequence.
-   const fresh=await transactionBuilder.build(input),freshTx=txFrom(fresh);live();
-   for(const field of ['userId','organizationId','source','contract','networkPassphrase','sequence'])
+   // The independently refreshed context must still match; the RPC result itself has
+   // its own unchanged 30 s freshness bound, measured from receipt, not from preflight.
+   const fresh=await transactionBuilder.build(input),freshTx=txFrom(fresh);live(responseObservedAt);
+   for(const field of ['userId','organizationId','source','contract','networkPassphrase','sequence','xdrProfile'])
     requireThat(draft[field]===fresh[field],409,'simulation_identity_or_sequence_changed');
    requireThat(tx.operations[0].func.toXdr('base64')===freshTx.operations[0].func.toXdr('base64'),
     409,'simulation_intent_changed');
@@ -187,15 +242,16 @@ export function createNfuSimulation({transactionBuilder,rpc,now=Date.now}){
     assembled.fee===checked.fee.toString()&&JSON.stringify(assembled.timeBounds)===JSON.stringify(tx.timeBounds)&&
     assembled.operations[0].func.toXdr('base64')===tx.operations[0].func.toXdr('base64'),
     502,'simulation_assembly_mismatch');
-   live();const transactionXdr=assembled.toXDR();
+   live(responseObservedAt);const transactionXdr=assembled.toXDR();
    const intent=Object.freeze({action:draft.action,userId:draft.userId,organizationId:draft.organizationId,
     source:draft.source,contract:draft.contract,networkPassphrase:NETWORK,sequence:draft.sequence,
-    totalFeeStroops:assembled.fee,expiresAt:draft.expiresAt,argumentsXdr:Object.freeze(tx.operations[0].func.value.args.map(v=>v.toXdr('base64')))});
+    totalFeeStroops:assembled.fee,expiresAt:draft.expiresAt,argumentsXdr:Object.freeze(tx.operations[0].func.value.args.map(v=>v.toXdr('base64'))),...xdrProfileFields(draft)});
    return Object.freeze({kind:isTestnetReadOnlyRpc(rpc)?'testnet_simulated_unsigned_soroban_transaction':'synthetic_simulated_unsigned_soroban_transaction',transactionXdr,
     transactionHash:Buffer.from(assembled.hash()).toString('hex'),
     reviewDigest:createHash('sha256').update(JSON.stringify(intent)).update(transactionXdr).digest('hex'),
     intent,latestLedger:response.latestLedger,authorizationCount:checked.authCount,
     simulation:isTestnetReadOnlyRpc(rpc)?'testnet_rpc_read_only':'synthetic',confirmed:false,readyForSigning:false,requiresUserReview:true,requiresPreSignRevalidation:true});
+   }finally{networkFlight?.dispose();}
   }
  });
 }

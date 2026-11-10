@@ -1,0 +1,22 @@
+{
+  "status": "PROPOSED_NOT_INSTALLED",
+  "functionalChanges": false,
+  "schemaExecution": false,
+  "changes": [
+    {
+      "path": "Dockerfile.d2.stellar",
+      "preimageSha256": "6f77f6e9363debd43e63650b2e77c31decef26ef763703d4a5e76838650b40d3",
+      "proposedSha256": "ef2baa6496341fc9cb4a47a4865ec072a7504b1641d1c013423fa0b4a356d40b"
+    },
+    {
+      "path": "Dockerfile.d2.stellar.dockerignore",
+      "preimageSha256": "c1f50aeac9e20e6bd4cd120e8a7a4a3e62574193530ccc5acb121f678e1be8c2",
+      "proposedSha256": "c9a1b4dc84d96a928b041524b69c7ee3d8a8df97699b8f596fde7a375681f974"
+    }
+  ],
+  "sqlAssets": {
+    "d2-high1-high2-integrated-lab.sql": "a339c04a542e97d32c7703d22d61373259a5e531ae2ecf643553d5a1d2e3818a",
+    "d2-high-integrated-preparation.sql": "125168619624fc5411248108f00e6d1f2681e6a23e1f7b96bea473a51b1abb7b",
+    "d2-high-integrated-journal.sql": "76dc86b6c342765161d797984f719b4148641331ea2b268a00703108892d0e06"
+  }
+}

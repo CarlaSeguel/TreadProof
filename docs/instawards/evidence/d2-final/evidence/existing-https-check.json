@@ -1,0 +1,40 @@
+[
+  {
+    "url": "https://treadproof-d2-demo.onrender.com/",
+    "status": 200,
+    "finalUrl": "https://treadproof-d2-demo.onrender.com/",
+    "checkedAt": "2026-11-10T03:20:57.026390+00:00",
+    "bodySha256": "96e1751f6546f07df10e7dc6bcae83fa0845bbb04b95e8a93318deb6c305845f",
+    "byteSize": 8860
+  },
+  {
+    "url": "https://treadproof-d2-demo.onrender.com/api/status",
+    "status": 200,
+    "finalUrl": "https://treadproof-d2-demo.onrender.com/api/status",
+    "checkedAt": "2026-11-10T03:20:57.174971+00:00",
+    "bodySha256": "009b29f0d67af0cc3f1b10eb11a3b51100feb759a2cc7c1acbe55bd88a4f3592",
+    "byteSize": 149,
+    "body": {
+      "service": "treadproof-d2",
+      "mode": "synthetic_read_only",
+      "network": "testnet",
+      "verifiedOnStellar": false,
+      "signingEnabled": false,
+      "dispatchEnabled": false
+    }
+  },
+  {
+    "url": "https://treadproof-d2-demo.onrender.com/api/runtime-health",
+    "status": 200,
+    "finalUrl": "https://treadproof-d2-demo.onrender.com/api/runtime-health",
+    "checkedAt": "2026-11-10T03:20:57.027080+00:00",
+    "bodySha256": "ab3a458aabf78903c66b5f7cfed19cece821915db3c2e16b745e8cdfe0367a07",
+    "byteSize": 98,
+    "body": {
+      "service": "treadproof-d2-runtime",
+      "status": "ok",
+      "internalApi": "restricted",
+      "writesEnabled": false
+    }
+  }
+]

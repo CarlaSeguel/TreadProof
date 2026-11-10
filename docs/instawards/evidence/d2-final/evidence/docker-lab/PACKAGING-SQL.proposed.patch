@@ -1,0 +1,23 @@
+--- a/Dockerfile.d2.stellar
++++ b/Dockerfile.d2.stellar
+@@ -35,6 +35,7 @@
+ COPY --from=dependencies /app/backend/node_modules ./backend/node_modules
+ COPY backend/package.json ./backend/package.json
+ COPY backend/src/ ./backend/src/
++COPY backend/sql/d2-high1-high2-integrated-lab.sql backend/sql/d2-high-integrated-preparation.sql backend/sql/d2-high-integrated-journal.sql ./backend/sql/
+ # Backend structural validators import these two exact relative modules.
+ COPY web/src/d2-carrier-xdr-profile.mjs web/src/d2-company-xdr-profile.mjs ./web/src/
+ COPY deployments/testnet.json ./deployments/testnet.json
+--- a/Dockerfile.d2.stellar.dockerignore
++++ b/Dockerfile.d2.stellar.dockerignore
+@@ -4,6 +4,10 @@
+ !backend/package-lock.json
+ !backend/src/
+ !backend/src/**
++!backend/sql/
++!backend/sql/d2-high1-high2-integrated-lab.sql
++!backend/sql/d2-high-integrated-preparation.sql
++!backend/sql/d2-high-integrated-journal.sql
+ !web/
+ !web/package.json
+ !web/package-lock.json

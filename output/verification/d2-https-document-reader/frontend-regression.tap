@@ -1,0 +1,1054 @@
+TAP version 13
+# Subtest: continuity: operation revision changes on refresh but identity revision is stable for the same Auth context
+ok 1 - continuity: operation revision changes on refresh but identity revision is stable for the same Auth context
+  ---
+  duration_ms: 7.4551
+  type: 'test'
+  ...
+# Subtest: continuity: logout/login with the same user is still a distinct identity lifetime
+ok 2 - continuity: logout/login with the same user is still a distinct identity lifetime
+  ---
+  duration_ms: 1.7353
+  type: 'test'
+  ...
+# Subtest: validates company context from backend
+ok 3 - validates company context from backend
+  ---
+  duration_ms: 1.4549
+  type: 'test'
+  ...
+# Subtest: validates carrier context from backend
+ok 4 - validates carrier context from backend
+  ---
+  duration_ms: 0.2614
+  type: 'test'
+  ...
+# Subtest: validates plant context from backend
+ok 5 - validates plant context from backend
+  ---
+  duration_ms: 0.9699
+  type: 'test'
+  ...
+# Subtest: rejects invalid context source
+ok 6 - rejects invalid context source
+  ---
+  duration_ms: 0.8764
+  type: 'test'
+  ...
+# Subtest: rejects invalid context user
+ok 7 - rejects invalid context user
+  ---
+  duration_ms: 0.3688
+  type: 'test'
+  ...
+# Subtest: rejects invalid context profile
+ok 8 - rejects invalid context profile
+  ---
+  duration_ms: 0.8071
+  type: 'test'
+  ...
+# Subtest: rejects invalid context organization
+ok 9 - rejects invalid context organization
+  ---
+  duration_ms: 0.5982
+  type: 'test'
+  ...
+# Subtest: rejects invalid context role
+ok 10 - rejects invalid context role
+  ---
+  duration_ms: 0.7623
+  type: 'test'
+  ...
+# Subtest: rejects invalid context checksum
+ok 11 - rejects invalid context checksum
+  ---
+  duration_ms: 0.3504
+  type: 'test'
+  ...
+# Subtest: rejects invalid context name
+ok 12 - rejects invalid context name
+  ---
+  duration_ms: 0.1348
+  type: 'test'
+  ...
+# Subtest: no automatic login and private tokens absent from state
+ok 13 - no automatic login and private tokens absent from state
+  ---
+  duration_ms: 0.4194
+  type: 'test'
+  ...
+# Subtest: logout immediately clears context and token and revokes session
+ok 14 - logout immediately clears context and token and revokes session
+  ---
+  duration_ms: 0.2567
+  type: 'test'
+  ...
+# Subtest: logout failure clears local context but reports revocation uncertainty
+ok 15 - logout failure clears local context but reports revocation uncertainty
+  ---
+  duration_ms: 0.3385
+  type: 'test'
+  ...
+# Subtest: expired session loses all authorization
+ok 16 - expired session loses all authorization
+  ---
+  duration_ms: 31.2112
+  type: 'test'
+  ...
+# Subtest: revalidation removes stale organization while in flight
+ok 17 - revalidation removes stale organization while in flight
+  ---
+  duration_ms: 0.5293
+  type: 'test'
+  ...
+# Subtest: revoked identity during revalidation clears session
+ok 18 - revoked identity during revalidation clears session
+  ---
+  duration_ms: 0.4869
+  type: 'test'
+  ...
+# Subtest: late login after cancellation cannot restore session and is revoked
+ok 19 - late login after cancellation cannot restore session and is revoked
+  ---
+  duration_ms: 2.6351
+  type: 'test'
+  ...
+# Subtest: late refresh after logout cannot restore session
+ok 20 - late refresh after logout cannot restore session
+  ---
+  duration_ms: 0.5063
+  type: 'test'
+  ...
+# Subtest: invalid login context causes revocation and no authenticated state
+ok 21 - invalid login context causes revocation and no authenticated state
+  ---
+  duration_ms: 0.2507
+  type: 'test'
+  ...
+# Subtest: login failure auth_rejected has no residual context
+ok 22 - login failure auth_rejected has no residual context
+  ---
+  duration_ms: 0.231
+  type: 'test'
+  ...
+# Subtest: login failure auth_unavailable has no residual context
+ok 23 - login failure auth_unavailable has no residual context
+  ---
+  duration_ms: 0.1155
+  type: 'test'
+  ...
+# Subtest: login failure auth_rate_limited has no residual context
+ok 24 - login failure auth_rate_limited has no residual context
+  ---
+  duration_ms: 0.1125
+  type: 'test'
+  ...
+# Subtest: login failure profile_not_authorized has no residual context
+ok 25 - login failure profile_not_authorized has no residual context
+  ---
+  duration_ms: 0.1195
+  type: 'test'
+  ...
+# Subtest: new session does not reuse previous login
+ok 26 - new session does not reuse previous login
+  ---
+  duration_ms: 0.2072
+  type: 'test'
+  ...
+# Subtest: historical address preserved; new wallet mismatch is blocked
+ok 27 - historical address preserved; new wallet mismatch is blocked
+  ---
+  duration_ms: 0.4315
+  type: 'test'
+  ...
+# Subtest: matching address is not proof of possession or lot permission
+ok 28 - matching address is not proof of possession or lot permission
+  ---
+  duration_ms: 0.2042
+  type: 'test'
+  ...
+# Subtest: wrong network, disconnect or connecting invalidates wallet comparison
+ok 29 - wrong network, disconnect or connecting invalidates wallet comparison
+  ---
+  duration_ms: 0.2287
+  type: 'test'
+  ...
+# Subtest: API calls only allowed same-origin paths without cookies/persistence
+ok 30 - API calls only allowed same-origin paths without cookies/persistence
+  ---
+  duration_ms: 46.3022
+  type: 'test'
+  ...
+# Subtest: API hides arbitrary upstream errors and transport failures
+ok 31 - API hides arbitrary upstream errors and transport failures
+  ---
+  duration_ms: 1.5919
+  type: 'test'
+  ...
+# Subtest: view displays organization safely and keeps every action disabled even with matching wallet
+ok 32 - view displays organization safely and keeps every action disabled even with matching wallet
+  ---
+  duration_ms: 0.4528
+  type: 'test'
+  ...
+# Subtest: production entry makes no direct signing, persistence or registration calls
+ok 33 - production entry makes no direct signing, persistence or registration calls
+  ---
+  duration_ms: 2.2517
+  type: 'test'
+  ...
+# Subtest: NFU diagnostic preserves only recognized backend code: invalid_persistence_input
+ok 34 - NFU diagnostic preserves only recognized backend code: invalid_persistence_input
+  ---
+  duration_ms: 1.1039
+  type: 'test'
+  ...
+# Subtest: NFU diagnostic preserves only recognized backend code: simulation_assembly_failed
+ok 35 - NFU diagnostic preserves only recognized backend code: simulation_assembly_failed
+  ---
+  duration_ms: 0.4137
+  type: 'test'
+  ...
+# Subtest: NFU diagnostic preserves only recognized backend code: simulation_assembly_mismatch
+ok 36 - NFU diagnostic preserves only recognized backend code: simulation_assembly_mismatch
+  ---
+  duration_ms: 0.3919
+  type: 'test'
+  ...
+# Subtest: NFU diagnostic preserves only recognized backend code: simulation_timeout
+ok 37 - NFU diagnostic preserves only recognized backend code: simulation_timeout
+  ---
+  duration_ms: 0.4617
+  type: 'test'
+  ...
+# Subtest: NFU diagnostic preserves only recognized backend code: simulation_transaction_expired
+ok 38 - NFU diagnostic preserves only recognized backend code: simulation_transaction_expired
+  ---
+  duration_ms: 0.4973
+  type: 'test'
+  ...
+# Subtest: NFU diagnostic preserves only recognized backend code: simulation_rpc_unavailable
+ok 39 - NFU diagnostic preserves only recognized backend code: simulation_rpc_unavailable
+  ---
+  duration_ms: 0.3286
+  type: 'test'
+  ...
+# Subtest: NFU diagnostic preserves only recognized backend code: persistence_not_authorized
+ok 40 - NFU diagnostic preserves only recognized backend code: persistence_not_authorized
+  ---
+  duration_ms: 0.38
+  type: 'test'
+  ...
+# Subtest: NFU diagnostic preserves only recognized backend code: execution_policy_not_authorized
+ok 41 - NFU diagnostic preserves only recognized backend code: execution_policy_not_authorized
+  ---
+  duration_ms: 1.2438
+  type: 'test'
+  ...
+# Subtest: NFU diagnostic preserves only recognized backend code: wallet_possession_required
+ok 42 - NFU diagnostic preserves only recognized backend code: wallet_possession_required
+  ---
+  duration_ms: 0.3362
+  type: 'test'
+  ...
+# Subtest: NFU unknown errors and transport failure never masquerade as an Auth service diagnosis
+ok 43 - NFU unknown errors and transport failure never masquerade as an Auth service diagnosis
+  ---
+  duration_ms: 0.6553
+  type: 'test'
+  ...
+# Subtest: simulation has a bounded whole-request budget separate from Auth and RPC, without retry
+ok 44 - simulation has a bounded whole-request budget separate from Auth and RPC, without retry
+  ---
+  duration_ms: 2.1594
+  type: 'test'
+  ...
+# Subtest: a valid synthetic response after the old 20s budget remains visible; no real waiting or RPC
+ok 45 - a valid synthetic response after the old 20s budget remains visible; no real waiting or RPC
+  ---
+  duration_ms: 41.4158
+  type: 'test'
+  ...
+# Subtest: simulation timeout and identity cancellation remain distinct and never retry
+ok 46 - simulation timeout and identity cancellation remain distinct and never retry
+  ---
+  duration_ms: 2.063
+  type: 'test'
+  ...
+# Subtest: manual signing requests retain bounded120s HTTP wait without changing Auth20s
+ok 47 - manual signing requests retain bounded120s HTTP wait without changing Auth20s
+  ---
+  duration_ms: 1.0214
+  type: 'test'
+  ...
+# Subtest: one explicit read verifies actual approved PDF and downloads once despite harmless wallet read revisions
+ok 48 - one explicit read verifies actual approved PDF and downloads once despite harmless wallet read revisions
+  ---
+  duration_ms: 41.7901
+  type: 'test'
+  ...
+# Subtest: client rejects wrong evidenceId without download
+ok 49 - client rejects wrong evidenceId without download
+  ---
+  duration_ms: 0.9127
+  type: 'test'
+  ...
+# Subtest: client rejects wrong batchId without download
+ok 50 - client rejects wrong batchId without download
+  ---
+  duration_ms: 0.5889
+  type: 'test'
+  ...
+# Subtest: client rejects wrong sha256 without download
+ok 51 - client rejects wrong sha256 without download
+  ---
+  duration_ms: 0.44
+  type: 'test'
+  ...
+# Subtest: client rejects wrong byteSize without download
+ok 52 - client rejects wrong byteSize without download
+  ---
+  duration_ms: 0.4909
+  type: 'test'
+  ...
+# Subtest: client rejects wrong onchainBatchId without download
+ok 53 - client rejects wrong onchainBatchId without download
+  ---
+  duration_ms: 0.4931
+  type: 'test'
+  ...
+# Subtest: client rejects wrong wallet without download
+ok 54 - client rejects wrong wallet without download
+  ---
+  duration_ms: 0.5593
+  type: 'test'
+  ...
+# Subtest: client rejects wrong batchState without download
+ok 55 - client rejects wrong batchState without download
+  ---
+  duration_ms: 0.3564
+  type: 'test'
+  ...
+# Subtest: client rejects wrong valorizedMass without download
+ok 56 - client rejects wrong valorizedMass without download
+  ---
+  duration_ms: 2.9709
+  type: 'test'
+  ...
+# Subtest: client rejects wrong canSubmit without download
+ok 57 - client rejects wrong canSubmit without download
+  ---
+  duration_ms: 1.5484
+  type: 'test'
+  ...
+# Subtest: client rejects wrong canSign without download
+ok 58 - client rejects wrong canSign without download
+  ---
+  duration_ms: 0.8451
+  type: 'test'
+  ...
+# Subtest: client rejects wrong bytes_verified without download
+ok 59 - client rejects wrong bytes_verified without download
+  ---
+  duration_ms: 0.2778
+  type: 'test'
+  ...
+# Subtest: client rejects wrong matches_onchain_hash without download
+ok 60 - client rejects wrong matches_onchain_hash without download
+  ---
+  duration_ms: 0.2224
+  type: 'test'
+  ...
+# Subtest: client recomputes hash rather than trusting server flags
+ok 61 - client recomputes hash rather than trusting server flags
+  ---
+  duration_ms: 37.3435
+  type: 'test'
+  ...
+# Subtest: malformed or truncated base64 cannot be downloaded
+ok 62 - malformed or truncated base64 cannot be downloaded
+  ---
+  duration_ms: 0.7668
+  type: 'test'
+  ...
+# Subtest: in-flight role change clears response
+ok 63 - in-flight role change clears response
+  ---
+  duration_ms: 0.5067
+  type: 'test'
+  ...
+# Subtest: in-flight wallet change clears response
+ok 64 - in-flight wallet change clears response
+  ---
+  duration_ms: 0.2353
+  type: 'test'
+  ...
+# Subtest: in-flight network change clears response
+ok 65 - in-flight network change clears response
+  ---
+  duration_ms: 0.2882
+  type: 'test'
+  ...
+# Subtest: in-flight session change clears response
+ok 66 - in-flight session change clears response
+  ---
+  duration_ms: 0.2493
+  type: 'test'
+  ...
+# Subtest: in-flight logout change clears response
+ok 67 - in-flight logout change clears response
+  ---
+  duration_ms: 0.1764
+  type: 'test'
+  ...
+# Subtest: context beyond30seconds is not rescued by HTTP60seconds
+ok 68 - context beyond30seconds is not rescued by HTTP60seconds
+  ---
+  duration_ms: 0.6238
+  type: 'test'
+  ...
+# Subtest: changed second wallet observation rejects bytes
+ok 69 - changed second wallet observation rejects bytes
+  ---
+  duration_ms: 18.8891
+  type: 'test'
+  ...
+# Subtest: no session means no HTTP call
+ok 70 - no session means no HTTP call
+  ---
+  duration_ms: 0.2914
+  type: 'test'
+  ...
+# Subtest: old delayed response cannot restore download after new session
+ok 71 - old delayed response cannot restore download after new session
+  ---
+  duration_ms: 18.3786
+  type: 'test'
+  ...
+# Subtest: controller recreation does not reuse cached private bytes
+ok 72 - controller recreation does not reuse cached private bytes
+  ---
+  duration_ms: 31.8738
+  type: 'test'
+  ...
+# Subtest: document API uses exact authenticated GET, no query, upload or browser credentials
+ok 73 - document API uses exact authenticated GET, no query, upload or browser credentials
+  ---
+  duration_ms: 49.7713
+  type: 'test'
+  ...
+# Subtest: Auth wrapper rejects a response arriving after logout
+ok 74 - Auth wrapper rejects a response arriving after logout
+  ---
+  duration_ms: 5.6389
+  type: 'test'
+  ...
+# Subtest: journal UI: authenticated read remains explicitly unverified and no signer is needed
+ok 75 - journal UI: authenticated read remains explicitly unverified and no signer is needed
+  ---
+  duration_ms: 6.4268
+  type: 'test'
+  ...
+# Subtest: journal UI: no session never reaches HTTP
+ok 76 - journal UI: no session never reaches HTTP
+  ---
+  duration_ms: 0.2801
+  type: 'test'
+  ...
+# Subtest: journal UI: malformed cursor cannot become a recovery request
+ok 77 - journal UI: malformed cursor cannot become a recovery request
+  ---
+  duration_ms: 0.6299
+  type: 'test'
+  ...
+# Subtest: journal UI: rejects fabricated onchainConfirmed
+ok 78 - journal UI: rejects fabricated onchainConfirmed
+  ---
+  duration_ms: 0.4935
+  type: 'test'
+  ...
+# Subtest: journal UI: rejects fabricated canSign
+ok 79 - journal UI: rejects fabricated canSign
+  ---
+  duration_ms: 0.6768
+  type: 'test'
+  ...
+# Subtest: journal UI: rejects fabricated canSubmit
+ok 80 - journal UI: rejects fabricated canSubmit
+  ---
+  duration_ms: 0.5619
+  type: 'test'
+  ...
+# Subtest: journal UI: wallet change discards pending response
+ok 81 - journal UI: wallet change discards pending response
+  ---
+  duration_ms: 0.6957
+  type: 'test'
+  ...
+# Subtest: journal UI: network change discards pending response
+ok 82 - journal UI: network change discards pending response
+  ---
+  duration_ms: 0.4346
+  type: 'test'
+  ...
+# Subtest: journal UI: user change discards pending response
+ok 83 - journal UI: user change discards pending response
+  ---
+  duration_ms: 0.5778
+  type: 'test'
+  ...
+# Subtest: journal UI: logout change discards pending response
+ok 84 - journal UI: logout change discards pending response
+  ---
+  duration_ms: 0.5543
+  type: 'test'
+  ...
+# Subtest: journal UI: changed second wallet observation rejects result even without polling event
+ok 85 - journal UI: changed second wallet observation rejects result even without polling event
+  ---
+  duration_ms: 0.5867
+  type: 'test'
+  ...
+# Subtest: journal UI: old response cannot restore data after new authentication
+ok 86 - journal UI: old response cannot restore data after new authentication
+  ---
+  duration_ms: 0.7383
+  type: 'test'
+  ...
+# Subtest: journal API: exact path, requesting bearer and no laboratory or SQL operation
+ok 87 - journal API: exact path, requesting bearer and no laboratory or SQL operation
+  ---
+  duration_ms: 57.5912
+  type: 'test'
+  ...
+# Subtest: journal Auth wrapper: logout prevents a delayed result from being returned
+ok 88 - journal Auth wrapper: logout prevents a delayed result from being returned
+  ---
+  duration_ms: 2.0243
+  type: 'test'
+  ...
+# Subtest: continuity: same Auth refresh must not erase a completed proof still held by backend
+ok 89 - continuity: same Auth refresh must not erase a completed proof still held by backend
+  ---
+  duration_ms: 61.9636
+  type: 'test'
+  ...
+# Subtest: continuity: private proof hidden while Auth is checking, restored only after backend status read
+ok 90 - continuity: private proof hidden while Auth is checking, restored only after backend status read
+  ---
+  duration_ms: 18.7981
+  type: 'test'
+  ...
+# Subtest: continuity: missing backend proof after restart/revocation removes previous success without signing
+ok 91 - continuity: missing backend proof after restart/revocation removes previous success without signing
+  ---
+  duration_ms: 3.6527
+  type: 'test'
+  ...
+# Subtest: continuity: expired proof cannot be revived or renewed by a status read
+ok 92 - continuity: expired proof cannot be revived or renewed by a status read
+  ---
+  duration_ms: 4.5813
+  type: 'test'
+  ...
+# Subtest: continuity: status failure is fail closed and does not open another signature request
+ok 93 - continuity: status failure is fail closed and does not open another signature request
+  ---
+  duration_ms: 3.5433
+  type: 'test'
+  ...
+# Subtest: continuity: late status response never restores proof after logout or closes a later session
+ok 94 - continuity: late status response never restores proof after logout or closes a later session
+  ---
+  duration_ms: 3.2671
+  type: 'test'
+  ...
+# Subtest: continuity: authoritative NFU possession rejection clears the old success immediately
+ok 95 - continuity: authoritative NFU possession rejection clears the old success immediately
+  ---
+  duration_ms: 2.5386
+  type: 'test'
+  ...
+# Subtest: synthetic company signs exact text and succeeds only after backend verification
+ok 96 - synthetic company signs exact text and succeeds only after backend verification
+  ---
+  duration_ms: 2.8848
+  type: 'test'
+  ...
+# Subtest: synthetic carrier signs exact text and succeeds only after backend verification
+ok 97 - synthetic carrier signs exact text and succeeds only after backend verification
+  ---
+  duration_ms: 3.9794
+  type: 'test'
+  ...
+# Subtest: synthetic plant signs exact text and succeeds only after backend verification
+ok 98 - synthetic plant signs exact text and succeeds only after backend verification
+  ---
+  duration_ms: 3.2391
+  type: 'test'
+  ...
+# Subtest: explicit repeat creates fresh challenge; double click while pending does not create extra popup
+ok 99 - explicit repeat creates fresh challenge; double click while pending does not create extra popup
+  ---
+  duration_ms: 8.6635
+  type: 'test'
+  ...
+# Subtest: wrong wallet organization rejected before any signature
+ok 100 - wrong wallet organization rejected before any signature
+  ---
+  duration_ms: 1.9123
+  type: 'test'
+  ...
+# Subtest: invalid cryptographic signature never produces a successful state
+ok 101 - invalid cryptographic signature never produces a successful state
+  ---
+  duration_ms: 3.8282
+  type: 'test'
+  ...
+# Subtest: cancel in Freighter leaves no receipt or verification request
+ok 102 - cancel in Freighter leaves no receipt or verification request
+  ---
+  duration_ms: 1.68
+  type: 'test'
+  ...
+# Subtest: local cancel ignores late signature and prevents another popup while pending
+ok 103 - local cancel ignores late signature and prevents another popup while pending
+  ---
+  duration_ms: 2.9739
+  type: 'test'
+  ...
+# Subtest: account change during signing invalidates late answer
+ok 104 - account change during signing invalidates late answer
+  ---
+  duration_ms: 3.1224
+  type: 'test'
+  ...
+# Subtest: network change during signing invalidates late answer
+ok 105 - network change during signing invalidates late answer
+  ---
+  duration_ms: 2.1861
+  type: 'test'
+  ...
+# Subtest: disconnect change during signing invalidates late answer
+ok 106 - disconnect change during signing invalidates late answer
+  ---
+  duration_ms: 2.6782
+  type: 'test'
+  ...
+# Subtest: change away and back still invalidates original wallet revision
+ok 107 - change away and back still invalidates original wallet revision
+  ---
+  duration_ms: 3.3877
+  type: 'test'
+  ...
+# Subtest: logout and new authenticated user cannot receive late signature result
+ok 108 - logout and new authenticated user cannot receive late signature result
+  ---
+  duration_ms: 2.6398
+  type: 'test'
+  ...
+# Subtest: different token epoch for same user invalidates pending proof
+ok 109 - different token epoch for same user invalidates pending proof
+  ---
+  duration_ms: 2.2629
+  type: 'test'
+  ...
+# Subtest: challenge expired during human decision is never sent for verification
+ok 110 - challenge expired during human decision is never sent for verification
+  ---
+  duration_ms: 2.3376
+  type: 'test'
+  ...
+# Subtest: backend reused challenge rejection cannot be presented as success
+ok 111 - backend reused challenge rejection cannot be presented as success
+  ---
+  duration_ms: 1.7979
+  type: 'test'
+  ...
+# Subtest: communication failure in prepare leaves no success and makes no automatic retry
+ok 112 - communication failure in prepare leaves no success and makes no automatic retry
+  ---
+  duration_ms: 1.1012
+  type: 'test'
+  ...
+# Subtest: communication failure in verify leaves no success and makes no automatic retry
+ok 113 - communication failure in verify leaves no success and makes no automatic retry
+  ---
+  duration_ms: 1.7174
+  type: 'test'
+  ...
+# Subtest: communication failure in context leaves no success and makes no automatic retry
+ok 114 - communication failure in context leaves no success and makes no automatic retry
+  ---
+  duration_ms: 1.5971
+  type: 'test'
+  ...
+# Subtest: late backend success after local cancellation is ignored
+ok 115 - late backend success after local cancellation is ignored
+  ---
+  duration_ms: 4.9829
+  type: 'test'
+  ...
+# Subtest: account change while backend verification is in flight suppresses late success
+ok 116 - account change while backend verification is in flight suppresses late success
+  ---
+  duration_ms: 2.8875
+  type: 'test'
+  ...
+# Subtest: context rotation found by fresh Auth read prevents the signer
+ok 117 - context rotation found by fresh Auth read prevents the signer
+  ---
+  duration_ms: 1.4022
+  type: 'test'
+  ...
+# Subtest: direct account reread detects change even before polling updates UI
+ok 118 - direct account reread detects change even before polling updates UI
+  ---
+  duration_ms: 1.3439
+  type: 'test'
+  ...
+# Subtest: malformed signer result rejected null
+ok 119 - malformed signer result rejected null
+  ---
+  duration_ms: 1.7083
+  type: 'test'
+  ...
+# Subtest: malformed signer result rejected {}
+ok 120 - malformed signer result rejected {}
+  ---
+  duration_ms: 1.4365
+  type: 'test'
+  ...
+# Subtest: malformed signer result rejected {"signedMessage":{"0":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0,"32":0,"33":0,"34":0,"35":0,"36":0,"37":0,"38":0,"39":0,"40":0,"41":0,"42":0,"43":0,"44":0,"45":0,"46":0,"47":0,"48":0,"49":0,"50":0,"51":0,"52":0,"53":0,"54":0,"55":0,"56":0,"57":0,"58":0,"59":0,"60":0,"61":0,"62":0,"63":0},"signerAddress":"x"}
+ok 121 - malformed signer result rejected {"signedMessage":{"0":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0,"17":0,"18":0,"19":0,"20":0,"21":0,"22":0,"23":0,"24":0,"25":0,"26":0,"27":0,"28":0,"29":0,"30":0,"31":0,"32":0,"33":0,"34":0,"35":0,"36":0,"37":0,"38":0,"39":0,"40":0,"41":0,"42":0,"43":0,"44":0,"45":0,"46":0,"47":0,"48":0,"49":0,"50":0,"51":0,"52":0,"53":0,"54":0,"55":0,"56":0,"57":0,"58":0,"59":0,"60":0,"61":0,"62":0,"63":0},"signerAddress":"x"}
+  ---
+  duration_ms: 1.8801
+  type: 'test'
+  ...
+# Subtest: malformed signer result rejected {"signedMessage":"bad","signerAddress":"x"}
+ok 122 - malformed signer result rejected {"signedMessage":"bad","signerAddress":"x"}
+  ---
+  duration_ms: 1.5983
+  type: 'test'
+  ...
+# Subtest: wrong reported signerAddress rejected even if signature is valid
+ok 123 - wrong reported signerAddress rejected even if signature is valid
+  ---
+  duration_ms: 2.0573
+  type: 'test'
+  ...
+# Subtest: signer exception is sanitized and no signature is sent
+ok 124 - signer exception is sanitized and no signature is sent
+  ---
+  duration_ms: 1.7679
+  type: 'test'
+  ...
+# Subtest: signature timeout ignores subsequent answer and requires pending popup to settle
+ok 125 - signature timeout ignores subsequent answer and requires pending popup to settle
+  ---
+  duration_ms: 8.7103
+  type: 'test'
+  ...
+# Subtest: missing Auth or wrong network cannot start a signature
+ok 126 - missing Auth or wrong network cannot start a signature
+  ---
+  duration_ms: 1.9057
+  type: 'test'
+  ...
+# Subtest: successful result clears when wallet, session or challenge lifetime changes
+ok 127 - successful result clears when wallet, session or challenge lifetime changes
+  ---
+  duration_ms: 3.7128
+  type: 'test'
+  ...
+# Subtest: invalid backend receipt possession_verified cannot show success
+ok 128 - invalid backend receipt possession_verified cannot show success
+  ---
+  duration_ms: 2.1973
+  type: 'test'
+  ...
+# Subtest: invalid backend receipt can_operate cannot show success
+ok 129 - invalid backend receipt can_operate cannot show success
+  ---
+  duration_ms: 1.9057
+  type: 'test'
+  ...
+# Subtest: invalid backend receipt association_status cannot show success
+ok 130 - invalid backend receipt association_status cannot show success
+  ---
+  duration_ms: 2.0812
+  type: 'test'
+  ...
+# Subtest: invalid backend receipt stellar_address cannot show success
+ok 131 - invalid backend receipt stellar_address cannot show success
+  ---
+  duration_ms: 2.0861
+  type: 'test'
+  ...
+# Subtest: invalid backend receipt user_id cannot show success
+ok 132 - invalid backend receipt user_id cannot show success
+  ---
+  duration_ms: 1.8201
+  type: 'test'
+  ...
+# Subtest: invalid backend receipt organization_id cannot show success
+ok 133 - invalid backend receipt organization_id cannot show success
+  ---
+  duration_ms: 1.8561
+  type: 'test'
+  ...
+# Subtest: invalid backend receipt challenge_id cannot show success
+ok 134 - invalid backend receipt challenge_id cannot show success
+  ---
+  duration_ms: 3.1999
+  type: 'test'
+  ...
+# Subtest: invalid backend receipt verified_at cannot show success
+ok 135 - invalid backend receipt verified_at cannot show success
+  ---
+  duration_ms: 1.9446
+  type: 'test'
+  ...
+# Subtest: wrong challenge binding project rejected before popup
+ok 136 - wrong challenge binding project rejected before popup
+  ---
+  duration_ms: 1.3579
+  type: 'test'
+  ...
+# Subtest: wrong challenge binding network_passphrase rejected before popup
+ok 137 - wrong challenge binding network_passphrase rejected before popup
+  ---
+  duration_ms: 1.0113
+  type: 'test'
+  ...
+# Subtest: wrong challenge binding origin rejected before popup
+ok 138 - wrong challenge binding origin rejected before popup
+  ---
+  duration_ms: 1.1602
+  type: 'test'
+  ...
+# Subtest: wrong challenge binding domain rejected before popup
+ok 139 - wrong challenge binding domain rejected before popup
+  ---
+  duration_ms: 1.3375
+  type: 'test'
+  ...
+# Subtest: wrong challenge binding role rejected before popup
+ok 140 - wrong challenge binding role rejected before popup
+  ---
+  duration_ms: 1.2947
+  type: 'test'
+  ...
+# Subtest: wrong challenge binding organization_id rejected before popup
+ok 141 - wrong challenge binding organization_id rejected before popup
+  ---
+  duration_ms: 1.1145
+  type: 'test'
+  ...
+# Subtest: wrong challenge binding user_id rejected before popup
+ok 142 - wrong challenge binding user_id rejected before popup
+  ---
+  duration_ms: 1.2569
+  type: 'test'
+  ...
+# Subtest: wrong challenge binding stellar_address rejected before popup
+ok 143 - wrong challenge binding stellar_address rejected before popup
+  ---
+  duration_ms: 1.2588
+  type: 'test'
+  ...
+# Subtest: wrong challenge binding purpose rejected before popup
+ok 144 - wrong challenge binding purpose rejected before popup
+  ---
+  duration_ms: 1.6554
+  type: 'test'
+  ...
+# Subtest: wrong challenge binding nonce rejected before popup
+ok 145 - wrong challenge binding nonce rejected before popup
+  ---
+  duration_ms: 2.1131
+  type: 'test'
+  ...
+# Subtest: wrong challenge binding challenge_id rejected before popup
+ok 146 - wrong challenge binding challenge_id rejected before popup
+  ---
+  duration_ms: 1.3107
+  type: 'test'
+  ...
+# Subtest: browser APIs call only same-origin proof endpoints and do not store bearer in results
+ok 147 - browser APIs call only same-origin proof endpoints and do not store bearer in results
+  ---
+  duration_ms: 32.1083
+  type: 'test'
+  ...
+# Subtest: proof API errors are allowlisted and do not echo upstream details
+ok 148 - proof API errors are allowlisted and do not echo upstream details
+  ---
+  duration_ms: 1.4212
+  type: 'test'
+  ...
+# Subtest: Auth capability holds token privately and refuses arbitrary operations
+ok 149 - Auth capability holds token privately and refuses arbitrary operations
+  ---
+  duration_ms: 3.4252
+  type: 'test'
+  ...
+# Subtest: Auth expiry after an operation prevents accepting its response
+ok 150 - Auth expiry after an operation prevents accepting its response
+  ---
+  duration_ms: 1.7165
+  type: 'test'
+  ...
+# Subtest: view only shows verified message after backend receipt and always disables lot actions
+ok 151 - view only shows verified message after backend receipt and always disables lot actions
+  ---
+  duration_ms: 4.4532
+  type: 'test'
+  ...
+# Subtest: Auth rejection during a proof clears local identity without privileged calls
+ok 152 - Auth rejection during a proof clears local identity without privileged calls
+  ---
+  duration_ms: 1.114
+  type: 'test'
+  ...
+# Subtest: old backend HTTP 403 reports a missing-route diagnosis without success
+ok 153 - old backend HTTP 403 reports a missing-route diagnosis without success
+  ---
+  duration_ms: 0.4543
+  type: 'test'
+  ...
+# Subtest: old backend HTTP 404 reports a missing-route diagnosis without success
+ok 154 - old backend HTTP 404 reports a missing-route diagnosis without success
+  ---
+  duration_ms: 0.3396
+  type: 'test'
+  ...
+# Subtest: administratively approved wallet displays current backend status, without enabling batch actions
+ok 155 - administratively approved wallet displays current backend status, without enabling batch actions
+  ---
+  duration_ms: 3.2659
+  type: 'test'
+  ...
+# Subtest: verified UI receipt exposes the original signed deadline, without adding 300 s at confirmation
+ok 156 - verified UI receipt exposes the original signed deadline, without adding 300 s at confirmation
+  ---
+  duration_ms: 2.188
+  type: 'test'
+  ...
+# Subtest: StrKey validates all three real-format demo addresses and rejects checksum tampering
+ok 157 - StrKey validates all three real-format demo addresses and rejects checksum tampering
+  ---
+  duration_ms: 5.8792
+  type: 'test'
+  ...
+# Subtest: observing a foreign network is informational; strict read and connect still reject it
+ok 158 - observing a foreign network is informational; strict read and connect still reject it
+  ---
+  duration_ms: 1.3707
+  type: 'test'
+  ...
+# Subtest: missing network data is invalid and cannot appear as Testnet
+ok 159 - missing network data is invalid and cannot appear as Testnet
+  ---
+  duration_ms: 0.4383
+  type: 'test'
+  ...
+# Subtest: SDK checksum also protects configured contract IDs
+ok 160 - SDK checksum also protects configured contract IDs
+  ---
+  duration_ms: 0.8248
+  type: 'test'
+  ...
+# Subtest: no automatic access or polling before an explicit connect
+ok 161 - no automatic access or polling before an explicit connect
+  ---
+  duration_ms: 1.1713
+  type: 'test'
+  ...
+# Subtest: successful connection never implies TreadProof authentication or lot authorization
+ok 162 - successful connection never implies TreadProof authentication or lot authorization
+  ---
+  duration_ms: 0.973
+  type: 'test'
+  ...
+# Subtest: foreign network has blocked status; returning to Testnet updates display only
+ok 163 - foreign network has blocked status; returning to Testnet updates display only
+  ---
+  duration_ms: 0.6728
+  type: 'test'
+  ...
+# Subtest: account changes invalidate old context before displaying the replacement
+ok 164 - account changes invalidate old context before displaying the replacement
+  ---
+  duration_ms: 0.7414
+  type: 'test'
+  ...
+# Subtest: network changes invalidate old context and clear Testnet confirmation
+ok 165 - network changes invalidate old context and clear Testnet confirmation
+  ---
+  duration_ms: 0.4745
+  type: 'test'
+  ...
+# Subtest: denied access returns a sanitized error without scheduling polls
+ok 166 - denied access returns a sanitized error without scheduling polls
+  ---
+  duration_ms: 0.6459
+  type: 'test'
+  ...
+# Subtest: unavailable wallet and invalid provider replies cannot leave stale address
+ok 167 - unavailable wallet and invalid provider replies cannot leave stale address
+  ---
+  duration_ms: 0.6594
+  type: 'test'
+  ...
+# Subtest: disconnect clears data and stops polling; manual refresh does not reconnect
+ok 168 - disconnect clears data and stops polling; manual refresh does not reconnect
+  ---
+  duration_ms: 0.2929
+  type: 'test'
+  ...
+# Subtest: late connection after disconnect cannot restore cleared data
+ok 169 - late connection after disconnect cannot restore cleared data
+  ---
+  duration_ms: 0.3044
+  type: 'test'
+  ...
+# Subtest: stale connection response cannot replace a newer connection
+ok 170 - stale connection response cannot replace a newer connection
+  ---
+  duration_ms: 0.3803
+  type: 'test'
+  ...
+# Subtest: polls do not overlap and late results cannot undo disconnect
+ok 171 - polls do not overlap and late results cannot undo disconnect
+  ---
+  duration_ms: 0.3778
+  type: 'test'
+  ...
+# Subtest: timeout is not a successful connection and later reply stays ignored
+ok 172 - timeout is not a successful connection and later reply stays ignored
+  ---
+  duration_ms: 11.2283
+  type: 'test'
+  ...
+# Subtest: controller does not trust a provider claim of authentication
+ok 173 - controller does not trust a provider claim of authentication
+  ---
+  duration_ms: 0.4268
+  type: 'test'
+  ...
+# Subtest: view always disables lot actions, even if supplied with a forged authorization state
+ok 174 - view always disables lot actions, even if supplied with a forged authorization state
+  ---
+  duration_ms: 0.5808
+  type: 'test'
+  ...
+1..174
+# tests 174
+# suites 0
+# pass 174
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7323.2878

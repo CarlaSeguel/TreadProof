@@ -1,0 +1,1558 @@
+TAP version 13
+# Subtest: effective company directory uses approved wallet without changing historical source
+ok 1 - effective company directory uses approved wallet without changing historical source
+  ---
+  duration_ms: 38.495185
+  type: 'test'
+  ...
+# Subtest: effective carrier directory uses approved wallet without changing historical source
+ok 2 - effective carrier directory uses approved wallet without changing historical source
+  ---
+  duration_ms: 2.282656
+  type: 'test'
+  ...
+# Subtest: effective plant directory uses approved wallet without changing historical source
+ok 3 - effective plant directory uses approved wallet without changing historical source
+  ---
+  duration_ms: 2.544858
+  type: 'test'
+  ...
+# Subtest: approval reads use explicit public projection exact org network contract and user JWT
+ok 4 - approval reads use explicit public projection exact org network contract and user JWT
+  ---
+  duration_ms: 3.573499
+  type: 'test'
+  ...
+# Subtest: invalid missing approval fails closed without historical fallback
+ok 5 - invalid missing approval fails closed without historical fallback
+  ---
+  duration_ms: 2.109259
+  type: 'test'
+  ...
+# Subtest: invalid duplicate approval fails closed without historical fallback
+ok 6 - invalid duplicate approval fails closed without historical fallback
+  ---
+  duration_ms: 0.830558
+  type: 'test'
+  ...
+# Subtest: invalid organization approval fails closed without historical fallback
+ok 7 - invalid organization approval fails closed without historical fallback
+  ---
+  duration_ms: 0.832967
+  type: 'test'
+  ...
+# Subtest: invalid network approval fails closed without historical fallback
+ok 8 - invalid network approval fails closed without historical fallback
+  ---
+  duration_ms: 0.93572
+  type: 'test'
+  ...
+# Subtest: invalid contract approval fails closed without historical fallback
+ok 9 - invalid contract approval fails closed without historical fallback
+  ---
+  duration_ms: 0.965021
+  type: 'test'
+  ...
+# Subtest: invalid revoked approval fails closed without historical fallback
+ok 10 - invalid revoked approval fails closed without historical fallback
+  ---
+  duration_ms: 1.031149
+  type: 'test'
+  ...
+# Subtest: invalid address approval fails closed without historical fallback
+ok 11 - invalid address approval fails closed without historical fallback
+  ---
+  duration_ms: 0.73503
+  type: 'test'
+  ...
+# Subtest: invalid date approval fails closed without historical fallback
+ok 12 - invalid date approval fails closed without historical fallback
+  ---
+  duration_ms: 0.799953
+  type: 'test'
+  ...
+# Subtest: RLS rejection is not an empty directory or legacy fallback
+ok 13 - RLS rejection is not an empty directory or legacy fallback
+  ---
+  duration_ms: 1.250704
+  type: 'test'
+  ...
+# Subtest: approval is reread on every context and a changed approval ID changes authorization
+ok 14 - approval is reread on every context and a changed approval ID changes authorization
+  ---
+  duration_ms: 6.159699
+  type: 'test'
+  ...
+# Subtest: historical batch verification keeps original actors despite newly approved current wallet
+ok 15 - historical batch verification keeps original actors despite newly approved current wallet
+  ---
+  duration_ms: 3.758636
+  type: 'test'
+  ...
+# Subtest: wrong project or administrative key rejected before network
+ok 16 - wrong project or administrative key rejected before network
+  ---
+  duration_ms: 0.338164
+  type: 'test'
+  ...
+# Subtest: approved directory reaches create_batch preparation with historical columns unchanged and no real RPC or signature
+ok 17 - approved directory reaches create_batch preparation with historical columns unchanged and no real RPC or signature
+  ---
+  duration_ms: 61.741991
+  type: 'test'
+  ...
+# Subtest: approval replacement during external read invalidates preparation before persistence
+ok 18 - approval replacement during external read invalidates preparation before persistence
+  ---
+  duration_ms: 18.431734
+  type: 'test'
+  ...
+# Subtest: context role comes from directory and membership, ignoring editable metadata
+ok 19 - context role comes from directory and membership, ignoring editable metadata
+  ---
+  duration_ms: 3.480273
+  type: 'test'
+  ...
+# Subtest: authorized context accepts existing company
+ok 20 - authorized context accepts existing company
+  ---
+  duration_ms: 0.310731
+  type: 'test'
+  ...
+# Subtest: authorized context accepts existing carrier
+ok 21 - authorized context accepts existing carrier
+  ---
+  duration_ms: 0.216388
+  type: 'test'
+  ...
+# Subtest: authorized context accepts existing plant
+ok 22 - authorized context accepts existing plant
+  ---
+  duration_ms: 0.314646
+  type: 'test'
+  ...
+# Subtest: missing profile fails closed
+ok 23 - missing profile fails closed
+  ---
+  duration_ms: 1.167049
+  type: 'test'
+  ...
+# Subtest: other profile fails closed
+ok 24 - other profile fails closed
+  ---
+  duration_ms: 0.465596
+  type: 'test'
+  ...
+# Subtest: missing organization fails closed
+ok 25 - missing organization fails closed
+  ---
+  duration_ms: 0.360814
+  type: 'test'
+  ...
+# Subtest: other organization fails closed
+ok 26 - other organization fails closed
+  ---
+  duration_ms: 0.316653
+  type: 'test'
+  ...
+# Subtest: forged role fails closed
+ok 27 - forged role fails closed
+  ---
+  duration_ms: 0.289153
+  type: 'test'
+  ...
+# Subtest: anonymous identity is rejected before rows
+ok 28 - anonymous identity is rejected before rows
+  ---
+  duration_ms: 0.504437
+  type: 'test'
+  ...
+# Subtest: password grant uses publishable key and discards refresh token/metadata
+ok 29 - password grant uses publishable key and discards refresh token/metadata
+  ---
+  duration_ms: 5.988608
+  type: 'test'
+  ...
+# Subtest: login rejects caller field organization_id
+ok 30 - login rejects caller field organization_id
+  ---
+  duration_ms: 0.261552
+  type: 'test'
+  ...
+# Subtest: login rejects caller field role
+ok 31 - login rejects caller field role
+  ---
+  duration_ms: 0.14804
+  type: 'test'
+  ...
+# Subtest: login rejects caller field stellar_address
+ok 32 - login rejects caller field stellar_address
+  ---
+  duration_ms: 0.216187
+  type: 'test'
+  ...
+# Subtest: login rejects caller field redirect_to
+ok 33 - login rejects caller field redirect_to
+  ---
+  duration_ms: 0.201032
+  type: 'test'
+  ...
+# Subtest: auth error 400 is sanitized
+ok 34 - auth error 400 is sanitized
+  ---
+  duration_ms: 0.630195
+  type: 'test'
+  ...
+# Subtest: auth error 401 is sanitized
+ok 35 - auth error 401 is sanitized
+  ---
+  duration_ms: 0.366735
+  type: 'test'
+  ...
+# Subtest: auth error 403 is sanitized
+ok 36 - auth error 403 is sanitized
+  ---
+  duration_ms: 0.329199
+  type: 'test'
+  ...
+# Subtest: auth error 422 is sanitized
+ok 37 - auth error 422 is sanitized
+  ---
+  duration_ms: 0.379984
+  type: 'test'
+  ...
+# Subtest: auth error 429 is sanitized
+ok 38 - auth error 429 is sanitized
+  ---
+  duration_ms: 0.350075
+  type: 'test'
+  ...
+# Subtest: auth error 500 is sanitized
+ok 39 - auth error 500 is sanitized
+  ---
+  duration_ms: 0.270184
+  type: 'test'
+  ...
+# Subtest: auth connection error is sanitized
+ok 40 - auth connection error is sanitized
+  ---
+  duration_ms: 0.262456
+  type: 'test'
+  ...
+# Subtest: invalid upstream session is rejected
+ok 41 - invalid upstream session is rejected
+  ---
+  duration_ms: 0.735478
+  type: 'test'
+  ...
+# Subtest: logout revokes only current session
+ok 42 - logout revokes only current session
+  ---
+  duration_ms: 0.451143
+  type: 'test'
+  ...
+# Subtest: HTTP login validates identity and RLS before returning context and token
+ok 43 - HTTP login validates identity and RLS before returning context and token
+  ---
+  duration_ms: 90.82725
+  type: 'test'
+  ...
+# Subtest: HTTP rejects untrusted origin https://evil.example
+ok 44 - HTTP rejects untrusted origin https://evil.example
+  ---
+  duration_ms: 39.358024
+  type: 'test'
+  ...
+# Subtest: HTTP rejects untrusted origin null
+ok 45 - HTTP rejects untrusted origin null
+  ---
+  duration_ms: 9.362494
+  type: 'test'
+  ...
+# Subtest: HTTP rejects untrusted origin http://localhost:5173
+ok 46 - HTTP rejects untrusted origin http://localhost:5173
+  ---
+  duration_ms: 12.052589
+  type: 'test'
+  ...
+# Subtest: HTTP cross-site request rejected even with expected Origin
+ok 47 - HTTP cross-site request rejected even with expected Origin
+  ---
+  duration_ms: 12.857421
+  type: 'test'
+  ...
+# Subtest: HTTP missing Origin and oversized login rejected
+ok 48 - HTTP missing Origin and oversized login rejected
+  ---
+  duration_ms: 16.78964
+  type: 'test'
+  ...
+# Subtest: HTTP query identity forgery rejected
+ok 49 - HTTP query identity forgery rejected
+  ---
+  duration_ms: 10.618066
+  type: 'test'
+  ...
+# Subtest: HTTP context requires bearer and current online user validation
+ok 50 - HTTP context requires bearer and current online user validation
+  ---
+  duration_ms: 20.591384
+  type: 'test'
+  ...
+# Subtest: HTTP missing membership rejects login and revokes created session
+ok 51 - HTTP missing membership rejects login and revokes created session
+  ---
+  duration_ms: 15.448757
+  type: 'test'
+  ...
+# Subtest: browser batch routes remain denied even for trusted Auth origin
+ok 52 - browser batch routes remain denied even for trusted Auth origin
+  ---
+  duration_ms: 7.100758
+  type: 'test'
+  ...
+# Subtest: HTTP logout requires bearer and acknowledges current-session revocation
+ok 53 - HTTP logout requires bearer and acknowledges current-session revocation
+  ---
+  duration_ms: 11.903446
+  type: 'test'
+  ...
+# Subtest: HTTP login rate is limited without an eleventh upstream attempt
+ok 54 - HTTP login rate is limited without an eleventh upstream attempt
+  ---
+  duration_ms: 41.57662
+  type: 'test'
+  ...
+# Subtest: caller JWT is forwarded to both context SELECTs under RLS
+ok 55 - caller JWT is forwarded to both context SELECTs under RLS
+  ---
+  duration_ms: 2.025836
+  type: 'test'
+  ...
+# Subtest: Auth-only server refuses unknown Host and exposes no lot route
+ok 56 - Auth-only server refuses unknown Host and exposes no lot route
+  ---
+  duration_ms: 21.83319
+  type: 'test'
+  ...
+# Subtest: aborted login revokes the session instead of leaving a late authenticated result
+ok 57 - aborted login revokes the session instead of leaving a late authenticated result
+  ---
+  duration_ms: 38.579947
+  type: 'test'
+  ...
+# Subtest: local server construction makes no remote request
+ok 58 - local server construction makes no remote request
+  ---
+  duration_ms: 12.568122
+  type: 'test'
+  ...
+# Subtest: local server rejects another Supabase project before constructing service
+ok 59 - local server rejects another Supabase project before constructing service
+  ---
+  duration_ms: 0.728072
+  type: 'test'
+  ...
+# Subtest: local launcher enables protected proof for http://127.0.0.1:5173
+ok 60 - local launcher enables protected proof for http://127.0.0.1:5173
+  ---
+  duration_ms: 43.570233
+  type: 'test'
+  ...
+# Subtest: local launcher enables protected proof for http://127.0.0.1:4173
+ok 61 - local launcher enables protected proof for http://127.0.0.1:4173
+  ---
+  duration_ms: 11.13741
+  type: 'test'
+  ...
+# Subtest: separate allowed origins cannot reuse each other challenge
+ok 62 - separate allowed origins cannot reuse each other challenge
+  ---
+  duration_ms: 16.789046
+  type: 'test'
+  ...
+# Subtest: local server rejects arbitrary browser origin and browser batch writes
+ok 63 - local server rejects arbitrary browser origin and browser batch writes
+  ---
+  duration_ms: 28.253091
+  type: 'test'
+  ...
+# Subtest: local health identifies loaded SEP-53 capability without sensitive configuration
+ok 64 - local health identifies loaded SEP-53 capability without sensitive configuration
+  ---
+  duration_ms: 7.630297
+  type: 'test'
+  ...
+# Subtest: journal: projection never treats a stored confirmed row or fabricated receipt as chain confirmation
+ok 65 - journal: projection never treats a stored confirmed row or fabricated receipt as chain confirmation
+  ---
+  duration_ms: 6.708939
+  type: 'test'
+  ...
+# Subtest: journal: absent/malformed token rejected undefined
+ok 66 - journal: absent/malformed token rejected undefined
+  ---
+  duration_ms: 1.084885
+  type: 'test'
+  ...
+# Subtest: journal: absent/malformed token rejected x
+ok 67 - journal: absent/malformed token rejected x
+  ---
+  duration_ms: 0.368116
+  type: 'test'
+  ...
+# Subtest: journal: Auth rejects invalid before SQL
+ok 68 - journal: Auth rejects invalid before SQL
+  ---
+  duration_ms: 0.641209
+  type: 'test'
+  ...
+# Subtest: journal: Auth rejects expired before SQL
+ok 69 - journal: Auth rejects expired before SQL
+  ---
+  duration_ms: 0.486995
+  type: 'test'
+  ...
+# Subtest: journal: Auth rejects rejected before SQL
+ok 70 - journal: Auth rejects rejected before SQL
+  ---
+  duration_ms: 0.835548
+  type: 'test'
+  ...
+# Subtest: journal: missing profile and anonymous identity rejected before SQL
+ok 71 - journal: missing profile and anonymous identity rejected before SQL
+  ---
+  duration_ms: 1.123613
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field userId
+ok 72 - journal: rejects authority field userId
+  ---
+  duration_ms: 0.700798
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field organizationId
+ok 73 - journal: rejects authority field organizationId
+  ---
+  duration_ms: 0.57104
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field role
+ok 74 - journal: rejects authority field role
+  ---
+  duration_ms: 0.828861
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field wallet
+ok 75 - journal: rejects authority field wallet
+  ---
+  duration_ms: 0.626636
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field confirmed
+ok 76 - journal: rejects authority field confirmed
+  ---
+  duration_ms: 0.361429
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field result
+ok 77 - journal: rejects authority field result
+  ---
+  duration_ms: 0.424212
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field rpc
+ok 78 - journal: rejects authority field rpc
+  ---
+  duration_ms: 0.411336
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field operation
+ok 79 - journal: rejects authority field operation
+  ---
+  duration_ms: 0.198232
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field binding
+ok 80 - journal: rejects authority field binding
+  ---
+  duration_ms: 0.256124
+  type: 'test'
+  ...
+# Subtest: journal: foreign and missing reference produce the same unavailable response
+ok 81 - journal: foreign and missing reference produce the same unavailable response
+  ---
+  duration_ms: 1.70164
+  type: 'test'
+  ...
+# Subtest: journal: every relevant wait is followed by Auth/profile/organization revalidation
+ok 82 - journal: every relevant wait is followed by Auth/profile/organization revalidation
+  ---
+  duration_ms: 0.979082
+  type: 'test'
+  ...
+# Subtest: journal: repeated/concurrent unknown recovery is query-only
+ok 83 - journal: repeated/concurrent unknown recovery is query-only
+  ---
+  duration_ms: 1.209753
+  type: 'test'
+  ...
+# Subtest: journal: post-read revocation, abort and PostgreSQL failure disclose no private result
+ok 84 - journal: post-read revocation, abort and PostgreSQL failure disclose no private result
+  ---
+  duration_ms: 1.118023
+  type: 'test'
+  ...
+# Subtest: journal: service-role or wrong project configuration rejected
+ok 85 - journal: service-role or wrong project configuration rejected
+  ---
+  duration_ms: 0.445772
+  type: 'test'
+  ...
+# Subtest: journal: real gateway boundary uses requesting bearer and publishable key on all Auth/RLS reads (mock HTTP provider)
+ok 86 - journal: real gateway boundary uses requesting bearer and publishable key on all Auth/RLS reads (mock HTTP provider)
+  ---
+  duration_ms: 9.18015
+  type: 'test'
+  ...
+# Subtest: HTTP journal: only three exact read routes, strict methods/body/query/origin/Auth
+ok 87 - HTTP journal: only three exact read routes, strict methods/body/query/origin/Auth
+  ---
+  duration_ms: 73.553787
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation verified is not a route
+ok 88 - HTTP journal: internal operation verified is not a route
+  ---
+  duration_ms: 9.814472
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation cas is not a route
+ok 89 - HTTP journal: internal operation cas is not a route
+  ---
+  duration_ms: 4.440553
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation stage is not a route
+ok 90 - HTTP journal: internal operation stage is not a route
+  ---
+  duration_ms: 4.475688
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation approve is not a route
+ok 91 - HTTP journal: internal operation approve is not a route
+  ---
+  duration_ms: 23.010562
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation prepare is not a route
+ok 92 - HTTP journal: internal operation prepare is not a route
+  ---
+  duration_ms: 4.946812
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation sign is not a route
+ok 93 - HTTP journal: internal operation sign is not a route
+  ---
+  duration_ms: 4.053272
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation submit is not a route
+ok 94 - HTTP journal: internal operation submit is not a route
+  ---
+  duration_ms: 3.409967
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation sql is not a route
+ok 95 - HTTP journal: internal operation sql is not a route
+  ---
+  duration_ms: 7.361927
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation run is not a route
+ok 96 - HTTP journal: internal operation run is not a route
+  ---
+  duration_ms: 3.94687
+  type: 'test'
+  ...
+# Subtest: HTTP journal: logout invalidates an in-flight read before response even if remote logout fails
+ok 97 - HTTP journal: logout invalidates an in-flight read before response even if remote logout fails
+  ---
+  duration_ms: 9.18524
+  type: 'test'
+  ...
+# Subtest: official SEP-53 ASCII signature verifies
+ok 98 - official SEP-53 ASCII signature verifies
+  ---
+  duration_ms: 4.385055
+  type: 'test'
+  ...
+# Subtest: official ASCII signature rejects altered message bytes
+ok 99 - official ASCII signature rejects altered message bytes
+  ---
+  duration_ms: 0.580622
+  type: 'test'
+  ...
+# Subtest: official SEP-53 Japanese signature verifies
+ok 100 - official SEP-53 Japanese signature verifies
+  ---
+  duration_ms: 0.513846
+  type: 'test'
+  ...
+# Subtest: official Japanese signature rejects altered message bytes
+ok 101 - official Japanese signature rejects altered message bytes
+  ---
+  duration_ms: 2.047198
+  type: 'test'
+  ...
+# Subtest: official SEP-53 binary signature verifies
+ok 102 - official SEP-53 binary signature verifies
+  ---
+  duration_ms: 0.559262
+  type: 'test'
+  ...
+# Subtest: official binary signature rejects altered message bytes
+ok 103 - official binary signature rejects altered message bytes
+  ---
+  duration_ms: 0.591602
+  type: 'test'
+  ...
+# Subtest: UTF-8 string and exact bytes have the same digest
+ok 104 - UTF-8 string and exact bytes have the same digest
+  ---
+  duration_ms: 1.009226
+  type: 'test'
+  ...
+# Subtest: caller buffers remain unchanged and hash output has no shared state
+ok 105 - caller buffers remain unchanged and hash output has no shared state
+  ---
+  duration_ms: 0.374904
+  type: 'test'
+  ...
+# Subtest: signature rejects another expected public key
+ok 106 - signature rejects another expected public key
+  ---
+  duration_ms: 2.068458
+  type: 'test'
+  ...
+# Subtest: exact signing input preserves JSON field order and whitespace
+ok 107 - exact signing input preserves JSON field order and whitespace
+  ---
+  duration_ms: 3.135177
+  type: 'test'
+  ...
+# Subtest: Unicode normalization is not silently applied
+ok 108 - Unicode normalization is not silently applied
+  ---
+  duration_ms: 0.888849
+  type: 'test'
+  ...
+# Subtest: rejects signature over raw message
+ok 109 - rejects signature over raw message
+  ---
+  duration_ms: 0.839641
+  type: 'test'
+  ...
+# Subtest: rejects signature over unprefixed SHA256
+ok 110 - rejects signature over unprefixed SHA256
+  ---
+  duration_ms: 0.642506
+  type: 'test'
+  ...
+# Subtest: rejects signature over double SHA256
+ok 111 - rejects signature over double SHA256
+  ---
+  duration_ms: 0.731042
+  type: 'test'
+  ...
+# Subtest: rejects signature over wrong prefix newline
+ok 112 - rejects signature over wrong prefix newline
+  ---
+  duration_ms: 0.711978
+  type: 'test'
+  ...
+# Subtest: rejects malformed, noncanonical or wrong-size base64 signatures
+ok 113 - rejects malformed, noncanonical or wrong-size base64 signatures
+  ---
+  duration_ms: 0.418922
+  type: 'test'
+  ...
+# Subtest: signature mutation is rejected
+ok 114 - signature mutation is rejected
+  ---
+  duration_ms: 0.604977
+  type: 'test'
+  ...
+# Subtest: rejects missing, StrKey-text or invalid-size raw public keys
+ok 115 - rejects missing, StrKey-text or invalid-size raw public keys
+  ---
+  duration_ms: 0.149522
+  type: 'test'
+  ...
+# Subtest: rejects objects or invalid UTF-16 instead of inventing signing bytes
+ok 116 - rejects objects or invalid UTF-16 instead of inventing signing bytes
+  ---
+  duration_ms: 1.230914
+  type: 'test'
+  ...
+# Subtest: accepts Uint8Array binary input without text conversion
+ok 117 - accepts Uint8Array binary input without text conversion
+  ---
+  duration_ms: 1.398502
+  type: 'test'
+  ...
+# Subtest: missing or malformed verification input fails closed without throwing
+ok 118 - missing or malformed verification input fails closed without throwing
+  ---
+  duration_ms: 0.139042
+  type: 'test'
+  ...
+# Subtest: opt-in HTTP challenge and verification use fresh Auth and never enable batch operations
+ok 119 - opt-in HTTP challenge and verification use fresh Auth and never enable batch operations
+  ---
+  duration_ms: 70.99857
+  type: 'test'
+  ...
+# Subtest: continuity: status HTTP is authenticated read-only and reports the same consumed proof
+ok 120 - continuity: status HTTP is authenticated read-only and reports the same consumed proof
+  ---
+  duration_ms: 38.896322
+  type: 'test'
+  ...
+# Subtest: proof routes are disabled by default
+ok 121 - proof routes are disabled by default
+  ---
+  duration_ms: 11.236891
+  type: 'test'
+  ...
+# Subtest: HTTP rejects origin 
+ok 122 - HTTP rejects origin 
+  ---
+  duration_ms: 8.097053
+  type: 'test'
+  ...
+# Subtest: HTTP rejects origin null
+ok 123 - HTTP rejects origin null
+  ---
+  duration_ms: 9.313934
+  type: 'test'
+  ...
+# Subtest: HTTP rejects origin https://evil.example
+ok 124 - HTTP rejects origin https://evil.example
+  ---
+  duration_ms: 7.827768
+  type: 'test'
+  ...
+# Subtest: HTTP rejects origin http://localhost:5173
+ok 125 - HTTP rejects origin http://localhost:5173
+  ---
+  duration_ms: 7.933045
+  type: 'test'
+  ...
+# Subtest: HTTP cross-site requests rejected despite trusted Origin
+ok 126 - HTTP cross-site requests rejected despite trusted Origin
+  ---
+  duration_ms: 7.889495
+  type: 'test'
+  ...
+# Subtest: HTTP unknown Host rejected
+ok 127 - HTTP unknown Host rejected
+  ---
+  duration_ms: 8.381023
+  type: 'test'
+  ...
+# Subtest: HTTP requires POST GET
+ok 128 - HTTP requires POST GET
+  ---
+  duration_ms: 7.614517
+  type: 'test'
+  ...
+# Subtest: HTTP requires POST PUT
+ok 129 - HTTP requires POST PUT
+  ---
+  duration_ms: 5.621142
+  type: 'test'
+  ...
+# Subtest: HTTP requires POST OPTIONS
+ok 130 - HTTP requires POST OPTIONS
+  ---
+  duration_ms: 5.968436
+  type: 'test'
+  ...
+# Subtest: HTTP rejects query identity injection
+ok 131 - HTTP rejects query identity injection
+  ---
+  duration_ms: 6.267188
+  type: 'test'
+  ...
+# Subtest: HTTP requires valid bearer
+ok 132 - HTTP requires valid bearer
+  ---
+  duration_ms: 6.570635
+  type: 'test'
+  ...
+# Subtest: HTTP rejects non-JSON, invalid JSON and oversized payload before Auth
+ok 133 - HTTP rejects non-JSON, invalid JSON and oversized payload before Auth
+  ---
+  duration_ms: 9.740037
+  type: 'test'
+  ...
+# Subtest: HTTP identity and role are never accepted in payload
+ok 134 - HTTP identity and role are never accepted in payload
+  ---
+  duration_ms: 7.144265
+  type: 'test'
+  ...
+# Subtest: HTTP verification refuses revoked Auth session
+ok 135 - HTTP verification refuses revoked Auth session
+  ---
+  duration_ms: 9.528583
+  type: 'test'
+  ...
+# Subtest: HTTP duplicate simultaneous responses produce only one receipt
+ok 136 - HTTP duplicate simultaneous responses produce only one receipt
+  ---
+  duration_ms: 13.151057
+  type: 'test'
+  ...
+# Subtest: HTTP upstream failures are sanitized without token leakage
+ok 137 - HTTP upstream failures are sanitized without token leakage
+  ---
+  duration_ms: 6.220642
+  type: 'test'
+  ...
+# Subtest: HTTP rate limit remains in force
+ok 138 - HTTP rate limit remains in force
+  ---
+  duration_ms: 8.784552
+  type: 'test'
+  ...
+# Subtest: HTTP logout invalidates local challenge even when remote logout fails
+ok 139 - HTTP logout invalidates local challenge even when remote logout fails
+  ---
+  duration_ms: 10.382587
+  type: 'test'
+  ...
+# Subtest: HTTP local challenge invalidation happens before awaiting remote logout
+ok 140 - HTTP local challenge invalidation happens before awaiting remote logout
+  ---
+  duration_ms: 10.938619
+  type: 'test'
+  ...
+# Subtest: continuity: status reads only an existing consumed proof and never renews it
+ok 141 - continuity: status reads only an existing consumed proof and never renews it
+  ---
+  duration_ms: 14.822054
+  type: 'test'
+  ...
+# Subtest: continuity: restarted backend cannot reconstruct or approve a previous possession proof
+ok 142 - continuity: restarted backend cannot reconstruct or approve a previous possession proof
+  ---
+  duration_ms: 2.558959
+  type: 'test'
+  ...
+# Subtest: continuity: proof status rejects token
+ok 143 - continuity: proof status rejects token
+  ---
+  duration_ms: 1.807582
+  type: 'test'
+  ...
+# Subtest: continuity: proof status rejects origin
+ok 144 - continuity: proof status rejects origin
+  ---
+  duration_ms: 1.261289
+  type: 'test'
+  ...
+# Subtest: continuity: proof status rejects wallet
+ok 145 - continuity: proof status rejects wallet
+  ---
+  duration_ms: 0.946367
+  type: 'test'
+  ...
+# Subtest: continuity: proof status rejects network
+ok 146 - continuity: proof status rejects network
+  ---
+  duration_ms: 1.015728
+  type: 'test'
+  ...
+# Subtest: continuity: proof status rejects authority
+ok 147 - continuity: proof status rejects authority
+  ---
+  duration_ms: 0.92408
+  type: 'test'
+  ...
+# Subtest: synthetic company proof uses Auth/RLS context, not editable metadata
+ok 148 - synthetic company proof uses Auth/RLS context, not editable metadata
+  ---
+  duration_ms: 2.251832
+  type: 'test'
+  ...
+# Subtest: synthetic carrier proof uses Auth/RLS context, not editable metadata
+ok 149 - synthetic carrier proof uses Auth/RLS context, not editable metadata
+  ---
+  duration_ms: 1.917021
+  type: 'test'
+  ...
+# Subtest: synthetic plant proof uses Auth/RLS context, not editable metadata
+ok 150 - synthetic plant proof uses Auth/RLS context, not editable metadata
+  ---
+  duration_ms: 2.793227
+  type: 'test'
+  ...
+# Subtest: real demo allowlist accepts only each corresponding proposed address, without signing
+ok 151 - real demo allowlist accepts only each corresponding proposed address, without signing
+  ---
+  duration_ms: 4.147265
+  type: 'test'
+  ...
+# Subtest: prepare rejects browser-controlled organization_id
+ok 152 - prepare rejects browser-controlled organization_id
+  ---
+  duration_ms: 1.055106
+  type: 'test'
+  ...
+# Subtest: prepare rejects browser-controlled role
+ok 153 - prepare rejects browser-controlled role
+  ---
+  duration_ms: 0.789555
+  type: 'test'
+  ...
+# Subtest: prepare rejects browser-controlled user_id
+ok 154 - prepare rejects browser-controlled user_id
+  ---
+  duration_ms: 0.926678
+  type: 'test'
+  ...
+# Subtest: prepare rejects browser-controlled message
+ok 155 - prepare rejects browser-controlled message
+  ---
+  duration_ms: 1.110875
+  type: 'test'
+  ...
+# Subtest: prepare rejects browser-controlled expires_at
+ok 156 - prepare rejects browser-controlled expires_at
+  ---
+  duration_ms: 0.97655
+  type: 'test'
+  ...
+# Subtest: verification rejects extra message
+ok 157 - verification rejects extra message
+  ---
+  duration_ms: 1.378824
+  type: 'test'
+  ...
+# Subtest: verification rejects extra organization_id
+ok 158 - verification rejects extra organization_id
+  ---
+  duration_ms: 1.13626
+  type: 'test'
+  ...
+# Subtest: verification rejects extra role
+ok 159 - verification rejects extra role
+  ---
+  duration_ms: 1.111774
+  type: 'test'
+  ...
+# Subtest: untrusted origin undefined rejected before Auth
+ok 160 - untrusted origin undefined rejected before Auth
+  ---
+  duration_ms: 0.983146
+  type: 'test'
+  ...
+# Subtest: untrusted origin null rejected before Auth
+ok 161 - untrusted origin null rejected before Auth
+  ---
+  duration_ms: 0.678018
+  type: 'test'
+  ...
+# Subtest: untrusted origin https://evil.example rejected before Auth
+ok 162 - untrusted origin https://evil.example rejected before Auth
+  ---
+  duration_ms: 0.821837
+  type: 'test'
+  ...
+# Subtest: untrusted origin http://localhost:5173 rejected before Auth
+ok 163 - untrusted origin http://localhost:5173 rejected before Auth
+  ---
+  duration_ms: 0.701805
+  type: 'test'
+  ...
+# Subtest: untrusted origin http://127.0.0.1:5173/ rejected before Auth
+ok 164 - untrusted origin http://127.0.0.1:5173/ rejected before Auth
+  ---
+  duration_ms: 0.67542
+  type: 'test'
+  ...
+# Subtest: invalid bearer shape rejected undefined
+ok 165 - invalid bearer shape rejected undefined
+  ---
+  duration_ms: 0.812343
+  type: 'test'
+  ...
+# Subtest: invalid bearer shape rejected short
+ok 166 - invalid bearer shape rejected short
+  ---
+  duration_ms: 0.741282
+  type: 'test'
+  ...
+# Subtest: invalid bearer shape rejected Bearer synthetic-token
+ok 167 - invalid bearer shape rejected Bearer synthetic-token
+  ---
+  duration_ms: 1.583408
+  type: 'test'
+  ...
+# Subtest: invalid bearer shape rejected bad token with spaces
+ok 168 - invalid bearer shape rejected bad token with spaces
+  ---
+  duration_ms: 1.45668
+  type: 'test'
+  ...
+# Subtest: StrKey rejects incorrect checksum even with valid-looking G format
+ok 169 - StrKey rejects incorrect checksum even with valid-looking G format
+  ---
+  duration_ms: 1.936409
+  type: 'test'
+  ...
+# Subtest: unsupported address rejected CAAAAAAA
+ok 170 - unsupported address rejected CAAAAAAA
+  ---
+  duration_ms: 0.86981
+  type: 'test'
+  ...
+# Subtest: unsupported address rejected MAAAAAAA
+ok 171 - unsupported address rejected MAAAAAAA
+  ---
+  duration_ms: 0.65763
+  type: 'test'
+  ...
+# Subtest: unsupported address rejected SAAAAAAA
+ok 172 - unsupported address rejected SAAAAAAA
+  ---
+  duration_ms: 1.251895
+  type: 'test'
+  ...
+# Subtest: unsupported address rejected 
+ok 173 - unsupported address rejected 
+  ---
+  duration_ms: 1.117171
+  type: 'test'
+  ...
+# Subtest: unsupported address rejected null
+ok 174 - unsupported address rejected null
+  ---
+  duration_ms: 0.914285
+  type: 'test'
+  ...
+# Subtest: other demo wallet cannot be proposed for company
+ok 175 - other demo wallet cannot be proposed for company
+  ---
+  duration_ms: 1.11797
+  type: 'test'
+  ...
+# Subtest: Mainnet is rejected before challenge creation
+ok 176 - Mainnet is rejected before challenge creation
+  ---
+  duration_ms: 0.814741
+  type: 'test'
+  ...
+# Subtest: revoked JWT fails closed at issuance
+ok 177 - revoked JWT fails closed at issuance
+  ---
+  duration_ms: 0.698707
+  type: 'test'
+  ...
+# Subtest: anonymous user fails closed at issuance
+ok 178 - anonymous user fails closed at issuance
+  ---
+  duration_ms: 0.7108
+  type: 'test'
+  ...
+# Subtest: missing profile fails closed at issuance
+ok 179 - missing profile fails closed at issuance
+  ---
+  duration_ms: 0.651733
+  type: 'test'
+  ...
+# Subtest: duplicate profiles fails closed at issuance
+ok 180 - duplicate profiles fails closed at issuance
+  ---
+  duration_ms: 0.631344
+  type: 'test'
+  ...
+# Subtest: wrong profile owner fails closed at issuance
+ok 181 - wrong profile owner fails closed at issuance
+  ---
+  duration_ms: 0.788356
+  type: 'test'
+  ...
+# Subtest: missing organization fails closed at issuance
+ok 182 - missing organization fails closed at issuance
+  ---
+  duration_ms: 0.691511
+  type: 'test'
+  ...
+# Subtest: duplicate organizations fails closed at issuance
+ok 183 - duplicate organizations fails closed at issuance
+  ---
+  duration_ms: 0.936873
+  type: 'test'
+  ...
+# Subtest: wrong organization owner fails closed at issuance
+ok 184 - wrong organization owner fails closed at issuance
+  ---
+  duration_ms: 0.665025
+  type: 'test'
+  ...
+# Subtest: wrong authorized role fails closed at issuance
+ok 185 - wrong authorized role fails closed at issuance
+  ---
+  duration_ms: 0.654431
+  type: 'test'
+  ...
+# Subtest: unknown user fails closed at issuance
+ok 186 - unknown user fails closed at issuance
+  ---
+  duration_ms: 0.625447
+  type: 'test'
+  ...
+# Subtest: verification revalidates revoked session online and can proceed only after valid fresh Auth
+ok 187 - verification revalidates revoked session online and can proceed only after valid fresh Auth
+  ---
+  duration_ms: 3.335422
+  type: 'test'
+  ...
+# Subtest: wrong authenticated user cannot use or invalidate another user challenge
+ok 188 - wrong authenticated user cannot use or invalidate another user challenge
+  ---
+  duration_ms: 2.00707
+  type: 'test'
+  ...
+# Subtest: another login token for same user cannot reuse challenge
+ok 189 - another login token for same user cannot reuse challenge
+  ---
+  duration_ms: 1.628483
+  type: 'test'
+  ...
+# Subtest: authorized directory wallet rotation invalidates old challenge without altering historical data
+ok 190 - authorized directory wallet rotation invalidates old challenge without altering historical data
+  ---
+  duration_ms: 1.035517
+  type: 'test'
+  ...
+# Subtest: changed membership cannot complete old challenge
+ok 191 - changed membership cannot complete old challenge
+  ---
+  duration_ms: 1.043113
+  type: 'test'
+  ...
+# Subtest: lost membership cannot complete old challenge
+ok 192 - lost membership cannot complete old challenge
+  ---
+  duration_ms: 1.268785
+  type: 'test'
+  ...
+# Subtest: signature from another account is rejected and attempt consumed
+ok 193 - signature from another account is rejected and attempt consumed
+  ---
+  duration_ms: 1.75721
+  type: 'test'
+  ...
+# Subtest: signature over altered project cannot verify stored challenge
+ok 194 - signature over altered project cannot verify stored challenge
+  ---
+  duration_ms: 1.471272
+  type: 'test'
+  ...
+# Subtest: signature over altered network_passphrase cannot verify stored challenge
+ok 195 - signature over altered network_passphrase cannot verify stored challenge
+  ---
+  duration_ms: 1.533737
+  type: 'test'
+  ...
+# Subtest: signature over altered origin cannot verify stored challenge
+ok 196 - signature over altered origin cannot verify stored challenge
+  ---
+  duration_ms: 1.414004
+  type: 'test'
+  ...
+# Subtest: signature over altered user_id cannot verify stored challenge
+ok 197 - signature over altered user_id cannot verify stored challenge
+  ---
+  duration_ms: 1.673657
+  type: 'test'
+  ...
+# Subtest: signature over altered organization_id cannot verify stored challenge
+ok 198 - signature over altered organization_id cannot verify stored challenge
+  ---
+  duration_ms: 1.274682
+  type: 'test'
+  ...
+# Subtest: signature over altered stellar_address cannot verify stored challenge
+ok 199 - signature over altered stellar_address cannot verify stored challenge
+  ---
+  duration_ms: 1.611093
+  type: 'test'
+  ...
+# Subtest: signature over altered challenge_id cannot verify stored challenge
+ok 200 - signature over altered challenge_id cannot verify stored challenge
+  ---
+  duration_ms: 1.283877
+  type: 'test'
+  ...
+# Subtest: signature over altered nonce cannot verify stored challenge
+ok 201 - signature over altered nonce cannot verify stored challenge
+  ---
+  duration_ms: 1.614291
+  type: 'test'
+  ...
+# Subtest: signature over altered expires_at cannot verify stored challenge
+ok 202 - signature over altered expires_at cannot verify stored challenge
+  ---
+  duration_ms: 1.343443
+  type: 'test'
+  ...
+# Subtest: signature for a different newly issued challenge cannot be reused
+ok 203 - signature for a different newly issued challenge cannot be reused
+  ---
+  duration_ms: 1.933911
+  type: 'test'
+  ...
+# Subtest: duplicate response after success is rejected
+ok 204 - duplicate response after success is rejected
+  ---
+  duration_ms: 1.381822
+  type: 'test'
+  ...
+# Subtest: concurrent duplicate responses allow exactly one local receipt
+ok 205 - concurrent duplicate responses allow exactly one local receipt
+  ---
+  duration_ms: 1.329151
+  type: 'test'
+  ...
+# Subtest: concurrent preparations leave only last issued challenge usable
+ok 206 - concurrent preparations leave only last issued challenge usable
+  ---
+  duration_ms: 1.511549
+  type: 'test'
+  ...
+# Subtest: expiration boundary is exclusive and old proof is rejected
+ok 207 - expiration boundary is exclusive and old proof is rejected
+  ---
+  duration_ms: 2.380659
+  type: 'test'
+  ...
+# Subtest: proof immediately before expiry can verify
+ok 208 - proof immediately before expiry can verify
+  ---
+  duration_ms: 1.798487
+  type: 'test'
+  ...
+# Subtest: wallet reported changed invalidates attempt
+ok 209 - wallet reported changed invalidates attempt
+  ---
+  duration_ms: 1.996176
+  type: 'test'
+  ...
+# Subtest: network reported changed invalidates attempt
+ok 210 - network reported changed invalidates attempt
+  ---
+  duration_ms: 1.180435
+  type: 'test'
+  ...
+# Subtest: wrong verification origin cannot accept a valid signature or invalidate owner attempt
+ok 211 - wrong verification origin cannot accept a valid signature or invalidate owner attempt
+  ---
+  duration_ms: 1.34894
+  type: 'test'
+  ...
+# Subtest: malformed signature rejected 4
+ok 212 - malformed signature rejected 4
+  ---
+  duration_ms: 0.983447
+  type: 'test'
+  ...
+# Subtest: malformed signature rejected 10
+ok 213 - malformed signature rejected 10
+  ---
+  duration_ms: 1.021125
+  type: 'test'
+  ...
+# Subtest: malformed signature rejected 88
+ok 214 - malformed signature rejected 88
+  ---
+  duration_ms: 0.902892
+  type: 'test'
+  ...
+# Subtest: malformed signature rejected 10000
+ok 215 - malformed signature rejected 10000
+  ---
+  duration_ms: 0.97575
+  type: 'test'
+  ...
+# Subtest: restart rejects unknown challenge and never treats old proof as approval
+ok 216 - restart rejects unknown challenge and never treats old proof as approval
+  ---
+  duration_ms: 0.979049
+  type: 'test'
+  ...
+# Subtest: bounded capacity rejects new records, pruning expired records permits new challenge
+ok 217 - bounded capacity rejects new records, pruning expired records permits new challenge
+  ---
+  duration_ms: 1.558122
+  type: 'test'
+  ...
+# Subtest: unsafe service configuration rejected {"project":"wrong"}
+ok 218 - unsafe service configuration rejected {"project":"wrong"}
+  ---
+  duration_ms: 0.648634
+  type: 'test'
+  ...
+# Subtest: unsafe service configuration rejected {"origin":"http://evil.example"}
+ok 219 - unsafe service configuration rejected {"origin":"http://evil.example"}
+  ---
+  duration_ms: 0.56958
+  type: 'test'
+  ...
+# Subtest: unsafe service configuration rejected {"origin":"http://127.0.0.1:5173/"}
+ok 220 - unsafe service configuration rejected {"origin":"http://127.0.0.1:5173/"}
+  ---
+  duration_ms: 0.702105
+  type: 'test'
+  ...
+# Subtest: unsafe service configuration rejected {"origin":"https://user:pass@example.org"}
+ok 221 - unsafe service configuration rejected {"origin":"https://user:pass@example.org"}
+  ---
+  duration_ms: 13.541675
+  type: 'test'
+  ...
+# Subtest: unsafe service configuration rejected {"ttlMs":300001}
+ok 222 - unsafe service configuration rejected {"ttlMs":300001}
+  ---
+  duration_ms: 0.723292
+  type: 'test'
+  ...
+# Subtest: unsafe service configuration rejected {"ttlMs":0}
+ok 223 - unsafe service configuration rejected {"ttlMs":0}
+  ---
+  duration_ms: 0.588469
+  type: 'test'
+  ...
+# Subtest: unsafe service configuration rejected {"capacity":0}
+ok 224 - unsafe service configuration rejected {"capacity":0}
+  ---
+  duration_ms: 0.494422
+  type: 'test'
+  ...
+# Subtest: unsafe service configuration rejected {"capacity":10001}
+ok 225 - unsafe service configuration rejected {"capacity":10001}
+  ---
+  duration_ms: 0.644537
+  type: 'test'
+  ...
+# Subtest: unsafe service configuration rejected {"roster":[]}
+ok 226 - unsafe service configuration rejected {"roster":[]}
+  ---
+  duration_ms: 0.835729
+  type: 'test'
+  ...
+# Subtest: roster is copied and cannot be changed after service construction
+ok 227 - roster is copied and cannot be changed after service construction
+  ---
+  duration_ms: 1.541032
+  type: 'test'
+  ...
+# Subtest: actual Supabase gateway uses online Auth, caller JWT and RLS-scoped GETs on BOTH phases
+ok 228 - actual Supabase gateway uses online Auth, caller JWT and RLS-scoped GETs on BOTH phases
+  ---
+  duration_ms: 37.350868
+  type: 'test'
+  ...
+# Subtest: logout invalidates existing challenge while preserving another participant
+ok 229 - logout invalidates existing challenge while preserving another participant
+  ---
+  duration_ms: 19.858418
+  type: 'test'
+  ...
+# Subtest: new login token after logout gets a new challenge; an old logout cannot revoke it
+ok 230 - new login token after logout gets a new challenge; an old logout cannot revoke it
+  ---
+  duration_ms: 1.63468
+  type: 'test'
+  ...
+# Subtest: logout during identity lookup prevents a late challenge from being issued
+ok 231 - logout during identity lookup prevents a late challenge from being issued
+  ---
+  duration_ms: 1.384621
+  type: 'test'
+  ...
+# Subtest: logout during verification lookup prevents late proof acceptance
+ok 232 - logout during verification lookup prevents late proof acceptance
+  ---
+  duration_ms: 1.898731
+  type: 'test'
+  ...
+# Subtest: an unknown logout token cannot consume somebody else challenge or fill the store
+ok 233 - an unknown logout token cannot consume somebody else challenge or fill the store
+  ---
+  duration_ms: 3.020799
+  type: 'test'
+  ...
+# Subtest: workflow possession authority requires consumed valid proof for the same session, wallet and context
+ok 234 - workflow possession authority requires consumed valid proof for the same session, wallet and context
+  ---
+  duration_ms: 2.315995
+  type: 'test'
+  ...
+# Subtest: workflow possession expires, is revoked on logout and cannot transfer to another token
+ok 235 - workflow possession expires, is revoked on logout and cannot transfer to another token
+  ---
+  duration_ms: 3.103153
+  type: 'test'
+  ...
+# Subtest: administrative status is derived from verified server context, separate from SEP53 possession
+ok 236 - administrative status is derived from verified server context, separate from SEP53 possession
+  ---
+  duration_ms: 1.394715
+  type: 'test'
+  ...
+# Subtest: matching wallet without an administrative approval does not self-approve through a signature
+ok 237 - matching wallet without an administrative approval does not self-approve through a signature
+  ---
+  duration_ms: 1.032519
+  type: 'test'
+  ...
+# Subtest: SEP53 deadline remains issuance +300 s even after delayed manual signature and repeated status reads
+ok 238 - SEP53 deadline remains issuance +300 s even after delayed manual signature and repeated status reads
+  ---
+  duration_ms: 1.556123
+  type: 'test'
+  ...
+# Subtest: archive labels local persistence separately from dated independent Stellar evidence
+ok 239 - archive labels local persistence separately from dated independent Stellar evidence
+  ---
+  duration_ms: 2.034226
+  type: 'test'
+  ...
+# Subtest: public projection contains no user/JWT/XDR/private PDF bytes
+ok 240 - public projection contains no user/JWT/XDR/private PDF bytes
+  ---
+  duration_ms: 0.590579
+  type: 'test'
+  ...
+# Subtest: invalid evidence hash or failed chain reference cannot be published
+ok 241 - invalid evidence hash or failed chain reference cannot be published
+  ---
+  duration_ms: 2.247918
+  type: 'test'
+  ...
+# Subtest: requires exact HTTPS deployment origin
+ok 242 - requires exact HTTPS deployment origin
+  ---
+  duration_ms: 0.375586
+  type: 'test'
+  ...
+# Subtest: public archive and status serve without signing or submission authority
+ok 243 - public archive and status serve without signing or submission authority
+  ---
+  duration_ms: 90.347508
+  type: 'test'
+  ...
+# Subtest: all NFU, SQL, storage and metadata writes are blocked before proxy
+ok 244 - all NFU, SQL, storage and metadata writes are blocked before proxy
+  ---
+  duration_ms: 65.816501
+  type: 'test'
+  ...
+# Subtest: cross-origin or wrong method does not reach internal API
+ok 245 - cross-origin or wrong method does not reach internal API
+  ---
+  duration_ms: 16.961982
+  type: 'test'
+  ...
+# Subtest: proxy preserves original JWT and origin and strips /api once
+ok 246 - proxy preserves original JWT and origin and strips /api once
+  ---
+  duration_ms: 13.124622
+  type: 'test'
+  ...
+# Subtest: timeout produces a sanitized error with no retry
+ok 247 - timeout produces a sanitized error with no retry
+  ---
+  duration_ms: 21.368821
+  type: 'test'
+  ...
+# Subtest: malformed response never becomes success or triggers retry
+ok 248 - malformed response never becomes success or triggers retry
+  ---
+  duration_ms: 11.911165
+  type: 'test'
+  ...
+# Subtest: health rejects an internal runtime with transactional capabilities
+ok 249 - health rejects an internal runtime with transactional capabilities
+  ---
+  duration_ms: 11.423184
+  type: 'test'
+  ...
+# Subtest: secrets, private files, source and arbitrary API query remain unpublished
+ok 250 - secrets, private files, source and arbitrary API query remain unpublished
+  ---
+  duration_ms: 18.710118
+  type: 'test'
+  ...
+# Subtest: static symlink cannot escape the published root
+ok 251 - static symlink cannot escape the published root
+  ---
+  duration_ms: 18.986008
+  type: 'test'
+  ...
+# Subtest: restored PostgreSQL profile never initializes, restores, migrates or changes roles
+ok 252 - restored PostgreSQL profile never initializes, restores, migrates or changes roles
+  ---
+  duration_ms: 0.638977
+  type: 'test'
+  ...
+# Subtest: missing or wrong restored cluster is rejected before a native process starts
+ok 253 - missing or wrong restored cluster is rejected before a native process starts
+  ---
+  duration_ms: 0.522781
+  type: 'test'
+  ...
+# Subtest: existing PostgreSQL profile does not restart the database
+ok 254 - existing PostgreSQL profile does not restart the database
+  ---
+  duration_ms: 0.204892
+  type: 'test'
+  ...
+# Subtest: public build copies only compiled assets and leaves private evidence out
+ok 255 - public build copies only compiled assets and leaves private evidence out
+  ---
+  duration_ms: 16.022816
+  type: 'test'
+  ...
+# Subtest: packaged backend relative dependency graph includes both omitted web modules
+ok 256 - packaged backend relative dependency graph includes both omitted web modules
+  ---
+  duration_ms: 24.552305
+  type: 'test'
+  ...
+# Subtest: integrated same-origin Auth, JWT context, SEP-53 and history remain read only
+ok 257 - integrated same-origin Auth, JWT context, SEP-53 and history remain read only
+  ---
+  duration_ms: 60.059413
+  type: 'test'
+  ...
+# Subtest: client cancellation aborts the same upstream request without retry
+ok 258 - client cancellation aborts the same upstream request without retry
+  ---
+  duration_ms: 17.275136
+  type: 'test'
+  ...
+1..258
+# tests 258
+# suites 0
+# pass 258
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7369.167737

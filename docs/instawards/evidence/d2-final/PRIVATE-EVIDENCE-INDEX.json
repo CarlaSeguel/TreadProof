@@ -1,0 +1,93 @@
+[
+  {
+    "artifactId": "create_batch/receipt",
+    "sha256": "57ae488c78a8b3e8219d9d520b0bb5b773049f141e604083a1961c04621a2ac7",
+    "byteSize": 1281,
+    "access": "restricted_operator_archive",
+    "notIncludedInPublicBundle": true
+  },
+  {
+    "artifactId": "create_batch/rpc",
+    "sha256": "a986f17434de6acc75742f95d280b33f3c48a3506a27f745aabfe249fe2b4693",
+    "byteSize": 9628,
+    "access": "restricted_operator_archive",
+    "notIncludedInPublicBundle": true
+  },
+  {
+    "artifactId": "confirm_pickup/receipt",
+    "sha256": "957a0047b57c63dd3b2aa8b7de1b3e6336222b6635c012191274794bcd6246b6",
+    "byteSize": 972,
+    "access": "restricted_operator_archive",
+    "notIncludedInPublicBundle": true
+  },
+  {
+    "artifactId": "confirm_pickup/rpc",
+    "sha256": "902ed797492eadc0844748de180fb24816721864f708e1084f5aa021a7fb60a4",
+    "byteSize": 10175,
+    "access": "restricted_operator_archive",
+    "notIncludedInPublicBundle": true
+  },
+  {
+    "artifactId": "start_transit/receipt",
+    "sha256": "447a162b5a219325c3ca61a0416dbd5b189b782a78f99f6d9ad20653ca47cd82",
+    "byteSize": 949,
+    "access": "restricted_operator_archive",
+    "notIncludedInPublicBundle": true
+  },
+  {
+    "artifactId": "start_transit/rpc",
+    "sha256": "f3cf3f4efb4994a8a1a036d983009e9773e0a902c4c3866f7c6a58758c082f14",
+    "byteSize": 10443,
+    "access": "restricted_operator_archive",
+    "notIncludedInPublicBundle": true
+  },
+  {
+    "artifactId": "confirm_reception/receipt",
+    "sha256": "bd9fb8660fbd36f04eef5a83e87c0d13a803de04e34595dbf19fa5ca91e31d7a",
+    "byteSize": 981,
+    "access": "restricted_operator_archive",
+    "notIncludedInPublicBundle": true
+  },
+  {
+    "artifactId": "confirm_reception/rpc",
+    "sha256": "8d5a199edbaf35f9700a32bb6b2a44ebfaeb074733ebc6aac4b7de75b6f05eca",
+    "byteSize": 11207,
+    "access": "restricted_operator_archive",
+    "notIncludedInPublicBundle": true
+  },
+  {
+    "artifactId": "confirm_valorization/receipt",
+    "sha256": "66eef5f85bf6ff6899025be8a6088f68c9943a96e891b31332007ff4b9d4e740",
+    "byteSize": 1136,
+    "access": "restricted_operator_archive",
+    "notIncludedInPublicBundle": true
+  },
+  {
+    "artifactId": "confirm_valorization/rpc",
+    "sha256": "f09ab685b7e04ecc18e052cd71fa1adefde579e514821bed140c96aeb83e7b4d",
+    "byteSize": 12123,
+    "access": "restricted_operator_archive",
+    "notIncludedInPublicBundle": true
+  },
+  {
+    "artifactId": "create_batch/persisted-terminal-postimages",
+    "sha256": "ecc0b89e3dbe15f80cd188435de339d6cb2457a9a4bd29c3697ca1581e4414fb",
+    "byteSize": 6028,
+    "access": "restricted_operator_archive",
+    "notIncludedInPublicBundle": true
+  },
+  {
+    "artifactId": "create_batch/persisted-receipt",
+    "sha256": "703a6b1eb5b8fdde579c0a4295bb7da3f8f80f1deab213bf60c3abcf43ef92b7",
+    "byteSize": 1281,
+    "access": "restricted_operator_archive",
+    "notIncludedInPublicBundle": true
+  },
+  {
+    "artifactId": "create_batch/fresh-terminal-rpc",
+    "sha256": "3e77f219dfc346a95c3f66985332f9982a7ee2f644c26d02fd25060162ba6fef",
+    "byteSize": 9628,
+    "access": "restricted_operator_archive",
+    "notIncludedInPublicBundle": true
+  }
+]

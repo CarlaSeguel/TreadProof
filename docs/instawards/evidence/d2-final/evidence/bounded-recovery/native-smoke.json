@@ -1,0 +1,1 @@
+{"gate":"PASS","actualRuntime":true,"statuses":{"/":200,"/operator.html":200,"/batch3.json":200,"/api/runtime-health":200},"unauthenticated":401,"nfuRoutesBlocked":10,"privatePathsUnpublished":true,"pdfIntegrity":true,"liveProviderSession":false,"tls":false}

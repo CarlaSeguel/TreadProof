@@ -1,0 +1,34 @@
+{
+  "status": "FIVE_NFU_OPERATIONS_CLOSED",
+  "verifiedAt": "2026-11-10T03:16:36.749946+00:00",
+  "network": "Stellar Testnet",
+  "batchId": "3",
+  "localBatchUuid": "c7aba1fd-1991-40b5-9e63-d42ab439f867",
+  "scenario": "synthetic NFU quantities and PDF; real confirmed Stellar Testnet transactions",
+  "batchState": "Valorized",
+  "massesGrams": {
+    "declared": "1000",
+    "pickup": "950",
+    "received": "925",
+    "valorized": "900"
+  },
+  "onchainTransitionCount": 5,
+  "duplicateChecks": {
+    "oneValorizationAttempt": true,
+    "oneDispatchCas": true,
+    "onePostEntry": true,
+    "oneProviderResponse": true,
+    "allPlantHistoryPagesRead": true,
+    "additionalUnresolvedWithinOriginalPlantUserOrganization": false,
+    "globalAbsenceClaimed": false
+  },
+  "agentActions": {
+    "newBusinessIntents": 0,
+    "newBusinessAttempts": 0,
+    "businessUpdates": 0,
+    "stellarSubmissions": 0,
+    "pdfUploads": 0,
+    "high1ReadGrantsOnly": true
+  },
+  "fullSowDeliveryClaimed": false
+}

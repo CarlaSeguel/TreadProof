@@ -1,0 +1,8 @@
+{
+  "readOnly": true,
+  "result": [
+    {
+      "json_build_object": "{\"databaseBytes\" : 8844979, \"serverVersion\" : \"17.11 (Ubuntu 17.11-1.pgdg24.04+2)\", \"roleIsSuperuser\" : false, \"roleBypassesRls\" : false}"
+    }
+  ]
+}

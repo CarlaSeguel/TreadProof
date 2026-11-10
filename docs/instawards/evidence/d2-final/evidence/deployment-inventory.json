@@ -1,0 +1,31 @@
+{
+  "currentDockerfile": "Dockerfile.d2.stellar",
+  "publicEntry": "deploy/d2-runtime-entrypoint.mjs",
+  "includedFrontend": "deploy/d2-public/nfu-tracking.html",
+  "dependencyGraphFilesInspected": 21,
+  "requiredRelativeImportsNotCopied": [],
+  "fullSameOriginAuthNfuProxyConfiguredInPublicImage": false,
+  "privatePostgresIntegrated": {
+    "target": "127.0.0.1:55440/treadproof_d2_high_integrated",
+    "rolesPreserved": true,
+    "remoteManagedDbDropInCompatible": false,
+    "credentialsExported": false
+  },
+  "sqlChangesRequiredByThisPreparation": false,
+  "containerBuildExecuted": false,
+  "dockerDaemonAvailable": false,
+  "dockerClient": "29.9.2",
+  "blockingGates": [
+    "Docker daemon, isolated image build/run and native library verification",
+    "authorized isolated database restoration and rollback test",
+    "complete release regression and supported version record",
+    "fresh-account reviewer reproduction separately authorized",
+    "actual published HTTPS/build/digest verification"
+  ],
+  "previouslyOmittedModules": [
+    "web/src/d2-carrier-xdr-profile.mjs",
+    "web/src/d2-company-xdr-profile.mjs"
+  ],
+  "sameOriginAuthReadOnlyProxyImplementedLocally": true,
+  "nfuMutatingProxyConfigured": false
+}

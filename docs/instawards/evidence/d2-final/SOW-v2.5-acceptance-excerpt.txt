@@ -1,0 +1,69 @@
+## 6 Deliverable 1 Browser Signing and Application Integration
+
+**Fixed deliverable allocation: US$1,400.**
+
+We will implement the browser integration for the existing `create_batch`, `confirm_pickup`, `start_transit`, `confirm_reception` and `confirm_valorization` methods. Company signs creation; the assigned carrier signs pickup/transit; the assigned plant signs reception/valorization.
+
+The implementation will:
+
+1. Connect Freighter on desktop Chrome and require Stellar Testnet, the expected account, profile/organization/address matching and the batch-specific role before requesting a signature.
+2. Fund fresh demonstration accounts through Friendbot. Each acting Testnet account pays its own transaction fees; Friendbot availability is a demo dependency. No production funding or custodial signing is included.
+3. Integrate existing Supabase authentication and the API through the hosted application's same-origin route, replacing the current blanket Origin rejection with an explicit trusted-origin configuration.
+4. Complete evidence upload before plant attestation; recover and verify the actual bytes/hash before passing that digest to the contract. An incomplete upload must remain incomplete and block that attestation request.
+5. Simulate and assemble the transaction, request Freighter approval, submit the signed transaction to Stellar RPC, and poll for a confirmed result. Signing and successful submission are not final confirmation.
+6. Persist the transaction hash/reference, network, contract ID, batch ID, action and confirmation state. Reconcile submitted/persisted references with chain state after interruption; a local record alone does not prove success.
+7. Handle wrong account, wrong network, cancelled signature, timeout, retry and incomplete upload without false confirmed status or duplicate finalization.
+
+Read-only presentation of existing ImpactRegistry credit status is included where shown. New reward-credit controls or badge issuance UI are not required.
+
+**Planned Evidence of Completion:** source diff against the baseline, integration test results, role/action matrix, recorded successful signatures and confirmed transaction references, plus negative-case results for each listed error. Each artifact will identify the final release.
+
+## 7 Deliverable 2 Hosted Focused Demo Reproducible Evidence
+
+**Fixed deliverable allocation: US$2,100.**
+
+We will deliver a focused interface showing one complete synthetic NFU lifecycle, its independent participant roles, four mass measurements, history, plant attestation, evidence file/hash and Stellar references. Application events and blockchain state will be labeled separately.
+
+**Deployment environment:** the demo will be deployed to a Linux container-compatible HTTPS environment capable of running the existing Node.js 24 API and pinned Stellar tooling. An HTTPS reverse proxy will provide same-origin frontend/API routing. Provider selection is an implementation decision within D2's fixed allocation; no existing hosted deployment is claimed. The release manifest will record the provider, endpoint and pinned package/container versions.
+
+**Maintenance owner:** Christián Javier Medina López. We will keep the demo accessible for 30 days after delivery, document outages and recovery, and provide recreation instructions for Testnet resets and archived state. The owner is responsible for deployment configuration, account access, hosting costs and incident follow-up during that period.
+
+One final release/tag will bind the code commit, deployed build, video, test logs, contract IDs, contract/Wasm versions, transaction hashes and demo URL in a single evidence manifest. Existing contract deployments may be reused if available and version-compatible; recreated Testnet instances will be identified explicitly.
+
+**Planned Evidence of Completion:** HTTPS URL, unique release/tag and manifest, fresh-account setup, synthetic fixtures, environment-variable template without secrets, exact build/test/deployment commands, recorded versions, regression results, clean reproduction log and video. Documentation will reflect separate finalization/credit/badge calls and the actual organization/profile setup.
+
+The publicly accessible demo entry point does not make private batch evidence publicly readable. Fresh participant accounts and authorized reviewer access are part of the reproduction procedure. A video alone is insufficient for acceptance.
+
+## 10 Fixed Deliverable Budget
+
+| Deliverable | Fixed deliverable allocation |
+|---|---:|
+| D1 — Browser Signing & Application Integration | US$1,400 |
+| D2 — Hosted Focused Demo & Reproducible Evidence | US$2,100 |
+| D3 — NFU Verification & Pilot Readiness | US$1,400 |
+| **Total** | **US$4,900** |
+
+Each allocation covers implementation, integration, testing, debugging, deployment and documentation for its specified outputs. Estimated engineering effort is allocated across the three deliverables and includes these activities. Exact working hours may vary during the 30-day sprint; acceptance is based on completed deliverables rather than hours billed.
+
+D2 absorbs hosting costs for the demonstration and its 30-day post-delivery availability within its fixed amount, with no additional reimbursement. D3 funds technical verification and pilot-readiness operating documentation, not marketing or outreach. Existing development and historic deployments are not reimbursed.
+
+Material baseline defects, provider constraints or changes to agreed outputs require a documented scope/timeline agreement; they do not silently enlarge the budget. Payment arrangements remain subject to the award agreement.
+
+## 11 Schedule and Binary Acceptance Milestones
+
+| Milestone / target | Acceptance: PASS only when every listed condition is met | Evidence |
+|---|---|---|
+| M1 — Freighter signing and role matching; day 10 | Three role/address mappings enforced; a valid restricted transaction is signed and confirmed; wrong account/network and cancellation tests pass; chosen Freighter message-signing flow passes backend verification for supported versions | Integration logs, transaction reference and compatibility/role matrix |
+| M2 — Hosted fresh-account demo; day 20 | HTTPS demo accessible; fresh accounts complete all five lifecycle actions; evidence upload succeeds; transaction references persist; maintainer and reproduction instructions are identified | Demo URL, fresh-account run, confirmed state and hashes |
+| M3 — Reviewer verification and report; day 25 | Scoped reviewer access and revocation tests pass; JSON/HTML generated; direct-RPC comparison and local hash check pass without TreadProof backend; tamper/replay cases fail as expected; synthetic pilot package complete | Exports, independent verification logs, permission tests and dry-run record |
+| M4 — Clean reproduction and final release; day 30 | A reviewer other than the implementing operator reproduces the documented synthetic flow with fresh accounts; required regression/acceptance tests pass; final tag links all artifacts; video and evidence package complete with no pending required fields | Dated reviewer run, final manifest/tag, actual test results, video |
+
+D3 specifications and access design start early while D1/D2 are implemented. These are acceptance checkpoints, not assumed payment tranches. The team will designate the M4 reviewer before the final checkpoint; no industrial partner is required for this technical reproduction.
+
+## 12 Differentiation and Boundaries
+
+TreadProof is intentionally narrow: it focuses on NFU mass reconciliation across generating company, carrier and valorization-facility roles, rather than generic waste traceability. TrustedPlastic and TRAK are related-work references; no unsupported feature gaps or exclusive novelty are claimed.
+
+Out of scope: new contracts or contract redesign; Mainnet; payments, USDC or escrow; IoT, scales, GPS or cameras; oracles; new badge levels or reward issuance UI; commercial tokens; carbon credits; legal/environmental certification; RETC/SINADER; physical treatment verification; industrial pilot; letters of interest; marketing/ad acquisition; external audit; broad onboarding; multiwallet/mobile/multisig/contract-account support; key recovery; batch splitting/merging; finalized-record correction; global physical deduplication; and production scaling.
+
+Minimal new challenge/review/access records required for D3 are included, but do not change the existing contract architecture. A future pilot may test the operating procedure with real participants after the sprint; participation is not guaranteed.

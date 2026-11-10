@@ -1,0 +1,10 @@
+{
+  "source": "local isolated lab retained logs",
+  "sha256": {
+    "docker-build.log": "1d33b20ad732e3934d9fbf0eea3ff76c0bbc98d1c8891ce9658fad613e6decd9",
+    "lab-plan.json": "d36e24a19b09d23cb2ad39fc23402f1df407ebcb1b5d79ff31b804b446dc37bd",
+    "runtime-auth-journal-regression.tap": "ef38c13473fa0873a2550dab40571c37cd65e24fc8de214ca3cab4b6333c596d",
+    "packaged-http-smoke.mjs": "1b8ed02e1d55cfbb013a3ef85f4b5c741ca43f0949f1315226d0f2d83043f679",
+    "image-runtime-probe.mjs": "2b82790e44ce924829833a2b0ca49a899e546470ecfec349e7182d5f8231b4e0"
+  }
+}

@@ -52,7 +52,7 @@ export function createBatchPreparationService({config,manifest,gateway,chainRead
    const binding=sha(canonical({context:before.context,participants,origin,contract:manifest.tire_registry,network:NETWORK}));
    let intent;
    try{intent=await store.prepare({context:before.context,actors,target,draft,parameters,origin,binding,
-    idempotencyKey:input.idempotencyKey,requestDigest:sha(canonical({binding,parameters}))},{signal});}
+    idempotencyKey:input.idempotencyKey,requestDigest:sha(canonical({binding,parameters}))},{signal,authArgs:{token,origin}});}
    catch(e){if(e instanceof ApiError)throw e;throw new ApiError(503,'preparation_persistence_uncertain');}
    // Auth/COMMIT are not distributed: if invalidated after commit, disclose nothing; retry same key only.
    alive(token,signal);const completed=await identity(db),completedDirectory=await directory(db);alive(token,signal);

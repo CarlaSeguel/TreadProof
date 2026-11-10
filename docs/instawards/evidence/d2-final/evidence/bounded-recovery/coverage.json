@@ -1,0 +1,701 @@
+{
+  "scope": "bounded read-only D2 selected fixture, five confirmed pairs and their metadata/document; not full original history",
+  "selectedTerminalPairs": 5,
+  "restoredOwnedDatabase": "treadproof_d2_high_integrated",
+  "tableFingerprints": {
+    "nfu_store.intents": {
+      "count": 5,
+      "sha256": "55ac421653a3b648a48bc3ef0f0c415be3fb0b4b5292f930dba4adc5c9d01f1d"
+    },
+    "nfu_store.attempts": {
+      "count": 5,
+      "sha256": "c32b883dc72f90334f8f12a3f1fd77f2e3bd843c877e982d294f1d18c5efc297"
+    },
+    "d2_security.auth_grants": {
+      "count": 20,
+      "sha256": "6a6f9cdf23a5c2adab031396386c85490669ed0bda4216b5774f573c34b3e026"
+    },
+    "lab_control.marker": {
+      "count": 1,
+      "sha256": "ae3237299f275608aec7d14d94e7ff3ef270e1a9646df392f5aa4c8afd4dbba1"
+    }
+  },
+  "schemaSha256": "48d916971f8529afa2b2cec4be3439ce4d6764775d378c5c51e224ba25404c39",
+  "roles": 9,
+  "memberships": 2,
+  "catalogIncludesOwnersAclRlsComments": true,
+  "metadataBindingDocumentIncluded": true,
+  "imageId": "sha256:111525bcc0dc1abe885147591b6886ad441c1bde816097f4ba5115f4f7473123",
+  "recoveryValidated": true,
+  "managedProviderRestored": false,
+  "externalServices": "existing Supabase Auth/directory/Storage dependency; live acceptance pending",
+  "sourceSecretsIncluded": false,
+  "sourceHistoryScope": "selected five terminal operations; not complete original history",
+  "coverageManifestSha256": "797ab95ec519b6cc0f9ff8532496f9f4a18470da0dc3c8f7c6cc1e4ac06595c0",
+  "files": {
+    "database/catalog-and-roles.json": {
+      "bytes": 3459,
+      "sha256": "da6bd5256d3cc1ef77a36ce5e38e1af04b632d638c0c083ad9df7c1e271ef427"
+    },
+    "database/d2-demo.private.dump": {
+      "bytes": 62536,
+      "sha256": "c3b4dd6925c4d519d88b47bde5b0f5da1a1f935e878884cabce27dcacb2f1f2d"
+    },
+    "database/roles-no-passwords.sql": {
+      "bytes": 1258,
+      "sha256": "1fcf9ca2cbb42578e383d31868ff2d6f89b36a849a4902383831b57ee4868a8a"
+    },
+    "database/schema-fingerprint.json": {
+      "bytes": 223,
+      "sha256": "b8e7e206e28b78fcda07b81b9ad7a394b67ce44c5abb53099d6124054a5f8338"
+    },
+    "database/schema-only.sql": {
+      "bytes": 48514,
+      "sha256": "be7be8757b4ef490c4def16c36f556b6ed1587d1e51f0a92a393c49f7aa41da4"
+    },
+    "database/table-fingerprints.json": {
+      "bytes": 538,
+      "sha256": "b9308b6cf107b1a9906ad5ced03512ac33d51e2d47830cfb1ab9f3c740eea2d2"
+    },
+    "database/toc.txt": {
+      "bytes": 4344,
+      "sha256": "e12a94a1dd02bd98ea0b634a58b63976805fe8b68df6f2448236a8936abe8eaa"
+    },
+    "image/runtime-image.tar": {
+      "bytes": 246040064,
+      "sha256": "29e8d26da44ef669ce2795ca24822e4c49937db4587352e6a3398c537a91fcc9"
+    },
+    "metadata/batch3-evidence.private.json": {
+      "bytes": 3018,
+      "sha256": "2fda3ad39e219d20790dc284629c8267ff491efd39d8ea8aaa9f18e169c100f2"
+    },
+    "metadata/external-dependencies.json": {
+      "bytes": 656,
+      "sha256": "df3d673bbcfdfffb7c5f35e07f5756ebbf0ff43a724b95c516b6d3a17bd24886"
+    },
+    "metadata/index-expected.json": {
+      "bytes": 2354,
+      "sha256": "5d4b9836c2e8ce7c072d014eed93d5ce3c02dc7db7f59f4b9b5f6c29d1387de6"
+    },
+    "metadata/terminal-five.private.json": {
+      "bytes": 27521,
+      "sha256": "80f339048b81b017e5b507c54a7646013d0e762e0f967e02e4ddc99bfe52c087"
+    },
+    "private/valorization900.pdf": {
+      "bytes": 76314,
+      "sha256": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d"
+    },
+    "public/five-network-confirmations.json": {
+      "bytes": 2114,
+      "sha256": "d0fd70b83572f80998ce8f0c91eb991648489cae66c309154bd04b899511d68b"
+    },
+    "public/manifest.json": {
+      "bytes": 21454,
+      "sha256": "fc8eafc22030dcdf7f6c0d8750f2a603af184a0a39d51996ac8e6d7d92018707"
+    },
+    "public/PRIVATE-EVIDENCE-INDEX.json": {
+      "bytes": 3153,
+      "sha256": "fe614dd9c285d7df12e88958cdf68f86e473a97f7dfbf30732bdf97fad23428f"
+    },
+    "public/RUNTIME-SOURCE-PINS.json": {
+      "bytes": 628,
+      "sha256": "ee86ea684855e1cb6c1277c30420bf0d283aa7319c7297dfb930814b21b2a9d3"
+    },
+    "public/SOURCE-PINS.json": {
+      "bytes": 37798,
+      "sha256": "ed31011b47cba3c137b870b22cf151269876b071fce2fe8c96626c890c169528"
+    },
+    "RESTORE.txt": {
+      "bytes": 6361,
+      "sha256": "b4b810cdd8a1b052d4132265c39f9fec6fc91af973409ff0b118b7c3ee5b802f"
+    },
+    "tests/backend/api.test.js": {
+      "bytes": 16232,
+      "sha256": "e7454b39cb7db61bee6a10d49d65e90f97d0e6516594f29cbd33b4c62799f60c"
+    },
+    "tests/backend/approved-wallet-gateway.test.js": {
+      "bytes": 8689,
+      "sha256": "c394490d09fcb119fb467d3e9ebb92e6b1e25d3f6d044dbcc422d33335f9d1d7"
+    },
+    "tests/backend/auth-launcher.test.js": {
+      "bytes": 4224,
+      "sha256": "66cc119b4e9a6168a56e9094069d6f11997d068ae8ddcd459a5c63c22935b00f"
+    },
+    "tests/backend/auth.test.js": {
+      "bytes": 10548,
+      "sha256": "38250d7d6965355b8050ec2ba159047ad234b0e2b6413f4549561ed11f759c88"
+    },
+    "tests/backend/bindings.test.js": {
+      "bytes": 18120,
+      "sha256": "798c420ccc24ab38fbc3b57e937b3fce4b308d00ee41858130a4680c144c19dc"
+    },
+    "tests/backend/carrier-administrative-read-handoff.test.js": {
+      "bytes": 2755,
+      "sha256": "5801ca6d9509062f82a3bd4ffe9177e272c90bae9f260a70a4b9952eb7b94141"
+    },
+    "tests/backend/carrier-batch3-read-profile.test.js": {
+      "bytes": 14379,
+      "sha256": "a406d624947c148e8596d08ca51439195ac94860d47ff19d41b2e01ada0cb7ad"
+    },
+    "tests/backend/carrier-reservation-read-fixture.mjs": {
+      "bytes": 2736,
+      "sha256": "0eab055fe8bcfb3b59f942d49c3de11b213b19d31bc1ffb50e1757f80edd549d"
+    },
+    "tests/backend/carrier-reservation-read.test.js": {
+      "bytes": 8218,
+      "sha256": "49e61199dfa994bc007930af208bdd056ad9340a4c1d51ffa187c7af9a9c34e3"
+    },
+    "tests/backend/carrier-signing-boundary.test.js": {
+      "bytes": 3846,
+      "sha256": "dd1c26093e8710499d410d6bfefb8aeb48ae5b1dec5f65d3b81d109fe560c465"
+    },
+    "tests/backend/carrier-xdr600-composition.test.js": {
+      "bytes": 3432,
+      "sha256": "dc0d99e54aeb2a128f216657c30a385bcb69270bf3d20a3ebbd1ed7c74c495da"
+    },
+    "tests/backend/carrier-xdr600-edges.test.js": {
+      "bytes": 3492,
+      "sha256": "6c14e8f383ed6d0b96bf3926dd3f3a99adb00a77ab0c252285b9597ce0f207e3"
+    },
+    "tests/backend/carrier-xdr600-workflow.test.js": {
+      "bytes": 5566,
+      "sha256": "3890d8682805d85346750a1645677ffef9887849ff9b12d9b0b87b78786ace4d"
+    },
+    "tests/backend/carrier-xdr600.test.js": {
+      "bytes": 12771,
+      "sha256": "bcbf28f71b7c671263cf9cecead7c812192b302e429dbe716a5ec415d14cfc3b"
+    },
+    "tests/backend/carrier-xdr720-selection.test.js": {
+      "bytes": 4449,
+      "sha256": "af32d3f8f7c6d11f27e92e5e9875535231273c4f02f1831da03e8ca5b5de62c1"
+    },
+    "tests/backend/carrier-xdr720-workflow.test.js": {
+      "bytes": 4657,
+      "sha256": "91679cb7a9d498a58bce61b73615ca394458eaed6956c17e7330f5148a57f95b"
+    },
+    "tests/backend/carrier-xdr720.test.js": {
+      "bytes": 11419,
+      "sha256": "72089e28354b3fb0cb66479c52716ee5924ac6c1ee898118812862463309072d"
+    },
+    "tests/backend/carrier600-clock-crypto-loader.mjs": {
+      "bytes": 875,
+      "sha256": "2ff09015f597c005116283af52af50984ae160bc8ab4847789988316b724e4b9"
+    },
+    "tests/backend/carrier600-clock-http-fixture.mjs": {
+      "bytes": 4180,
+      "sha256": "c25829f17acea6f63abcf0fc50cf946195a6744fea5effb70885fbd5036f0431"
+    },
+    "tests/backend/carrier600-fixture.mjs": {
+      "bytes": 5561,
+      "sha256": "36564680cb3ca89df233b198a8ba589ca79e33972f57f03fd0f565d67da0e206"
+    },
+    "tests/backend/carrier600-pre-sign-read.test.js": {
+      "bytes": 4324,
+      "sha256": "cfde45196a7246f1ebec7bc7fa798484102bf9ae3ac7103420559247f3d42436"
+    },
+    "tests/backend/carrier600-rpc-transport-budget.test.js": {
+      "bytes": 7644,
+      "sha256": "99afaf4c322786a332e05284983f85f546f5d3601f77678ec80db47c2f5c32a7"
+    },
+    "tests/backend/carrier600-signing-clock-crypto.test.js": {
+      "bytes": 4213,
+      "sha256": "f659580da97befb1dcaf11b717ff4b88dc316d9d3d7ed040967a7727b75c567f"
+    },
+    "tests/backend/carrier600-signing-clock.test.js": {
+      "bytes": 9061,
+      "sha256": "fa7210d3ac471823f67311a85ebd772577376895c90259eaf61734c3f0dbd84f"
+    },
+    "tests/backend/carrier600-snapshot-trace.test.js": {
+      "bytes": 3905,
+      "sha256": "e7408646f2f1f042327c197c5a847fc9aa84d3518eb8c3e98941b57d4fb9e817"
+    },
+    "tests/backend/carrier600-workflow-fixture.mjs": {
+      "bytes": 4984,
+      "sha256": "29de6df1fb5b30ff9d24c1c6a0d26e054fc727f4403b2bee110a5f187f997c80"
+    },
+    "tests/backend/carrier720-latency.test.js": {
+      "bytes": 554,
+      "sha256": "f77549868068f6944f48892e88b31dc74b4c839ce9ff7d130a2b0b9e4d4f4476"
+    },
+    "tests/backend/company-approval-optimization.test.js": {
+      "bytes": 14064,
+      "sha256": "914e08811688fe711d5abb1fe1d66dcb9d2a3313c5b62260a8bf7a7249806b0b"
+    },
+    "tests/backend/company-batch3-reference-profile.test.js": {
+      "bytes": 2750,
+      "sha256": "7b73e20e7e800bae68d49142ba2df7e5a838eb687b15d0f31f0e065f4efa1585"
+    },
+    "tests/backend/company-latency.test.js": {
+      "bytes": 11470,
+      "sha256": "5f2d4dbdd44b8b3ffd626732857a52f5d9889f8169a755c7075a2f1ee5d631f1"
+    },
+    "tests/backend/company-simulation-scope.test.js": {
+      "bytes": 9479,
+      "sha256": "e594b722cc982d74874a31fc479e1158c638ecbc3752c7d9aa6aeeecca98ca44"
+    },
+    "tests/backend/company-xdr600.test.js": {
+      "bytes": 14785,
+      "sha256": "c32705ee883d88ddfc31c4c5d2915a782ed342ae8494a5169d37229a2912f64a"
+    },
+    "tests/backend/create-batch-metadata.test.js": {
+      "bytes": 7452,
+      "sha256": "4f15fd097a09d76773a3d045447de9e82e9cd26fe375e95c1e0653fcf2ad8373"
+    },
+    "tests/backend/create-batch-preparation-sql.test.js": {
+      "bytes": 7246,
+      "sha256": "9ebb0a38420e095fec34688400bca17be4cc904d198c14d519da006ccfae356f"
+    },
+    "tests/backend/create-batch-preparation-transport.test.js": {
+      "bytes": 3469,
+      "sha256": "9d4e2eb1e107b9b514d69e69124e1b322048b74ad13171ae37bb1396f15e839a"
+    },
+    "tests/backend/create-batch-preparation.test.js": {
+      "bytes": 9101,
+      "sha256": "f60e3d8c7ec7b954642ef4dd44fd9ee80f332671a9db627eb7d742a398d2f897"
+    },
+    "tests/backend/d2-carrier-fee-budget.test.js": {
+      "bytes": 9649,
+      "sha256": "e463fa1cb70232c91e96f8d4cf5e30e7bb0bc5e4710c9695744ea9bb6b2dc841"
+    },
+    "tests/backend/d2-execution-preparation.test.js": {
+      "bytes": 21901,
+      "sha256": "004d225be92c05797d30c95570271a18606a40b3d569bcf469add663cf3c453a"
+    },
+    "tests/backend/d2-high1-surfaces.test.js": {
+      "bytes": 8266,
+      "sha256": "3e0ed6cffe48fc52ac82642579ca6a62060141f1d68f539be957af0fdc6a1e2c"
+    },
+    "tests/backend/d2-integrated-conflicts.test.js": {
+      "bytes": 3513,
+      "sha256": "3ff192e7e2ad148a09830a4c40816fd970fbb5465be7f54f9318393226119475"
+    },
+    "tests/backend/d2-integrated-server-config.test.js": {
+      "bytes": 10133,
+      "sha256": "f7e9612b8cfad16f7a4f0ed3a2c3ed43d0986e12e7f779b75aa7d2554e3271d5"
+    },
+    "tests/backend/d2-integrated-simulation-sql.test.js": {
+      "bytes": 5328,
+      "sha256": "873af559a1a4ca9d4eadcc1b3e25026ed6ae22cdc181fc34630d619593fcfdc7"
+    },
+    "tests/backend/d2-integrated-simulation.test.js": {
+      "bytes": 11127,
+      "sha256": "9341b708b69268606c0fadb10e9b526eb68dc58ff9eb038b18a26feaac5c4f07"
+    },
+    "tests/backend/d2-opaque-session.test.js": {
+      "bytes": 971,
+      "sha256": "6f40246c1e928f5e720bf6b9670ac535e772490879f40f227cf1330ab4350559"
+    },
+    "tests/backend/database.test.js": {
+      "bytes": 7791,
+      "sha256": "fb16a0e8d260532eb797932bd125720a07f2288afaa76bd1cee42d0476196a0b"
+    },
+    "tests/backend/fixtures/company-latency-fixture.mjs": {
+      "bytes": 8434,
+      "sha256": "07a71b353cb8e2f4897cd07a54fbf8ac3e526368e0246be8ad2a882cbd5cc6e3"
+    },
+    "tests/backend/fixtures/create-preparation-fixture.mjs": {
+      "bytes": 2624,
+      "sha256": "98b7ce593b52cf32e683a110b5e7a2e25db7d98dc7e01183c41bccfcd3d7aada"
+    },
+    "tests/backend/fixtures/create-preparation-restart.mjs": {
+      "bytes": 880,
+      "sha256": "40803129fb012f67eb8034c2ffb1f4fcb01f08c015d0814704ccc10e03ee8bdb"
+    },
+    "tests/backend/fixtures/nfu-lifecycle.mjs": {
+      "bytes": 10388,
+      "sha256": "cab286dd2295717de2f9a51552e42702965cfbc320e298c4edc28894326ae87f"
+    },
+    "tests/backend/fixtures/nfu-live-fixture.mjs": {
+      "bytes": 6885,
+      "sha256": "01bdd70b80614b1f90742a92c47976bbcf42517e8e4c606404052f8db5d44b72"
+    },
+    "tests/backend/fixtures/nfu-postgres-worker.mjs": {
+      "bytes": 1251,
+      "sha256": "598556541e79d96112fb710c6386e2633428bfc961235938ea08827b5946e34c"
+    },
+    "tests/backend/fixtures/nfu-postgres.mjs": {
+      "bytes": 1533,
+      "sha256": "ffcef0fbf4e4e10e9b41e6e622205cd8d0b944f6f1f64c714f1a21e9fffc8ecf"
+    },
+    "tests/backend/fixtures/nfu-reservation-fixture.mjs": {
+      "bytes": 3113,
+      "sha256": "01423e00817e12f06d28bbf217f480a4bc67e9244e3673cefc494daf392e0b72"
+    },
+    "tests/backend/fixtures/nfu-simulation.mjs": {
+      "bytes": 3045,
+      "sha256": "7d89d2120f2889a01aafe5708707461de5afe6998dc9c0c55cd8407102e8cef2"
+    },
+    "tests/backend/fixtures/nfu-single-http-fixture.mjs": {
+      "bytes": 5993,
+      "sha256": "7022fcbeed349b018366197cfa108a54996cda68d2ff88633bf4a08eec9d14f1"
+    },
+    "tests/backend/fixtures/postgres-startup.mjs": {
+      "bytes": 279,
+      "sha256": "095a9f39c9e20bd817592ec3aaab601fe0c3b210d4ee153a73d8f40c69e84a2f"
+    },
+    "tests/backend/fixtures/testnet-read-fixture.mjs": {
+      "bytes": 4041,
+      "sha256": "0925bb94b1c36fdd180cd04fd1f7c1b173c6afde072f145e69d94125fad99471"
+    },
+    "tests/backend/linux-journal-bootstrap.test.js": {
+      "bytes": 19879,
+      "sha256": "2e379068a6cbf5a542714ae93f928936f93e99a048914edc094f8d8e5ff0523a"
+    },
+    "tests/backend/local-auth-server.test.js": {
+      "bytes": 4829,
+      "sha256": "de98f6f39f47195871132efd4ebb0efd9ded9a66657a3a1c41b7f70ba737c17f"
+    },
+    "tests/backend/local-preparation-writer.test.js": {
+      "bytes": 2608,
+      "sha256": "539be5cae03f495269cd5a8af5b6a5114c11d197e9d2038c74ea06675b67fc9d"
+    },
+    "tests/backend/native/d2-company-latency-rollback.mjs": {
+      "bytes": 11406,
+      "sha256": "8c67f13da133421769f5120a5a7b8aed601059eb0cd191f29e51f4321193d1db"
+    },
+    "tests/backend/native/d2-company-reader-rollback.mjs": {
+      "bytes": 9072,
+      "sha256": "782b4de378e5f0f63c298f27e7367056f402e69e00840e38268e56e2a7a43a9e"
+    },
+    "tests/backend/native/d2-company-xdr600-rollback.mjs": {
+      "bytes": 18820,
+      "sha256": "4e5843346ec8eb6116d5431211c5c07f8b63290dada0c1bb3487c4cfcd725a45"
+    },
+    "tests/backend/native/d2-execution-fixtures.mjs": {
+      "bytes": 2521,
+      "sha256": "7bfe447da4c03336ad2b03579ebdecea9b73093840d58c1e453c5aa26b129b74"
+    },
+    "tests/backend/native/d2-execution-rollback.py": {
+      "bytes": 17902,
+      "sha256": "cafba3e6a6a81134597dde03ef8c35c1fd6a3fc0fe488aaa62c473b9d8313a1c"
+    },
+    "tests/backend/native/d2_high1_cases.py": {
+      "bytes": 5320,
+      "sha256": "a42d4d3171b174755cf10d0e4bc56698f14612398b4ef062584453f97d1adb5a"
+    },
+    "tests/backend/nfu-carrier-pickup.test.js": {
+      "bytes": 31649,
+      "sha256": "cc0dbeaf6085dbd41603c1ed96bbdcbba88d0b843df2adb01819dea02204a539"
+    },
+    "tests/backend/nfu-carrier-reauthorization.test.js": {
+      "bytes": 3472,
+      "sha256": "5466bf214bdb8fca40a7343daaddbf1c61211c8dbc05c52bf833b2edcffcd444"
+    },
+    "tests/backend/nfu-carrier-transit.test.js": {
+      "bytes": 21571,
+      "sha256": "a110403776cdc978260d795daca8fd3d946a0b86169afe17bd02597ab1c5f313"
+    },
+    "tests/backend/nfu-carrier-validity.test.js": {
+      "bytes": 5164,
+      "sha256": "ac8b3b7e1575a69be0c8000258c797a4f653f96e3f1362e4b98f519576ae44bb"
+    },
+    "tests/backend/nfu-causal-diagnostics.test.js": {
+      "bytes": 8570,
+      "sha256": "293e0d97c4fe9093c2bedda51adfec68c2c99558775828dd5e8c58d9da32280f"
+    },
+    "tests/backend/nfu-company-batch3-read.test.js": {
+      "bytes": 5440,
+      "sha256": "095a73753a10e91fc16a94b38c6ee9f3d865e09a25b286cf5a37d4eea0e9f845"
+    },
+    "tests/backend/nfu-company-batch3-route.test.js": {
+      "bytes": 2405,
+      "sha256": "30a53df1ea4b05e56b653d6bd0fa7291eb6fa69359354e9bb6e2a5a6da62a92b"
+    },
+    "tests/backend/nfu-company-ttl-proposal.test.js": {
+      "bytes": 4199,
+      "sha256": "ed0542e0a5b3bb00611fb53342d0eec7bf0eb23c790b35e0bdfc7f90c2da9b52"
+    },
+    "tests/backend/nfu-company-validity.test.js": {
+      "bytes": 4276,
+      "sha256": "04716f94b9a1d260e0e95e3e09309d59c2ea882b96c7d7af06770d2715aabec9"
+    },
+    "tests/backend/nfu-d2-role-boundary.test.js": {
+      "bytes": 849,
+      "sha256": "c564d3795d155b9cd20909a77f6934621eb0db958fb80a502c9a6493df7df654"
+    },
+    "tests/backend/nfu-d2-transport-boundary.test.js": {
+      "bytes": 927,
+      "sha256": "2fe6323ad097961c1b1cce2c8a2cdb293eae920106e28ce9a43f861fbb107133"
+    },
+    "tests/backend/nfu-evidence-head.test.js": {
+      "bytes": 11175,
+      "sha256": "b09ca2609c32ad55bea125855a38fb364e787e36d92cbf33fb7ef7772c721fea"
+    },
+    "tests/backend/nfu-evidence-version.test.js": {
+      "bytes": 3459,
+      "sha256": "fe8515615b2d5b5df78d692301ca7330bac8fddc905c6e1db28c8a40ea24041e"
+    },
+    "tests/backend/nfu-execution-policy.test.js": {
+      "bytes": 3074,
+      "sha256": "a88dcb255a244e26e9c7d3c00ebe1afe0a7ffc4ad30333fa114aabf3f35fa08c"
+    },
+    "tests/backend/nfu-expired-dispatch.test.js": {
+      "bytes": 2371,
+      "sha256": "7a1c99ddd482246bc27b3313a3a8427e25251d851c56575d089759c06bd7b078"
+    },
+    "tests/backend/nfu-high1-authenticated-issuer.test.mjs": {
+      "bytes": 2642,
+      "sha256": "3f9bc5e049620c8a18db6f47bf6d24de4f0a2ec696332e2752979f4bdc910757"
+    },
+    "tests/backend/nfu-high2-ordinary-transport.test.js": {
+      "bytes": 964,
+      "sha256": "ff52bf9157908f4b1d82ac1099bed44d189dd2a534b2caee43a1ef39b2606250"
+    },
+    "tests/backend/nfu-high2-query.test.js": {
+      "bytes": 14737,
+      "sha256": "7c992d308623d1d752359092e6fb24771a3efb66abc7d7d61ea921965058503d"
+    },
+    "tests/backend/nfu-high2-result-digest.test.js": {
+      "bytes": 12460,
+      "sha256": "3fc0b7b16a627c9f5f8f2bbe3264acd6c31af4e38ad2636266bc9a501e2cb8f2"
+    },
+    "tests/backend/nfu-high2-verifier.test.js": {
+      "bytes": 6208,
+      "sha256": "edb1aa144d3437891638cec6e84c48c9b51ccf30b1720c1e43c598a8721e2c8d"
+    },
+    "tests/backend/nfu-high2-verifier.test.js.high2-response-backup": {
+      "bytes": 4013,
+      "sha256": "6bc591e35acf47b649cea25de72d304b7e3c3a22310be5488a3ed701dde877c7"
+    },
+    "tests/backend/nfu-http.test.js": {
+      "bytes": 17009,
+      "sha256": "f183b202b394ee04870b11e75a8372230ccf04798c230be9dce542b36eea72d8"
+    },
+    "tests/backend/nfu-journal-read.test.js": {
+      "bytes": 9402,
+      "sha256": "f34ef8fd00f45fd35cd2cfeb5ffce256a856b7ee064a407cb248485d348fcb51"
+    },
+    "tests/backend/nfu-journal-sql.test.js": {
+      "bytes": 6220,
+      "sha256": "d3d514ae4656870b6b61bf7e5a3da7718206a48f79ee1cc60f09b40bf58e0b31"
+    },
+    "tests/backend/nfu-journal-transport.test.js": {
+      "bytes": 3717,
+      "sha256": "a46bb9c89f08e5617ba9c5fb13b13d946dc894080dc915713ae7bc8131a5144f"
+    },
+    "tests/backend/nfu-live-ledger.test.js": {
+      "bytes": 2304,
+      "sha256": "e661edb09b5e51cfebb8913b1cc3c16f33532cb0bb3d0ef35dc1d72dd0713428"
+    },
+    "tests/backend/nfu-live-workflow.test.js": {
+      "bytes": 34182,
+      "sha256": "c10016961829c73e69eb5e6f543d1ea0f8dadc93aeca2a98a475f829e8afb7fa"
+    },
+    "tests/backend/nfu-live-workflow.test.js.high1-test-backup": {
+      "bytes": 32495,
+      "sha256": "4b03333ab5c8bd5c4c4266223541cd2cdebe6328ff94d942712d59e939f6c262"
+    },
+    "tests/backend/nfu-manual-signing.test.js": {
+      "bytes": 15188,
+      "sha256": "53d42ecb27889144d464cc6623afbc1d740bbacddf10ece79fcf31dd606723ca"
+    },
+    "tests/backend/nfu-metadata-plan-sql.test.js": {
+      "bytes": 9227,
+      "sha256": "29110bd64614f37f8656a43ac47d2a7f4713b88d416f33fc61173fb351ca75bc"
+    },
+    "tests/backend/nfu-operation.test.js": {
+      "bytes": 6056,
+      "sha256": "4f7f35da635cfa2c48b0b18984840c3528869949e8d65af797823d794226d464"
+    },
+    "tests/backend/nfu-orchestrator.test.js": {
+      "bytes": 33549,
+      "sha256": "b76d0b9a67c9fa17114e79394c9ea97e139a2dbc09cd926e8b39426451c4bda7"
+    },
+    "tests/backend/nfu-plant-reception.test.js": {
+      "bytes": 22972,
+      "sha256": "071b34216943f49fb82a84309666783884e6d1e16b2bc869d981bb79192cfcd4"
+    },
+    "tests/backend/nfu-plant-valorization.test.js": {
+      "bytes": 39050,
+      "sha256": "8e20b4617cf09c1b57f38c88871b337162cb199f3290d90faa344f99ebed2854"
+    },
+    "tests/backend/nfu-postgres-hardening-native.test.mjs": {
+      "bytes": 12595,
+      "sha256": "cc1057a0079072d084bc0e633117c6e93281d4c28f484f28fb1ad2eda578db81"
+    },
+    "tests/backend/nfu-postgres-native.test.mjs": {
+      "bytes": 18408,
+      "sha256": "eefc1efa733a5403a0971ec43b91693f9682e688294fc2f4e9eace9690b7c09c"
+    },
+    "tests/backend/nfu-postgres-security-native.test.mjs": {
+      "bytes": 11575,
+      "sha256": "0c346c4a57ba6c30ddfe838809bb2003c68f4c3d3f2a82c71cf63a06718671d8"
+    },
+    "tests/backend/nfu-postgres-security.test.js": {
+      "bytes": 1981,
+      "sha256": "cb80407df0c618a4d207b4b1a4233ba1cc2345eb090aabfdca4dd604eb0c9854"
+    },
+    "tests/backend/nfu-postgres.test.js": {
+      "bytes": 7333,
+      "sha256": "7d474eba9b907fa01b0537678934b1390a3a92361fc66a271d5d98428be8542a"
+    },
+    "tests/backend/nfu-postgres.test.js.high1-backup": {
+      "bytes": 6098,
+      "sha256": "45bbc1d755fd3cff67a235c40558074fb285bb573940af5b7aa346f7f5abf8d5"
+    },
+    "tests/backend/nfu-preparation-causal.test.js": {
+      "bytes": 9816,
+      "sha256": "902720281aef3e8b21c2fde30d800846fc553a8f4fbf4e4ea40e1349e99e5308"
+    },
+    "tests/backend/nfu-preparation-diagnostics.test.js": {
+      "bytes": 4018,
+      "sha256": "e143c441e4f55c4447b44617250ac74b5d5ee0724df41bc322639f91eeec762f"
+    },
+    "tests/backend/nfu-proof-window.test.js": {
+      "bytes": 4491,
+      "sha256": "e5a19081d9f1c3f22c2022c3efcbfcc6e5c0f47355679e55cacf2506b4a1237f"
+    },
+    "tests/backend/nfu-read-upgrade.test.js": {
+      "bytes": 945,
+      "sha256": "a16831b57fe6de197b7963edd47e5861e442f2889ddaec3f81b7293f3b4d423d"
+    },
+    "tests/backend/nfu-readiness.test.js": {
+      "bytes": 7603,
+      "sha256": "98a65ce0e8285787aa0e232b25fdac53e6cc3bd47c93693ccec4c41c74d0ae2d"
+    },
+    "tests/backend/nfu-related-retirement.test.js": {
+      "bytes": 3188,
+      "sha256": "0835602f7f23b4a55278aa562e05ce05ca4b091f50f4ae0831520243c7285ea0"
+    },
+    "tests/backend/nfu-reservation-release.test.js": {
+      "bytes": 4981,
+      "sha256": "c9bb8a7e570e66e9d7d2ccd7b10b2dd03c26f22ffa7a40c2d64a6e62d256ac79"
+    },
+    "tests/backend/nfu-sequence-release-sql.test.js": {
+      "bytes": 8625,
+      "sha256": "26af7023167667a5eb64a4d1f58387fcce23525ae5012c71e333f35ec3ff6a1c"
+    },
+    "tests/backend/nfu-signed-related-retirement.test.js": {
+      "bytes": 2969,
+      "sha256": "2eea03d44aa7f1f11f31e48fc36f01ab99bbcf709771bbeaebc5cd8893f43394"
+    },
+    "tests/backend/nfu-signed-reuse.test.js": {
+      "bytes": 5893,
+      "sha256": "bdbca87bcdcce211af3e6c9b4220b51d5d2146733a6077e993f0bdb7a89d8abd"
+    },
+    "tests/backend/nfu-signing-diagnostics.test.js": {
+      "bytes": 1450,
+      "sha256": "11d64dd92493809582d82d9d34930dfb6d16ed911257eaac4b0734158ff44f4f"
+    },
+    "tests/backend/nfu-simulation-diagnostics.test.js": {
+      "bytes": 5375,
+      "sha256": "3c6f395dcc64313e1fed987b8d8720bdacd5b67360d7745fd04cd6bdf6b6462e"
+    },
+    "tests/backend/nfu-simulation.test.js": {
+      "bytes": 18239,
+      "sha256": "794f1e8c6cc15b405a76ae2e63d33841af10ed61b1a216538ae5d36ad5c301f9"
+    },
+    "tests/backend/nfu-single-dispatch.test.js": {
+      "bytes": 7761,
+      "sha256": "ddbf0e612b805b7384b0196caf7d52911e74a49e5cc079455175070f4b32972b"
+    },
+    "tests/backend/nfu-single-http-security.test.js": {
+      "bytes": 5629,
+      "sha256": "631cc6dbe6bd56d478eb0c2625ad552a1e827d9d47d24ec10dcf721f97cd4b96"
+    },
+    "tests/backend/nfu-single-http.test.js": {
+      "bytes": 7060,
+      "sha256": "694a1bdad3d11c122618e850a0684cd69518d2d580f5cdd0caab10617bd4636d"
+    },
+    "tests/backend/nfu-single-startup.test.js": {
+      "bytes": 3062,
+      "sha256": "0cad274baed076223dcab1799222c884438e0f33ecbda17a895a3a3a85f4b02d"
+    },
+    "tests/backend/nfu-snapshot-diagnostics.test.js": {
+      "bytes": 8199,
+      "sha256": "d0f56b2fddc8ae2a42abf8ed0e036c2ecf298f4e0aef105c1302687b011b3521"
+    },
+    "tests/backend/nfu-transaction.test.js": {
+      "bytes": 13043,
+      "sha256": "49d63cf77697d027d7b5e719f030799e0c532d6759eedfc31020f1d8a7461e1a"
+    },
+    "tests/backend/nfu-valorization-evidence.test.js": {
+      "bytes": 19391,
+      "sha256": "bbd0a255f1f0c0fe0fec2ce31ed26dfb429ebe83f85a03a56a7b101c57a41e5c"
+    },
+    "tests/backend/nfu-xdr-margin.test.js": {
+      "bytes": 2802,
+      "sha256": "d443e34473cf20ba203ad070892388200c577a1fa70034ba90a41ffe7710bfb1"
+    },
+    "tests/backend/plant-reception-simulation-context.test.js": {
+      "bytes": 12607,
+      "sha256": "eb7522964d1385124ee3689fe405e2f15628586401338dc9670b7c926d9d5f36"
+    },
+    "tests/backend/postgres-runtime.test.js": {
+      "bytes": 10184,
+      "sha256": "a737bfcdf3f76c3492638f1069a2370a2059231adb99d4c9196c29661e6fc3f5"
+    },
+    "tests/backend/postgres-runtime.test.test.js.high1-backup": {
+      "bytes": 9952,
+      "sha256": "6363b2c6d70e536e26828636bf3e293f6edb0fd28e967936c0915b9b6dc1ddd3"
+    },
+    "tests/backend/sep53.test.js": {
+      "bytes": 5488,
+      "sha256": "84bf6e8d50218ca150da3af9a2cfcd77a90ef13d2e2e325adf5288decfb81d4c"
+    },
+    "tests/backend/start-transit-simulation-context.test.js": {
+      "bytes": 11574,
+      "sha256": "ca1ce14307b73fbd5d04cf739123200e7f08088cda35c4d5b0fa4f101d881a32"
+    },
+    "tests/backend/stellar-read-integration.test.js": {
+      "bytes": 2327,
+      "sha256": "c489887565fef69e95f1b818462a0eff574e7f2570444dd385018128731ce3c2"
+    },
+    "tests/backend/stellar-testnet-read.test.js": {
+      "bytes": 15509,
+      "sha256": "6910c5a369ab2e8e36e81506c624f26fef0d2bb7d6705bb987753a2b98e35a45"
+    },
+    "tests/backend/testnet-transport.test.js": {
+      "bytes": 11657,
+      "sha256": "e27562faf45b656ea62e5b911c491e71e11518eb8d06d258430092df7db75d4c"
+    },
+    "tests/backend/wallet-challenge-http.test.js": {
+      "bytes": 9426,
+      "sha256": "b6c6f86ed2d70c49a18cd2923820e407d67c3ff5fb2066889b79d28716be3c2d"
+    },
+    "tests/backend/wallet-challenge.test.js": {
+      "bytes": 23661,
+      "sha256": "2b08e7579f7bdb9f53f8ca0984732fad74627db7d3b90b8acf329e29faeb53d6"
+    },
+    "tests/deploy/d2-runtime.test.mjs": {
+      "bytes": 13838,
+      "sha256": "083b556c9424326aa1799f5b70e30f3ee40e67529765d4faa5b5f776e0d7bd7d"
+    },
+    "tests/Dockerfile.d2.stellar": {
+      "bytes": 2735,
+      "sha256": "ef2baa6496341fc9cb4a47a4865ec072a7504b1641d1c013423fa0b4a356d40b"
+    },
+    "tests/Dockerfile.d2.stellar.dockerignore": {
+      "bytes": 928,
+      "sha256": "c9a1b4dc84d96a928b041524b69c7ee3d8a8df97699b8f596fde7a375681f974"
+    },
+    "tests/nfu-xdr-budget.mjs": {
+      "bytes": 5702,
+      "sha256": "e13a6faa5c040f3eebd4c741f9d49f3a42c1eaae56740c42442f2ca07f2c3556"
+    },
+    "tools/native-copy-test.mjs": {
+      "bytes": 5906,
+      "sha256": "1e886433fb250b2ef4d05df2962e574b1b277dd55e75137d27b2685b0270986c"
+    },
+    "tools/offline-auth-native.mjs": {
+      "bytes": 5457,
+      "sha256": "0f628cc2f25fad355f0650fbb21dad4ae955239ebf085ffb77688fbfe88c316f"
+    },
+    "tools/pg-hold.mjs": {
+      "bytes": 393,
+      "sha256": "e35bf9a20fc8d880373a37fd8cb3e29b8eb1be958271e7efd86f3c289e15fe17"
+    },
+    "tools/runtime-smoke.mjs": {
+      "bytes": 1468,
+      "sha256": "e6e095a987fe8098ae4ebe974863daa423609a5b1a84382895dd3d9c8286a5cd"
+    },
+    "tools/table-fingerprints.sql": {
+      "bytes": 787,
+      "sha256": "4e0c6d5bf95718e36ce0b5cd51d3954fad55b30184dae4688ceaa632b0fa7415"
+    },
+    "tools/target-credentials.mjs": {
+      "bytes": 1725,
+      "sha256": "3c516ffadc980688e4c1f1f0c82056e48a20e1d0087c04077289cf8929dec7fc"
+    }
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "schema": "treadproof-d2-docker-sql-fix-v1",
+  "checkedAtUtc": "2026-11-10T16:46:27.915093+00:00",
+  "result": "PACKAGING_AND_FOCUSED_REGRESSION_PASS_FULL_RESTORE_AND_NATIVE_ACCEPTANCE_BLOCKED",
+  "releaseReady": false,
+  "image": {
+    "tag": "treadproof-d2-lab:d2-docker-sql-fix-20261110t163605z",
+    "id": "sha256:111525bcc0dc1abe885147591b6886ad441c1bde816097f4ba5115f4f7473123",
+    "published": false,
+    "node": "v24.19.0",
+    "postgres": "psql (PostgreSQL) 17.11 (Debian 17.11-0+deb13u1)",
+    "stellar": "stellar 26.0.0 (60f7458e7ecffddf2f2d91dc6d0d2db4fab03ecc)\nstellar-xdr 26.0.0 (dd7a165a193126fd37a751d867bee1cb8f3b55a6)\nxdr curr (cff714a5ebaaaf2dac343b3546c2df73f0b7a36e)",
+    "uid": 10001,
+    "embeddedManifestSha256": "e440567fbef1a40b4d87727cc8162cfec51bbfce28cdf1ee00d878aa8767249a"
+  },
+  "installation": {
+    "files": [
+      {
+        "path": "Dockerfile.d2.stellar",
+        "before": "6f77f6e9363debd43e63650b2e77c31decef26ef763703d4a5e76838650b40d3",
+        "after": "ef2baa6496341fc9cb4a47a4865ec072a7504b1641d1c013423fa0b4a356d40b"
+      },
+      {
+        "path": "Dockerfile.d2.stellar.dockerignore",
+        "before": "c1f50aeac9e20e6bd4cd120e8a7a4a3e62574193530ccc5acb121f678e1be8c2",
+        "after": "c9a1b4dc84d96a928b041524b69c7ee3d8a8df97699b8f596fde7a375681f974"
+      },
+      {
+        "path": "backend/test/local-auth-server.test.js",
+        "before": "ac37a3034fac039ba3497c1f4e914b75536703f6230cf5457590be42e837aaa7",
+        "after": "de98f6f39f47195871132efd4ebb0efd9ded9a66657a3a1c41b7f70ba737c17f"
+      }
+    ],
+    "sqlAssets": {
+      "d2-high1-high2-integrated-lab.sql": "a339c04a542e97d32c7703d22d61373259a5e531ae2ecf643553d5a1d2e3818a",
+      "d2-high-integrated-preparation.sql": "125168619624fc5411248108f00e6d1f2681e6a23e1f7b96bea473a51b1abb7b",
+      "d2-high-integrated-journal.sql": "76dc86b6c342765161d797984f719b4148641331ea2b268a00703108892d0e06"
+    },
+    "sqlBytesUnchanged": true,
+    "sqlBusinessRulesExecutedOrChanged": false,
+    "healthEndpointModified": false,
+    "healthTestReason": "server.js reports Company reference capability iff service composed; createLocalAuthServer composes createCompanyBatch3RlsRead; readonly Company/JWT/RLS route; no endpoint changes",
+    "otherProtectedPinsUnchanged": 333,
+    "activeBackendSourcesMatched": 80
+  },
+  "tests": {
+    "focusedRuntimeAuthSep53JournalRegression": {
+      "pass": 258,
+      "fail": 0,
+      "skipped": 0,
+      "globalRepositorySuite": false,
+      "testSupport": "read-only copied tests, Dockerfile/ignore and existing nfu-xdr-budget.mjs required by non-runtime fixtures"
+    },
+    "packagedHttpSmoke": {
+      "pass": true,
+      "scope": "actual packaged frontend/public proxy/API; trusted synthetic Auth/proof/history dependencies; native production startup separately blocked",
+      "checks": [
+        {
+          "path": "/",
+          "status": 200
+        },
+        {
+          "path": "/operator.html",
+          "status": 200
+        },
+        {
+          "path": "/batch3.json",
+          "status": 200
+        },
+        {
+          "path": "/api/status",
+          "status": 200
+        },
+        {
+          "path": "/api/runtime-health",
+          "status": 200
+        },
+        {
+          "compiledAssetsVerified": 4
+        }
+      ],
+      "unauthenticated": 401,
+      "transactionRoutesBlocked": 10,
+      "evidenceWriteBlocked": true,
+      "originalCredentialsUsed": false,
+      "realWalletOrSupabaseSession": false,
+      "transport": "loopback HTTP; HTTPS Origin header; no TLS claim"
+    },
+    "offlineSqlPlanAndAssetHashes": "PASS",
+    "partialNativeCopyCases": 11,
+    "partialPersistenceRestartAndRollback": "PASS",
+    "partialRowFingerprint": "a0cca4e55404afbb66de05394f8055a4c8caa2de78aa6397c57c5c134c340fe4",
+    "fullRestore": "BLOCKED_NO_COMPLETE_CURRENT_AUTHORIZED_COPY",
+    "nativeProductionStartup": {
+      "result": "BLOCKED",
+      "exitCode": 1,
+      "code": "integrated_identity_surface_open",
+      "scope": "existing partial laboratory reconstruction; not original database",
+      "guardBypassed": false
+    }
+  },
+  "restorationStop": {
+    "completeRestore": "BLOCKED_NO_CURRENT_COMPLETE_AUTHORIZED_COPY",
+    "partialCopy": "C:\\Users\\k_bxo\\AppData\\Local\\TreadProof\\labs\\d2-docker-20261110T050454Z\\backups\\confirmed-five.private.dump",
+    "partialScope": "five terminal intents/attempts; explicit reconstructed lab roles/ACL; not original globals nor remote Auth/Storage",
+    "olderDump": "/home/carla/treadproof-d2-integration-backup/carrier-xdr600-install-20261108T000617Z/preinstall.private.dump",
+    "olderDumpNotEligible": "predates final three confirmed operations; no accredited complete current backup manifest",
+    "action": "No full restore attempted; no new dump from original; no original credentials used",
+    "restoreConditionsNeeded": [
+      "authorized current complete snapshot with integrity/coverage manifest",
+      "matching roles/ACL/FORCE RLS/functions/indexes/bindings and all retained rows",
+      "private evidence bytes and storage metadata",
+      "target isolation and lab-only credentials"
+    ]
+  },
+  "isolation": {
+    "pass": true,
+    "network": "none; native tests share only a laboratory parent with network=none",
+    "publishedPorts": false,
+    "originalDatabaseMounted": false,
+    "productiveCredentialsUsed": false,
+    "allContainersStopped": true,
+    "inspectedContainers": 7,
+    "parentLabVolumesOnly": true,
+    "supabaseRemoteConnections": 0,
+    "stellarNetworkRequests": 0
+  },
+  "realOperations": {
+    "newNfuIntents": 0,
+    "newNfuAttempts": 0,
+    "stellarTransactions": 0,
+    "originalBusinessWrites": 0,
+    "originalSqlRlsIndexChanges": 0,
+    "commits": 0,
+    "tags": 0,
+    "pushes": 0,
+    "deployments": 0
+  },
+  "pendingMinimum": [
+    "current complete authorized runtime backup with coverage/integrity manifest and roles/ACL; no productive credentials in lab",
+    "successful complete isolated restoration and native production startup; preserve rejection gates",
+    "authorized HTTPS deployment with real same-origin/TLS/read-only identity acceptance",
+    "separate authorization for fresh-account reviewer reproduction, final release and video"
+  ]
+}

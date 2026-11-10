@@ -17,13 +17,16 @@ async function readBody(req, maximum=7100000) {
   try{return JSON.parse(Buffer.concat(chunks).toString('utf8'));}catch{throw new ApiError(400,'invalid_json');}
 }
 export function makeServer({config,stellar,gateway=(token)=>new SupabaseGateway(config,token),rateLimit=60,trustedOrigins=[],authOnly=false,authClient=new SupabaseAuth(config),walletProofService=null,nfuService=null,
- allowedHosts=['127.0.0.1:3001','127.0.0.1:5173','127.0.0.1:4173'],readinessService=null,journalService=null,createPreparationService=null,liveWorkflow=null,simulationDiagnostics=null,evidenceService=null}) {
+ allowedHosts=['127.0.0.1:3001','127.0.0.1:5173','127.0.0.1:4173'],readinessService=null,journalService=null,createPreparationService=null,liveWorkflow=null,simulationDiagnostics=null,evidenceService=null,batch3ReferenceService=null,company3MetadataService=null,documentReadService=null}) {
+  requireThat(documentReadService===null||authOnly&&documentReadService.mode==='authenticated_document_read_only'&&documentReadService.evidenceId==='0faee5e8-9543-42c3-a9ca-c8d4380ed30b'&&typeof documentReadService.read==='function'&&typeof documentReadService.invalidateSession==='function',503,'invalid_document_reader');
   requireThat(createPreparationService===null||createPreparationService.mode==='create_batch_preparation_only'&&typeof createPreparationService.prepare==='function',503,'preparation_only');
   requireThat(journalService===null||journalService.mode==='authenticated_journal_read_only'&&typeof journalService.read==='function',503,'journal_read_only');
   requireThat(readinessService===null||readinessService.mode==='real_readiness_only'&&typeof readinessService.inspect==='function',503,'readiness_only');
+  requireThat(batch3ReferenceService===null||batch3ReferenceService.mode==='company_batch3_rls_read_only'&&typeof batch3ReferenceService.lookup==='function',503,'batch3_reference_read_only');
   requireThat(nfuService===null||nfuService.mode==='synthetic_http'&&typeof nfuService.handle==='function',503,'synthetic_nfu_only');
   requireThat(liveWorkflow===null||liveWorkflow.mode==='nfu_live_workflow_disabled'&&typeof liveWorkflow.handle==='function',503,'invalid_live_workflow');
   requireThat(evidenceService===null||isValorizationEvidenceService(evidenceService),503,'invalid_evidence_configuration');
+  requireThat(company3MetadataService===null||company3MetadataService.mode==='company3_metadata_execution_only'&&typeof company3MetadataService.execute==='function'&&typeof company3MetadataService.publicState==='function',503,'invalid_metadata_execution_configuration');
   const requests=new Map(); let active=0;
   return createServer({requestTimeout:20000,headersTimeout:10000,maxHeaderSize:16384},async(req,res)=>{
     res.setHeader('Content-Type','application/json');res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');
@@ -37,10 +40,11 @@ export function makeServer({config,stellar,gateway=(token)=>new SupabaseGateway(
       const url=new URL(req.url,'http://localhost'); const path=url.pathname;
       if(req.method==='GET'&&path==='/health'){
         const local=authOnly?{service:'treadproof-local-auth',protocol:walletProofService!==null?'auth-sep53-v1':'auth-context-v1',
-          capabilities:{...(evidenceService?{nfu_evidence_storage:evidenceService.storageEnabled,nfu_evidence_head:evidenceService.headEnabled===true}:{}),wallet_proof:walletProofService!==null,batch_operations:false,...(liveWorkflow?{nfu_live_workflow:true,nfu_simulation:liveWorkflow.capabilities?.simulate===true,nfu_signing:liveWorkflow.capabilities?.sign===true,nfu_dispatch:liveWorkflow.capabilities?.dispatch===true}:{}),challenge_logout_invalidation:typeof walletProofService?.invalidateSession==='function',...(journalService?{journal_read_only:true}:{}),...(createPreparationService?{create_batch_preparation:true}:{})}}:{};
+          capabilities:{...(evidenceService?{nfu_evidence_storage:evidenceService.storageEnabled,nfu_evidence_head:evidenceService.headEnabled===true}:{}),wallet_proof:walletProofService!==null,batch_operations:false,...(liveWorkflow?{nfu_live_workflow:true,nfu_simulation:liveWorkflow.capabilities?.simulate===true,nfu_signing:liveWorkflow.capabilities?.sign===true,nfu_dispatch:liveWorkflow.capabilities?.dispatch===true,...(liveWorkflow.capabilities?.query!==undefined?{nfu_query:liveWorkflow.capabilities.query===true,nfu_reconciliation:liveWorkflow.terminalPersistenceEnabled===true}:{})}:{}),challenge_logout_invalidation:typeof walletProofService?.invalidateSession==='function',...(journalService?{journal_read_only:true}:{}),...(createPreparationService?{create_batch_preparation:true}:{}),...(batch3ReferenceService?{company_batch3_reference_read_only:true,...(batch3ReferenceService.metadataPreflightOnly===true?{company3_metadata_preflight:true,high1_journal_read:true,metadata_registration:false,nfu_reconciliation:false}:{})}:{}),...(company3MetadataService?{metadata_registration:company3MetadataService.publicState().enabled,company3_metadata_execution:company3MetadataService.publicState(),nfu_reconciliation:false}:{})}}:{};
         res.end(JSON.stringify({status:'ok',network:'testnet',...local,...(nfuService?{nfu_mode:'synthetic',real_transactions:false}:{})}));return;
       }
       const authPath=['/auth/login','/auth/logout'].includes(path),contextPath=path==='/v1/me';
+      const documentPath=documentReadService!==null&&path==='/v1/evidence/'+documentReadService.evidenceId;
       // Proof routes are opt-in; the dedicated local Auth launcher injects the service.
       const proofPath=walletProofService!==null&&['/v1/wallet-proof/challenges','/v1/wallet-proof/verify','/v1/wallet-proof/status'].includes(path);
       const nfuMatch=nfuService!==null&&path.match(/^\/v1\/nfu\/(catalog|list|prepare|approve|sign|submit|query|recover|cancel)$/);
@@ -49,18 +53,27 @@ export function makeServer({config,stellar,gateway=(token)=>new SupabaseGateway(
       const evidenceMatch=evidenceService!==null&&path.match(/^\/v1\/nfu-evidence\/(store|verify|head)$/);
       if(evidenceService!==null&&path.startsWith('/v1/nfu-evidence/'))requireThat(evidenceMatch,404,'route_not_found');
       const readinessPath=readinessService!==null&&path==='/v1/nfu-real/context';
+      const batch3ReferencePath=batch3ReferenceService!==null&&path==='/v1/nfu-real/company-batch-3-reference';
+      const metadataExecutionPath=company3MetadataService!==null&&path==='/v1/nfu-real/company-batch-3-reconcile';
       const journalMatch=journalService!==null&&path.match(/^\/v1\/nfu-journal\/(intent|operation|recover)$/);
       const preparationPath=createPreparationService!==null&&path==='/v1/nfu-preparations/create-batch';
       if(createPreparationService!==null&&path.startsWith('/v1/nfu-preparations/'))requireThat(preparationPath,404,'route_not_found');
       if(journalService!==null&&path.startsWith('/v1/nfu-journal/'))requireThat(journalMatch,404,'route_not_found');
       const trusted=trustedOrigins.includes(req.headers.origin);
       if(authOnly)requireThat(allowedHosts.includes(req.headers.host),403,'untrusted_host');
-      if(nfuMatch||liveMatch||readinessPath||journalMatch||preparationPath||evidenceMatch)requireThat(['127.0.0.1','::ffff:127.0.0.1','::1'].includes(req.socket.remoteAddress),403,'loopback_required');
-      if(authPath||proofPath||nfuMatch||liveMatch||readinessPath||journalMatch||preparationPath||evidenceMatch)requireThat(trusted&&req.headers['sec-fetch-site']!=='cross-site',403,'untrusted_origin');
+      if(nfuMatch||liveMatch||readinessPath||batch3ReferencePath||metadataExecutionPath||journalMatch||preparationPath||evidenceMatch||documentPath)requireThat(['127.0.0.1','::ffff:127.0.0.1','::1'].includes(req.socket.remoteAddress),403,'loopback_required');
+      if(authPath||proofPath||nfuMatch||liveMatch||readinessPath||batch3ReferencePath||metadataExecutionPath||journalMatch||preparationPath||evidenceMatch||documentPath)requireThat(trusted&&req.headers['sec-fetch-site']!=='cross-site',403,'untrusted_origin');
       else requireThat(!req.headers.origin||(contextPath&&trusted),403,'browser_origin_not_enabled');
-      if(authOnly)requireThat(authPath||contextPath||proofPath||nfuMatch||liveMatch||readinessPath||journalMatch||preparationPath||evidenceMatch,404,'route_not_found');
+      if(authOnly)requireThat(authPath||contextPath||proofPath||nfuMatch||liveMatch||readinessPath||batch3ReferencePath||metadataExecutionPath||journalMatch||preparationPath||evidenceMatch||documentPath,404,'route_not_found');
+      if(documentPath){
+        requireThat(req.method==='GET',405,'method_not_allowed');requireThat(!url.search&&!req.url.includes('%'),400,'invalid_input');
+        const bearer=req.headers.authorization;requireThat(typeof bearer==='string'&&bearer.startsWith('Bearer ')&&TOKEN.test(bearer.slice(7)),401,'authentication_required');
+        const controller=new AbortController(),abort=()=>controller.abort();req.once('aborted',abort);res.once('close',abort);
+        try{const result=await documentReadService.read({token:bearer.slice(7),origin:req.headers.origin,signal:controller.signal});requireThat(!controller.signal.aborted&&!res.destroyed,408,'operation_cancelled');res.end(JSON.stringify(result));return;}
+        finally{req.removeListener('aborted',abort);res.removeListener('close',abort);}
+      }
       if(liveMatch&&['review','prepare'].includes(liveMatch[1])){simulationTrace=createPreparationDiagnostic(simulationDiagnostics,liveMatch[1]);res.setHeader('X-TreadProof-Request-Id',simulationTrace.id);simulationTrace.progress('received');}
-      if(authPath||contextPath||proofPath||nfuMatch||liveMatch||readinessPath||journalMatch||preparationPath||evidenceMatch){const check=()=>preparationStage('http_request','query',()=>requireThat(!url.search,400,'invalid_input'));if(simulationTrace?.run)simulationTrace.run(check);else check();}
+      if(authPath||contextPath||proofPath||nfuMatch||liveMatch||readinessPath||batch3ReferencePath||metadataExecutionPath||journalMatch||preparationPath||evidenceMatch){const check=()=>preparationStage('http_request','query',()=>requireThat(!url.search,400,'invalid_input'));if(simulationTrace?.run)simulationTrace.run(check);else check();}
       if(evidenceMatch){
         requireThat(req.method==='POST',405,'method_not_allowed');const bearer=req.headers.authorization;
         requireThat(typeof bearer==='string'&&bearer.startsWith('Bearer ')&&TOKEN.test(bearer.slice(7)),401,'authentication_required');
@@ -75,7 +88,7 @@ export function makeServer({config,stellar,gateway=(token)=>new SupabaseGateway(
         requireThat(typeof bearer==='string'&&bearer.startsWith('Bearer ')&&TOKEN.test(bearer.slice(7)),401,'authentication_required');
         const input=await readBody(req,liveMatch[1]==='evidence'?7100000:524288),controller=new AbortController(),abort=()=>controller.abort();
         req.once('aborted',abort);res.once('close',abort);
-        try{const invoke=()=>liveWorkflow.handle(liveMatch[1],{token:bearer.slice(7),origin:req.headers.origin,input,signal:controller.signal,onProgress:simulationTrace?.progress,onFault:simulationTrace?.fault,onOperation:simulationTrace?.bindOperation});const result=await (simulationTrace?.run?simulationTrace.run(invoke):invoke());
+        try{const invoke=()=>liveWorkflow.handle(liveMatch[1],{token:bearer.slice(7),origin:req.headers.origin,input,signal:controller.signal,onProgress:simulationTrace?.progress,onFault:simulationTrace?.fault,onSnapshot:simulationTrace?.snapshot,onOperation:simulationTrace?.bindOperation});const result=await (simulationTrace?.run?simulationTrace.run(invoke):invoke());
          requireThat(!controller.signal.aborted&&!res.destroyed,408,'operation_cancelled');
          simulationTrace?.progress('completed');res.end(JSON.stringify(result));return;
         }finally{req.removeListener('aborted',abort);res.removeListener('close',abort);}
@@ -95,6 +108,22 @@ export function makeServer({config,stellar,gateway=(token)=>new SupabaseGateway(
         const input=await readBody(req,1024),controller=new AbortController(),abort=()=>controller.abort();
         req.once('aborted',abort);res.once('close',abort);
         try{const result=await journalService.read(journalMatch[1],{token:bearer.slice(7),origin:req.headers.origin,input,signal:controller.signal});
+          requireThat(!controller.signal.aborted&&!res.destroyed,408,'operation_cancelled');res.end(JSON.stringify(result));return;
+        }finally{req.removeListener('aborted',abort);res.removeListener('close',abort);}
+      }
+      if(metadataExecutionPath){
+        requireThat(req.method==='POST',405,'method_not_allowed');const bearer=req.headers.authorization;
+        requireThat(typeof bearer==='string'&&bearer.startsWith('Bearer ')&&TOKEN.test(bearer.slice(7)),401,'authentication_required');
+        const input=await readBody(req,1024),controller=new AbortController(),abort=()=>controller.abort();req.once('aborted',abort);res.once('close',abort);
+        try{const result=await company3MetadataService.execute({token:bearer.slice(7),origin:req.headers.origin,input,signal:controller.signal});
+          requireThat(!controller.signal.aborted&&!res.destroyed,408,'operation_cancelled');res.end(JSON.stringify(result));return;
+        }finally{req.removeListener('aborted',abort);res.removeListener('close',abort);}
+      }
+      if(batch3ReferencePath){
+        requireThat(req.method==='POST',405,'method_not_allowed');const bearer=req.headers.authorization;
+        requireThat(typeof bearer==='string'&&bearer.startsWith('Bearer ')&&TOKEN.test(bearer.slice(7)),401,'authentication_required');
+        const input=await readBody(req,1024),controller=new AbortController(),abort=()=>controller.abort();req.once('aborted',abort);res.once('close',abort);
+        try{const result=await batch3ReferenceService.lookup({token:bearer.slice(7),origin:req.headers.origin,input,signal:controller.signal});
           requireThat(!controller.signal.aborted&&!res.destroyed,408,'operation_cancelled');res.end(JSON.stringify(result));return;
         }finally{req.removeListener('aborted',abort);res.removeListener('close',abort);}
       }
@@ -129,6 +158,7 @@ export function makeServer({config,stellar,gateway=(token)=>new SupabaseGateway(
         liveWorkflow?.invalidateSession?.(bearer.slice(7));
         evidenceService?.invalidateSession?.(bearer.slice(7));
         journalService?.invalidateSession?.(bearer.slice(7));
+        documentReadService?.invalidateSession(bearer.slice(7));
         createPreparationService?.invalidateSession?.(bearer.slice(7));
         await authClient.logout(bearer.slice(7));
         res.end(JSON.stringify({signed_out:true}));return;

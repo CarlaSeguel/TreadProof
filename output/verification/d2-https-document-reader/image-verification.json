@@ -1,0 +1,14 @@
+{
+  "node": "24.19.0",
+  "postgres": "psql (PostgreSQL) 17.11 (Debian 17.11-0+deb13u1)",
+  "stellarCli": "stellar 26.0.0 (60f7458e7ecffddf2f2d91dc6d0d2db4fab03ecc)\nstellar-xdr 26.0.0 (dd7a165a193126fd37a751d867bee1cb8f3b55a6)\nxdr curr (cff714a5ebaaaf2dac343b3546c2df73f0b7a36e)",
+  "files": {
+    "deploy/d2-runtime-entrypoint.mjs": "b67bd575af5313f620f51ec70cc47d73a0e212bf68e713b2641545131c5abcd0",
+    "deploy/d2-readonly-server.mjs": "6e0ab0f1e60fbb930ae03ab37d60e5350e88e67edda90ff957e737a69b0d5c10",
+    "deploy/build-d2-public.mjs": "efa09f38d75642163a2915fc3e8d4b186ae64cd9cd8aa9e8a7156618d665c2c6",
+    "backend/src/server.js": "dd46bc95e843dc3fe3eaaecd4efdc7daef4b72b5257c7beb5b9e91267245a358"
+  },
+  "compiledOperatorDocumentMarker": true,
+  "privatePdfOrCredentialsInImage": 0,
+  "remoteRequests": 0
+}

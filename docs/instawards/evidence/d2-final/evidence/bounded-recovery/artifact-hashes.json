@@ -1,0 +1,13 @@
+{
+  "privateBundleManifestSha256": "797ab95ec519b6cc0f9ff8532496f9f4a18470da0dc3c8f7c6cc1e4ac06595c0",
+  "backupSha256": "c3b4dd6925c4d519d88b47bde5b0f5da1a1f935e878884cabce27dcacb2f1f2d",
+  "runtimeImageTarSha256": "29e8d26da44ef669ce2795ca24822e4c49937db4587352e6a3398c537a91fcc9",
+  "logs": {
+    "acl-repair.stderr.log": "65bb9fe4cd9aa683cc50283c5d78ec2c46efa025b110ef596f7222a81511bc82",
+    "acl-repair-v2.stdout.log": "3324b19f3acf3542558cc96cf8391341eaa5c1035b983694862d3296a7c31f52",
+    "restored-runtime-final.log": "5d463b1c0cae3b5e0208b55c8327266d926b2141188fedca5e88edf071426cc6",
+    "image-load.log": "351547027398318958d40b7ef97b508b3c74c8779f64382effdff2aec6e6aa6e",
+    "no-password-rejection.log": "f79c554e783e98692df374e3e87c426845ee9365e3fb69edc4fd1f2304660ebb"
+  },
+  "privateBundleNotIncludedInPublicPackage": true
+}

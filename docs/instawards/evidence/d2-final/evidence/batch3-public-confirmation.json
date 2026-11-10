@@ -1,0 +1,26 @@
+{
+  "pass": true,
+  "observedAt": "2026-11-10T03:06:28.372Z",
+  "hash": "899881abecbff106ba4cd429456a7739cf06a6213abbf943ce9bf2f0eccd9e66",
+  "status": "SUCCESS",
+  "ledger": 5651173,
+  "latestLedger": 5651267,
+  "oldestLedger": 5530308,
+  "state": "Valorized",
+  "batchId": "3",
+  "actors": {
+    "company": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF",
+    "carrier": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+    "plant": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE"
+  },
+  "sequence": "22759186320326660",
+  "masses": {
+    "declared": "1000",
+    "pickup": "950",
+    "received": "925",
+    "valorized": "900"
+  },
+  "rpcRetentionIncludesLedger": true,
+  "evidenceHash": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d",
+  "actualStateChanges": 0
+}

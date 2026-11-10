@@ -1,0 +1,24 @@
+/* Tracking-only layout; shared cards, typography and controls come from style.css. */
+.tracking{max-width:960px}
+.tracking .wallet-card{margin-top:24px;scroll-margin-top:20px}
+.tracking a{color:#294e3e;text-underline-offset:4px}
+.tracking-nav{display:flex;flex-wrap:wrap;gap:8px 20px;padding:8px 0}
+.tracking-nav a{padding:8px 0;font-size:14px;font-weight:650}
+.tracking .card-heading{flex-wrap:wrap}
+.tracking-provenance{margin-top:20px;padding:8px 18px;background:#f3f6ef;border-left:3px solid #73834d;border-radius:0 10px 10px 0;font-size:13px}
+.tracking-cycle{padding-left:28px;margin:24px 0 0}
+.tracking-cycle li{padding:0 0 22px 12px;border-left:1px solid #dce5d7}
+.tracking-cycle li:last-child{padding-bottom:0}
+.tracking-cycle li::marker{font-weight:700;color:#526451}
+.tracking-cycle h3{font-size:17px;margin:0 0 4px}
+.tracking-cycle p{margin:0 0 10px;font-size:14px;color:#526451}
+.tracking-cycle .status{display:inline-block}
+.tracking-masses dd{font-size:30px;letter-spacing:-1px}
+.tracking-masses dd span{font-size:15px;letter-spacing:0}
+.tracking-history{margin-top:18px}
+.tracking-history details{border-top:1px solid #dce5d7;padding:14px 0}
+.tracking-history summary{cursor:pointer;font-size:14px;font-weight:650;min-height:28px}
+.tracking-history summary:focus-visible{outline:3px solid #8ca84f;outline-offset:4px}
+.tracking-history p{font-size:13px;color:#526451;margin-bottom:0}
+.tracking dd{overflow-wrap:anywhere}
+@media(max-width:520px){.tracking .status{max-width:none}.tracking .card-heading h2{font-size:21px}.tracking-nav{gap:4px 16px}.tracking-cycle{padding-left:22px}}

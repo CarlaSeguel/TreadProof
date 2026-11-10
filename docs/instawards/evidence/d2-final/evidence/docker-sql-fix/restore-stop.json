@@ -1,0 +1,14 @@
+{
+  "completeRestore": "BLOCKED_NO_CURRENT_COMPLETE_AUTHORIZED_COPY",
+  "partialCopy": "C:\\Users\\k_bxo\\AppData\\Local\\TreadProof\\labs\\d2-docker-20261110T050454Z\\backups\\confirmed-five.private.dump",
+  "partialScope": "five terminal intents/attempts; explicit reconstructed lab roles/ACL; not original globals nor remote Auth/Storage",
+  "olderDump": "/home/carla/treadproof-d2-integration-backup/carrier-xdr600-install-20261108T000617Z/preinstall.private.dump",
+  "olderDumpNotEligible": "predates final three confirmed operations; no accredited complete current backup manifest",
+  "action": "No full restore attempted; no new dump from original; no original credentials used",
+  "restoreConditionsNeeded": [
+    "authorized current complete snapshot with integrity/coverage manifest",
+    "matching roles/ACL/FORCE RLS/functions/indexes/bindings and all retained rows",
+    "private evidence bytes and storage metadata",
+    "target isolation and lab-only credentials"
+  ]
+}

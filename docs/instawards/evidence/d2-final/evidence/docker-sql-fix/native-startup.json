@@ -1,0 +1,25 @@
+{
+  "node": "v24.19.0",
+  "postgres": "psql (PostgreSQL) 17.11 (Debian 17.11-0+deb13u1)",
+  "stellar": "stellar 26.0.0 (60f7458e7ecffddf2f2d91dc6d0d2db4fab03ecc)\nstellar-xdr 26.0.0 (dd7a165a193126fd37a751d867bee1cb8f3b55a6)\nxdr curr (cff714a5ebaaaf2dac343b3546c2df73f0b7a36e)",
+  "uid": 10001,
+  "sqlAssets": [
+    "d2-high-integrated-journal.sql",
+    "d2-high-integrated-preparation.sql",
+    "d2-high1-high2-integrated-lab.sql"
+  ],
+  "assetHashesVerified": true,
+  "offlineCompanyPlan": "d2_company_create_batch_1000g_600s",
+  "offlineCarrierPlan": "d2_carrier_confirm_pickup_950g_batch3_720s",
+  "noOriginalSecrets": true,
+  "nativeCatalog": {
+    "pass": false,
+    "code": "integrated_identity_surface_open"
+  },
+  "actualCli": {
+    "status": 1,
+    "stderr": "D2 runtime startup rejected: verify approved origin, restored database and private read credentials.",
+    "signal": null
+  },
+  "fullRestoreClaimed": false
+}

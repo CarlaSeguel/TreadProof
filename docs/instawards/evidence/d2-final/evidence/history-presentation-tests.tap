@@ -1,0 +1,142 @@
+TAP version 13
+# Subtest: journal UI: authenticated read remains explicitly unverified and no signer is needed
+ok 1 - journal UI: authenticated read remains explicitly unverified and no signer is needed
+  ---
+  duration_ms: 26.951755
+  type: 'test'
+  ...
+# Subtest: journal UI: no session never reaches HTTP
+ok 2 - journal UI: no session never reaches HTTP
+  ---
+  duration_ms: 0.2376
+  type: 'test'
+  ...
+# Subtest: journal UI: malformed cursor cannot become a recovery request
+ok 3 - journal UI: malformed cursor cannot become a recovery request
+  ---
+  duration_ms: 0.565002
+  type: 'test'
+  ...
+# Subtest: journal UI: rejects fabricated onchainConfirmed
+ok 4 - journal UI: rejects fabricated onchainConfirmed
+  ---
+  duration_ms: 0.423101
+  type: 'test'
+  ...
+# Subtest: journal UI: rejects fabricated canSign
+ok 5 - journal UI: rejects fabricated canSign
+  ---
+  duration_ms: 0.449701
+  type: 'test'
+  ...
+# Subtest: journal UI: rejects fabricated canSubmit
+ok 6 - journal UI: rejects fabricated canSubmit
+  ---
+  duration_ms: 0.414001
+  type: 'test'
+  ...
+# Subtest: journal UI: wallet change discards pending response
+ok 7 - journal UI: wallet change discards pending response
+  ---
+  duration_ms: 0.574201
+  type: 'test'
+  ...
+# Subtest: journal UI: network change discards pending response
+ok 8 - journal UI: network change discards pending response
+  ---
+  duration_ms: 0.393301
+  type: 'test'
+  ...
+# Subtest: journal UI: user change discards pending response
+ok 9 - journal UI: user change discards pending response
+  ---
+  duration_ms: 0.416801
+  type: 'test'
+  ...
+# Subtest: journal UI: logout change discards pending response
+ok 10 - journal UI: logout change discards pending response
+  ---
+  duration_ms: 0.413401
+  type: 'test'
+  ...
+# Subtest: journal UI: changed second wallet observation rejects result even without polling event
+ok 11 - journal UI: changed second wallet observation rejects result even without polling event
+  ---
+  duration_ms: 0.576801
+  type: 'test'
+  ...
+# Subtest: journal UI: old response cannot restore data after new authentication
+ok 12 - journal UI: old response cannot restore data after new authentication
+  ---
+  duration_ms: 0.651902
+  type: 'test'
+  ...
+# Subtest: journal API: exact path, requesting bearer and no laboratory or SQL operation
+ok 13 - journal API: exact path, requesting bearer and no laboratory or SQL operation
+  ---
+  duration_ms: 41.015184
+  type: 'test'
+  ...
+# Subtest: journal Auth wrapper: logout prevents a delayed result from being returned
+ok 14 - journal Auth wrapper: logout prevents a delayed result from being returned
+  ---
+  duration_ms: 1.362203
+  type: 'test'
+  ...
+# Subtest: existing synthetic document bytes match declared hash, without claiming signature or Stellar confirmation
+ok 15 - existing synthetic document bytes match declared hash, without claiming signature or Stellar confirmation
+  ---
+  duration_ms: 45.784594
+  type: 'test'
+  ...
+# Subtest: changed bytes rejected without automatic retry
+ok 16 - changed bytes rejected without automatic retry
+  ---
+  duration_ms: 4.509109
+  type: 'test'
+  ...
+# Subtest: invalid or private evidence reference never fetched
+ok 17 - invalid or private evidence reference never fetched
+  ---
+  duration_ms: 0.571302
+  type: 'test'
+  ...
+# Subtest: invalid or private evidence reference never fetched
+ok 18 - invalid or private evidence reference never fetched
+  ---
+  duration_ms: 3.592007
+  type: 'test'
+  ...
+# Subtest: invalid or private evidence reference never fetched
+ok 19 - invalid or private evidence reference never fetched
+  ---
+  duration_ms: 0.258501
+  type: 'test'
+  ...
+# Subtest: oversize or empty file rejected
+ok 20 - oversize or empty file rejected
+  ---
+  duration_ms: 1.350403
+  type: 'test'
+  ...
+# Subtest: cancelled request never starts download
+ok 21 - cancelled request never starts download
+  ---
+  duration_ms: 0.355801
+  type: 'test'
+  ...
+# Subtest: unavailable evidence never reports verification
+ok 22 - unavailable evidence never reports verification
+  ---
+  duration_ms: 1.171902
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 25434.010441

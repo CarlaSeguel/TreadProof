@@ -1,7 +1,8 @@
+import {xdrProfileFields} from '../../web/src/d2-company-xdr-profile.mjs';
 // Internal durable repository. Not an authorization service, HTTP route or sender.
 import {createHash,randomUUID} from 'node:crypto';
 import {StrKey} from '@stellar/stellar-sdk/base';
-import {validateNfuApproval,validateNfuResult} from './nfu-confirmation.js';
+import {validateNfuApproval,validateNfuResult,nfuResultDigest,NFU_RESULT_DIGEST_RAW_V1} from './nfu-confirmation.js';
 import {validateJournalRow,NFU_STATES} from './nfu-journal.js';
 import {NFU_PERSISTENCE_REQUIREMENTS} from './nfu-persistence-port.js';
 import {ApiError,requireThat,uuid,exactKeys} from './validation.js';
@@ -18,16 +19,17 @@ function journalRow(a){
  return validateJournalRow({version:1,mode:'synthetic',hash:a.tx_hash,sequenceKey:a.sequence_key,state:a.state,attempted:a.attempted,
   revision:Number(a.revision),updatedAt:Date.parse(a.updated_at),reason:a.reason,ledger:a.ledger===null?null:Number(a.ledger)});
 }
-export function createPostgresNfuPersistence({transport,manifest,authorize,now=Date.now,allowedOrigins=['http://127.0.0.1:5173'],executionMode='synthetic',newId=randomUUID,beforeDispatchClaim=()=>{},reuseImmediateAuthorization=false,loadedIntent=null}={}){
+export function createPostgresNfuPersistence({transport,verifiedTransport=null,manifest,authorize,issueGrant=null,now=Date.now,allowedOrigins=['http://127.0.0.1:5173'],executionMode='synthetic',newId=randomUUID,beforeDispatchClaim=()=>{},beforeDispatchClaimAfterGrant=null,reuseImmediateAuthorization=false,loadedIntent=null,resultDigestVersion=NFU_RESULT_DIGEST_RAW_V1}={}){
  requireThat(['postgres_local_sspi','postgres_libpq_tls'].includes(transport?.mode)&&typeof transport.call==='function'&&typeof authorize==='function'&&typeof now==='function'&&typeof newId==='function'&&typeof beforeDispatchClaim==='function',503,'invalid_persistence_dependencies');
- requireThat(typeof reuseImmediateAuthorization==='boolean',503,'invalid_persistence_dependencies');
+ requireThat(beforeDispatchClaimAfterGrant===null||typeof beforeDispatchClaimAfterGrant==='function',503,'invalid_persistence_dependencies');
+ requireThat(typeof reuseImmediateAuthorization==='boolean'&&(issueGrant===null||typeof issueGrant==='function'),503,'invalid_persistence_dependencies');
  requireThat(['synthetic','testnet'].includes(executionMode),503,'invalid_persistence_mode');
  loadedIntent=loadedIntent===null?null:structuredClone(loadedIntent); // Private immutable snapshot, never browser authority.
  const network='Test SDF Network ; September 2015';
  requireThat(manifest?.network==='testnet'&&manifest.network_passphrase===network&&StrKey.isValidContract(manifest.tire_registry??''),503,'invalid_nfu_deployment');
  manifest=Object.freeze(structuredClone(manifest));
  const reviewIntent=(raw,tx)=>({action:raw.action,userId:raw.userId,organizationId:raw.organizationId,source:raw.actor,contract:raw.contract,networkPassphrase:network,sequence:raw.sequence,
-  totalFeeStroops:tx.fee,expiresAt:raw.expiresAt,argumentsXdr:tx.operations[0].func.value.args.map(v=>v.toXdr('base64'))});
+  totalFeeStroops:tx.fee,expiresAt:raw.expiresAt,argumentsXdr:tx.operations[0].func.value.args.map(v=>v.toXdr('base64')),...xdrProfileFields(raw)});
  function identity(raw){
   requireThat(raw?.source==='validated_auth_user_and_rls'&&raw.networkPassphrase===network&&raw.contract===manifest.tire_registry&&
    roles.includes(raw.role)&&StrKey.isValidEd25519PublicKey(raw.actor??'')&&raw.actors&&roles.every(r=>StrKey.isValidEd25519PublicKey(raw.actors[r]??''))&&
@@ -38,7 +40,7 @@ export function createPostgresNfuPersistence({transport,manifest,authorize,now=D
    actors:Object.fromEntries(roles.map(r=>[r,raw.actors[r]])),origin:raw.origin,networkPassphrase:network,contract:manifest.tire_registry};
  }
  async function authorized(scope,hash,purpose,submission=false,stage='persistence_authorize'){
-  let raw;try{raw=await authorize({scope,hash,purpose});}catch(error){throw carryNfuDiagnostic(new ApiError(403,'persistence_not_authorized'),error,{stage,purpose});}
+  let raw;try{raw=await authorize({scope,hash,purpose,stage,submission});}catch(error){throw carryNfuDiagnostic(new ApiError(403,'persistence_not_authorized'),error,{stage,purpose});}
   const owner=identity(raw),binding=sha(canonical(owner));
   const approved=hash?validateNfuApproval(raw,hash,manifest,{now:now(),forSubmission:submission}):null;
   return {owner,binding,raw,approved,revisionHash:sha(raw.contextRevision)};
@@ -50,7 +52,36 @@ export function createPostgresNfuPersistence({transport,manifest,authorize,now=D
   requireThat(!signal?.aborted,409,'operation_cancelled');
   // Trusted synchronous hook after SQL reauthorization; never supplied by HTTP.
   if(op==='cas'&&payload.patch?.state==='sending'&&payload.patch.attempted===true)beforeDispatchClaim(before.raw);
-  let value;try{value=await transport.call(before.owner,op,{...payload,binding:before.binding,revisionHash:before.revisionHash},{signal});}
+  // HIGH 2: Testnet terminal writes require a separate internal transport.
+   // The ordinary PostgreSQL transport must never record verified results.
+   const terminal=op==='verified'&&executionMode==='testnet';
+   if(terminal)requireThat(
+    verifiedTransport!==null&&
+    verifiedTransport!==transport&&
+    typeof verifiedTransport.recordVerified==='function',
+    503,'verified_transport_unavailable'
+   );
+   const storedPayload={...payload,binding:before.binding,revisionHash:before.revisionHash};
+   let sqlPayload=storedPayload;
+   if(!terminal&&issueGrant!==null){
+    const grant=await issueGrant({
+     authorization:before.raw,
+     operation:op,
+     request:structuredClone(storedPayload)
+    });
+    requireThat(
+     typeof grant?.token==='string'&&
+     /^[A-Za-z0-9_-]{43}$/.test(grant.token),
+     503,'high1_grant_unavailable'
+    );
+    sqlPayload={...storedPayload,grantToken:grant.token};
+   }
+   if(op==='cas'&&payload.patch?.state==='sending'&&payload.patch.attempted===true&&beforeDispatchClaimAfterGrant!==null)beforeDispatchClaimAfterGrant(before.raw);
+   let value;try{
+    value=terminal
+     ?await verifiedTransport.recordVerified(before.owner,storedPayload,{signal,approved:before.approved,resultDigestVersion})
+     :await transport.call(before.owner,op,sqlPayload,{signal});
+   }
   catch(e){if(e instanceof ApiError)throw e;throw new ApiError(503,'persistence_unavailable');}
   const after=await authorized(scope,payload.hash??null,op,submission,'persistence_after_sql');
   requireThat(before.binding===after.binding&&before.revisionHash===after.revisionHash,403,'persistence_identity_changed');
@@ -86,7 +117,7 @@ export function createPostgresNfuPersistence({transport,manifest,authorize,now=D
    requireThat(p.transactionXdr===raw.transactionXdr&&p.reviewDigest===sha(JSON.stringify(expected)+raw.transactionXdr)&&canonical(p.intent)===canonical(expected),409,'persistence_review_mismatch');
    // Project known fields only: never copy a token, raw Auth response, signed envelope or caller metadata.
    const descriptor={...before.owner,action:raw.action,sequence:raw.sequence,parameters:clone(raw.parameters),target:clone(raw.target),
-    transactionXdr:raw.transactionXdr,expiresAt:raw.expiresAt,beforeBatchXdr:raw.beforeBatchXdr,revisionHash:before.revisionHash};
+    transactionXdr:raw.transactionXdr,expiresAt:raw.expiresAt,beforeBatchXdr:raw.beforeBatchXdr,revisionHash:before.revisionHash,...xdrProfileFields(raw)};
    if(raw.metadataPlan!==undefined){
     requireThat(raw.action==='create_batch'&&canonical(raw.metadataPlan)===canonical(createBatchMetadataPlan(raw.metadataPlan.idempotencyKey,raw.target)),409,'metadata_plan_changed');
     descriptor.metadataPlan=clone(raw.metadataPlan);
@@ -124,8 +155,8 @@ export function createPostgresNfuPersistence({transport,manifest,authorize,now=D
   },
   async recordVerifiedResult(scope,hash,expectedRevision,raw,{signal}={}){
    requireThat(hex(hash)&&revision(expectedRevision),400,'invalid_persistence_input');
-   const before=await authorized(scope,hash,'verified'),verified=validateNfuResult(raw,before.approved);
-   const result={hash,state:verified.state,ledger:verified.ledger,digest:sha(raw.resultXdr+raw.resultMetaXdr),
+    const before=await authorized(scope,hash,'verified'),verified=validateNfuResult(raw,before.approved,{resultDigestVersion});
+    const result={hash,state:verified.state,ledger:verified.ledger,digest:nfuResultDigest(raw,before.approved,{version:resultDigestVersion}),
     ...(verified.receipt?{receipt:clone(verified.receipt)}:{})};
    const p={state:verified.state,attempted:true,reason:verified.reason,ledger:verified.ledger};
    const out=await call(scope,'verified',{hash,revision:expectedRevision,patch:p,result},{signal});

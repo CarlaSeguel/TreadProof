@@ -1,0 +1,543 @@
+{
+  "schema": "treadproof-instaward1-d2-evidence-preparation-v1",
+  "preparedAtUtc": "2026-11-10T03:37:47.868879+00:00",
+  "preparedAtChile": "2026-11-10T00:37:47.868879-03:00",
+  "status": "PREPARATION_VERIFIED_DELIVERY_PENDING",
+  "sow": {
+    "version": "2.5",
+    "dated": "2026-10-06",
+    "sourceFile": "instaward_application_treadproof_v2_5.md",
+    "sourceSha256": "badcfbc9d45508ef777bc213b4cd294042d78632a6f64289d6e8106f848fff01",
+    "deliverable": "D2",
+    "allocationUsd": 2100,
+    "maintenanceIncludedInAllocation": true
+  },
+  "release": {
+    "candidateName": "instaward1-d2-sow-v2.5-rc1",
+    "nameIsProposalOnly": true,
+    "currentHead": "b128d1d69a4f1bd42954f8f08083d3bbd93f828d",
+    "branch": "codex/d2-hosted-demo",
+    "worktreeDirty": true,
+    "codeCommit": null,
+    "tag": null,
+    "imageDigest": null,
+    "buildId": null,
+    "releaseUrl": null,
+    "videoUrl": null,
+    "videoSha256": null,
+    "officialDeliveryAt": null,
+    "maintenanceEndAt": null,
+    "deliveryComplete": false
+  },
+  "scope": {
+    "network": "Stellar Testnet",
+    "passphrase": "Test SDF Network ; September 2015",
+    "batchId": "3",
+    "batchUuid": "c7aba1fd-1991-40b5-9e63-d42ab439f867",
+    "scenario": "Synthetic NFU measurements; real Stellar Testnet confirmations",
+    "state": "Valorized",
+    "massesGrams": {
+      "declared": 1000,
+      "pickup": 950,
+      "received": 925,
+      "valorized": 900
+    },
+    "physicalTreatmentIndependentlyCertified": false,
+    "newRewardCreditOrBadgeRequired": false
+  },
+  "actors": {
+    "plant": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+    "carrier": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+    "company": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF"
+  },
+  "contracts": {
+    "tire_registry": {
+      "id": "CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS",
+      "wasmSha256": "13e4cf397b1fa987376108b012b3c86a30d759beed1472bde494a180b80fcfda",
+      "basis": "TireRegistry verified for batch3; other IDs from preserved deployment manifest"
+    },
+    "impact_registry": {
+      "id": "CC5NLEIIWPEEWVZZWJXQQ55VXWR7XWFSY3R2DJXRKCKULMDUD34GYL5U",
+      "wasmSha256": "23116e4d2beebfb2e45c89f57b6a1e3ed250638031cb5af7b38cefa8f115fbe4",
+      "basis": "TireRegistry verified for batch3; other IDs from preserved deployment manifest"
+    },
+    "badge_contract": {
+      "id": "CCCIKAMAWIPURGD2NXENEO3H5FD4L4VADM7O366DJFJC7NAZKJ7DYKKA",
+      "wasmSha256": "af86361eef95b5b994ee6992a15e181f76768fd00b6f9da2b9d24a008de89ea7",
+      "basis": "TireRegistry verified for batch3; other IDs from preserved deployment manifest"
+    }
+  },
+  "operations": [
+    {
+      "action": "create_batch",
+      "intentId": "f6b3dbe0-de21-4b9f-a3d2-f7e3233fffec",
+      "hash": "b1bf0615c597d4ffb7f7051df0aed3a047020452d0db0e65754e8e324b649fa6",
+      "ledger": 5589704,
+      "role": "company",
+      "actor": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF",
+      "actors": {
+        "plant": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+        "carrier": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+        "company": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF"
+      },
+      "parameters": {
+        "plant": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+        "carrier": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+        "company": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF",
+        "declared_mass": "1000"
+      },
+      "sequence": "22756081058971650",
+      "receipt": {
+        "verifiedFromRpc": true,
+        "canonicalSha256": "3a51c074e830f686d07df77353608f39d34c2d90dc12dfa2bd589107443c9111",
+        "archiveFileSha256": "57ae488c78a8b3e8219d9d520b0bb5b773049f141e604083a1961c04621a2ac7",
+        "rawPreserved": true,
+        "fields": [
+          "mode",
+          "onchainConfirmed",
+          "verification",
+          "transactionHash",
+          "ledger",
+          "createdAt",
+          "contract",
+          "action",
+          "onchainBatchId",
+          "actor",
+          "userId",
+          "organizationId",
+          "target",
+          "parameters",
+          "evidenceHash",
+          "resultDigest",
+          "resultDigestVersion",
+          "requiresAuthorizedPersistence"
+        ],
+        "persistedExportMatched": true,
+        "persistedReceiptFileSha256": "703a6b1eb5b8fdde579c0a4295bb7da3f8f80f1deab213bf60c3abcf43ef92b7"
+      },
+      "resultDigest": {
+        "sha256": "e61b5d0f4d529eec8f7dac51a09ddb3a5ec75c6a081d5908537706750a06d2e4",
+        "version": "stellar-testnet-company3-txmeta-v4-core-metrics-invoke-time-nsecs-u64-zero-sha256-v1",
+        "persistedExportMatched": true
+      },
+      "local": {
+        "intentPhase": "confirmed",
+        "intentRevision": 5,
+        "attemptState": "confirmed",
+        "attemptRevision": 4,
+        "attempted": true,
+        "dispatchCommittedAt": "2026-11-06T10:35:20.008637-03:00",
+        "identitySource": "Company_JWT_RLS_HIGH1",
+        "terminalExportedAt": "2026-11-10T04:32:29.225Z"
+      },
+      "network": "testnet",
+      "onchainStateAfter": "Created",
+      "stellarResult": "SUCCESS",
+      "stellarObservedAt": "2026-11-10T04:35:03.933993+00:00",
+      "createdAt": "2026-11-06T13:36:01Z",
+      "feeChargedStroops": "338503",
+      "receiptFile": "receipts/create_batch.json",
+      "horizonUrl": "https://horizon-testnet.stellar.org/transactions/b1bf0615c597d4ffb7f7051df0aed3a047020452d0db0e65754e8e324b649fa6",
+      "networkProofFile": "evidence/five-network-confirmations.json",
+      "authenticatedTerminalEvidenceFile": "evidence/company-terminal.json"
+    },
+    {
+      "action": "confirm_pickup",
+      "intentId": "64b7a20e-cb4c-4504-a65a-98d4a6791119",
+      "hash": "b69224eb2d97f6ed313b196e1d5362cef5210d10badbee64fc7032a26820c9d4",
+      "ledger": 5645267,
+      "role": "carrier",
+      "actor": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+      "actors": {
+        "plant": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+        "carrier": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+        "company": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF"
+      },
+      "parameters": {
+        "id": "3",
+        "pickup_mass": "950"
+      },
+      "sequence": "22759182025359363",
+      "receipt": {
+        "verifiedFromRpc": true,
+        "canonicalSha256": "560882137f0ff2f40100e7180fac97ebdaa0093206f641219be219ddc290bccf",
+        "archiveFileSha256": "957a0047b57c63dd3b2aa8b7de1b3e6336222b6635c012191274794bcd6246b6",
+        "rawPreserved": true,
+        "fields": [
+          "mode",
+          "onchainConfirmed",
+          "verification",
+          "transactionHash",
+          "ledger",
+          "createdAt",
+          "contract",
+          "action",
+          "onchainBatchId",
+          "actor",
+          "userId",
+          "organizationId",
+          "target",
+          "parameters",
+          "evidenceHash",
+          "resultDigest",
+          "resultDigestVersion",
+          "requiresAuthorizedPersistence"
+        ],
+        "persistedExportMatched": true
+      },
+      "resultDigest": {
+        "sha256": "56b7a66127377eb34c00c4c3802aac1a4ca441cb11aed1886b7706c3fbb88e4a",
+        "version": "stellar-testnet-carrier-pickup3-txmeta-v4-core-metrics-invoke-time-nsecs-u64-zero-sha256-v1",
+        "persistedExportMatched": true
+      },
+      "local": {
+        "intentPhase": "confirmed",
+        "intentRevision": 6,
+        "attemptState": "confirmed",
+        "attemptRevision": 5,
+        "attempted": true,
+        "dispatchCommittedAt": "2026-11-09T15:45:59.483941-03:00"
+      },
+      "network": "testnet",
+      "onchainStateAfter": "PickedUp",
+      "stellarResult": "SUCCESS",
+      "stellarObservedAt": "2026-11-10T03:13:39.942828+00:00",
+      "createdAt": "2026-11-09T18:46:17Z",
+      "feeChargedStroops": "22138086",
+      "receiptFile": "receipts/confirm_pickup.json",
+      "horizonUrl": "https://horizon-testnet.stellar.org/transactions/b69224eb2d97f6ed313b196e1d5362cef5210d10badbee64fc7032a26820c9d4",
+      "networkProofFile": "evidence/five-network-confirmations.json"
+    },
+    {
+      "action": "start_transit",
+      "intentId": "37bb7cd4-dd09-4b19-ac87-dd757ec98a07",
+      "hash": "adbe71a9ef6fcc8f2275d6f59b00a9667126dba6b5d0527760bb386074a325ef",
+      "ledger": 5648484,
+      "role": "carrier",
+      "actor": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+      "actors": {
+        "plant": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+        "carrier": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+        "company": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF"
+      },
+      "parameters": {
+        "id": "3"
+      },
+      "sequence": "22759182025359364",
+      "receipt": {
+        "verifiedFromRpc": true,
+        "canonicalSha256": "4e974e95440453e190f2426f4f9d4da1efc494817d91b085b12f03bdc06b35d4",
+        "archiveFileSha256": "447a162b5a219325c3ca61a0416dbd5b189b782a78f99f6d9ad20653ca47cd82",
+        "rawPreserved": true,
+        "fields": [
+          "mode",
+          "onchainConfirmed",
+          "verification",
+          "transactionHash",
+          "ledger",
+          "createdAt",
+          "contract",
+          "action",
+          "onchainBatchId",
+          "actor",
+          "userId",
+          "organizationId",
+          "target",
+          "parameters",
+          "evidenceHash",
+          "resultDigest",
+          "resultDigestVersion",
+          "requiresAuthorizedPersistence"
+        ],
+        "persistedExportMatched": true
+      },
+      "resultDigest": {
+        "sha256": "240816245d42336abc954b718313a24213d1c828c772719aba529599f1da8e24",
+        "version": "stellar-testnet-d2-remaining-batch3-txmeta-v4-core-metrics-invoke-time-nsecs-u64-zero-sha256-v1",
+        "persistedExportMatched": true
+      },
+      "local": {
+        "intentPhase": "confirmed",
+        "intentRevision": 4,
+        "attemptState": "confirmed",
+        "attemptRevision": 3,
+        "attempted": true,
+        "dispatchCommittedAt": "2026-11-09T20:13:40.755721-03:00"
+      },
+      "network": "testnet",
+      "onchainStateAfter": "InTransit",
+      "stellarResult": "SUCCESS",
+      "stellarObservedAt": "2026-11-10T03:13:39.942828+00:00",
+      "createdAt": "2026-11-09T23:14:22Z",
+      "feeChargedStroops": "92573",
+      "receiptFile": "receipts/start_transit.json",
+      "horizonUrl": "https://horizon-testnet.stellar.org/transactions/adbe71a9ef6fcc8f2275d6f59b00a9667126dba6b5d0527760bb386074a325ef",
+      "networkProofFile": "evidence/five-network-confirmations.json"
+    },
+    {
+      "action": "confirm_reception",
+      "intentId": "b3ff5c3e-7370-4e1d-a46c-76064ee84b93",
+      "hash": "567d93bea4102f99ddfa3fc2c80e9659aff948ef432890ffd49e3984c6fb99e5",
+      "ledger": 5649550,
+      "role": "plant",
+      "actor": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+      "actors": {
+        "plant": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+        "carrier": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+        "company": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF"
+      },
+      "parameters": {
+        "id": "3",
+        "received_mass": "925"
+      },
+      "sequence": "22759186320326659",
+      "receipt": {
+        "verifiedFromRpc": true,
+        "canonicalSha256": "c83a73e18ae87fe68720c68c12518d28bafbcfdbe3daf393eec5ccefdb2617b9",
+        "archiveFileSha256": "bd9fb8660fbd36f04eef5a83e87c0d13a803de04e34595dbf19fa5ca91e31d7a",
+        "rawPreserved": true,
+        "fields": [
+          "mode",
+          "onchainConfirmed",
+          "verification",
+          "transactionHash",
+          "ledger",
+          "createdAt",
+          "contract",
+          "action",
+          "onchainBatchId",
+          "actor",
+          "userId",
+          "organizationId",
+          "target",
+          "parameters",
+          "evidenceHash",
+          "resultDigest",
+          "resultDigestVersion",
+          "requiresAuthorizedPersistence"
+        ],
+        "persistedExportMatched": true
+      },
+      "resultDigest": {
+        "sha256": "e335e21eda6e8d20b657051c52509cfadeea0bd6402c0dae50c24d2494e160a6",
+        "version": "stellar-testnet-d2-remaining-batch3-txmeta-v4-core-metrics-invoke-time-nsecs-u64-zero-sha256-v1",
+        "persistedExportMatched": true
+      },
+      "local": {
+        "intentPhase": "confirmed",
+        "intentRevision": 4,
+        "attemptState": "confirmed",
+        "attemptRevision": 3,
+        "attempted": true,
+        "dispatchCommittedAt": "2026-11-09T21:42:54.773869-03:00"
+      },
+      "network": "testnet",
+      "onchainStateAfter": "Received",
+      "stellarResult": "SUCCESS",
+      "stellarObservedAt": "2026-11-10T03:13:39.942828+00:00",
+      "createdAt": "2026-11-10T00:43:12Z",
+      "feeChargedStroops": "92548",
+      "receiptFile": "receipts/confirm_reception.json",
+      "horizonUrl": "https://horizon-testnet.stellar.org/transactions/567d93bea4102f99ddfa3fc2c80e9659aff948ef432890ffd49e3984c6fb99e5",
+      "networkProofFile": "evidence/five-network-confirmations.json"
+    },
+    {
+      "action": "confirm_valorization",
+      "intentId": "5d576ab0-9b23-49e6-a310-b39f5e1a9be5",
+      "hash": "899881abecbff106ba4cd429456a7739cf06a6213abbf943ce9bf2f0eccd9e66",
+      "ledger": 5651173,
+      "role": "plant",
+      "actor": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+      "actors": {
+        "plant": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+        "carrier": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+        "company": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF"
+      },
+      "parameters": {
+        "id": "3",
+        "evidence_hash": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d",
+        "valorized_mass": "900"
+      },
+      "sequence": "22759186320326660",
+      "receipt": {
+        "verifiedFromRpc": true,
+        "canonicalSha256": "b118287e9746a62ea2dc2396e04a47a098a21587f9cbcd10cc15a76f95205f87",
+        "archiveFileSha256": "66eef5f85bf6ff6899025be8a6088f68c9943a96e891b31332007ff4b9d4e740",
+        "rawPreserved": true,
+        "fields": [
+          "mode",
+          "onchainConfirmed",
+          "verification",
+          "transactionHash",
+          "ledger",
+          "createdAt",
+          "contract",
+          "action",
+          "onchainBatchId",
+          "actor",
+          "userId",
+          "organizationId",
+          "target",
+          "parameters",
+          "evidenceHash",
+          "resultDigest",
+          "resultDigestVersion",
+          "requiresAuthorizedPersistence"
+        ],
+        "persistedExportMatched": true
+      },
+      "resultDigest": {
+        "sha256": "c0340a9ef90f0459b0267f9fbdaaedf666c2649e0a33229a54def9e7adcae05a",
+        "version": "stellar-testnet-d2-remaining-batch3-txmeta-v4-core-metrics-invoke-time-nsecs-u64-zero-sha256-v1",
+        "persistedExportMatched": true
+      },
+      "local": {
+        "intentPhase": "confirmed",
+        "intentRevision": 4,
+        "attemptState": "confirmed",
+        "attemptRevision": 3,
+        "attempted": true,
+        "dispatchCommittedAt": "2026-11-09T23:57:38.938015-03:00"
+      },
+      "network": "testnet",
+      "onchainStateAfter": "Valorized",
+      "stellarResult": "SUCCESS",
+      "stellarObservedAt": "2026-11-10T03:13:39.942828+00:00",
+      "createdAt": "2026-11-10T02:58:27Z",
+      "feeChargedStroops": "108706",
+      "receiptFile": "receipts/confirm_valorization.json",
+      "horizonUrl": "https://horizon-testnet.stellar.org/transactions/899881abecbff106ba4cd429456a7739cf06a6213abbf943ce9bf2f0eccd9e66",
+      "networkProofFile": "evidence/five-network-confirmations.json"
+    }
+  ],
+  "evidence": {
+    "evidenceId": "0faee5e8-9543-42c3-a9ca-c8d4380ed30b",
+    "filename": "treadproof-d2-lote-3-valorizacion-900g-borrador.pdf",
+    "byteSize": 76314,
+    "sha256": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d",
+    "privateStorage": true,
+    "redistributedByThisPackage": false,
+    "synthetic": true,
+    "recoveredBytesMatchOriginal": true,
+    "onchainHashMatches": true,
+    "attestingActor": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+    "attestationTransactionHash": "899881abecbff106ba4cd429456a7739cf06a6213abbf943ce9bf2f0eccd9e66",
+    "terminalLedger": 5651173
+  },
+  "compatibility": {
+    "nodeInspected": "24.19.0",
+    "nodeHostedHistorical": "24.22.2 recorded earlier; actual hosted version not exposed",
+    "freighterApi": "6.0.1",
+    "freighterExtensionVersion": null,
+    "chromeCurrentInspection": "156.0.8078.80",
+    "stellarSdk": "17.2.1",
+    "vite": "8.3.4",
+    "postgresql": "17.11",
+    "rustToolchainSource": "1.98.1",
+    "sorobanSdkSource": "28.0.0",
+    "stellarCliHistoricalContainer": "26.0.0",
+    "stellarCliSourceReadme": "28.0.0",
+    "stellarCliFinalImage": null,
+    "versionDifferencesRequireDocumentationNotUnapprovedUpgrade": true
+  },
+  "hosting": {
+    "existingUrl": "https://treadproof-d2-demo.onrender.com/",
+    "existingCheckedAt": "2026-11-10T03:20:57.026390+00:00",
+    "existingHttpsStatus": 200,
+    "existingRuntimeStatus": 200,
+    "existingMode": "synthetic_read_only",
+    "existingVerifiedOnStellar": false,
+    "currentBatch3ReleasePublished": false,
+    "providerProposed": "Render",
+    "originProposed": "https://treadproof-d2-demo.onrender.com",
+    "proposedComputePlan": "1c-2g",
+    "referenceComputeUsdPerMonth": 25,
+    "referenceDiskGb": 1,
+    "referenceDiskUsdPerGbMonth": 0.25,
+    "referenceTotalUsdPerMonthBeforeTaxAndExtras": 25.25,
+    "spendAuthorized": false,
+    "accountControlVerified": false,
+    "customDomainRequired": false,
+    "containerBuildExecuted": false,
+    "credentialsExported": false,
+    "containerDependencyPackagingCorrectedLocally": true,
+    "currentFrontendAndSameOriginCompositionLocalPass": true,
+    "currentDatabaseBytes": 8844979
+  },
+  "maintenance": {
+    "owner": "Christián Javier Medina López",
+    "daysAfterOfficialDelivery": 30,
+    "state": "PLANNED_NOT_STARTED",
+    "periodCompletionClaimed": false,
+    "actualStartAt": null,
+    "actualEndAt": null
+  },
+  "pendingRequiredEvidence": [
+    "final_commit_and_tag",
+    "release_build_bound_to_final_commit_tag",
+    "deployed_current_build_and_same_origin_acceptance",
+    "freighter_extension_version",
+    "clean_fresh_account_reviewer_run",
+    "final_regression_log",
+    "video_recording_url_and_sha256",
+    "official_delivery_date_and_30_day_availability_start",
+    "live_https_auth_jwt_rls_sep53_and_private_evidence_acceptance"
+  ],
+  "preparationActions": {
+    "businessWrites": 0,
+    "newNfuTransactions": 0,
+    "sqlChanges": 0,
+    "functionalSourceChanges": 5,
+    "commits": 0,
+    "tags": 0,
+    "pushes": 0,
+    "deployments": 0,
+    "documentationAndEvidenceOnly": false,
+    "scope": "packaging/public read-only composition and authenticated export only; backend NFU core unchanged"
+  },
+  "privateEvidenceIndex": "PRIVATE-EVIDENCE-INDEX.json",
+  "sourcePins": "SOURCE-PINS.json",
+  "runtime": {
+    "profile": "authenticated_read_only",
+    "localNativeCheck": "PASS",
+    "dockerBuild": "PASS_SQL_ASSETS_INCLUDED",
+    "baseNode": {
+      "status": "EXECUTED_IN_ISOLATED_DOCKER_CANDIDATE",
+      "image": "node:24.19.0-trixie-slim",
+      "digest": "sha256:ab3eebe934147fee049b5eb83c570f68c849a13c930bdfa482de99fcdfa3b3de",
+      "type": "application/vnd.oci.image.index.v1+json",
+      "imageExecuted": true,
+      "checkedAt": "2026-11-10T16:46:27.915093+00:00"
+    },
+    "postgres": "17, existing loopback or explicitly restored cluster; no startup initialization or migration",
+    "businessRoutesEnabled": false,
+    "sourcePins": "RUNTIME-SOURCE-PINS.json",
+    "secretFilesRequired": [
+      "treadproof_pgpass",
+      "treadproof_high1_pgpass"
+    ],
+    "high2WriterMounted": false,
+    "dockerRun": "PASS_NATIVE_READ_ONLY_BOUNDED_DEMO",
+    "dockerLabEvidence": "evidence/docker-sql-fix/result.json",
+    "candidateImageId": "sha256:111525bcc0dc1abe885147591b6886ad441c1bde816097f4ba5115f4f7473123",
+    "candidateOciIndexDigest": "sha256:111525bcc0dc1abe885147591b6886ad441c1bde816097f4ba5115f4f7473123",
+    "nativePostgresImageVersion": "psql (PostgreSQL) 17.11 (Debian 17.11-0+deb13u1)",
+    "labRestore": "PASS_COMPLETE_DECLARED_BOUNDED_D2_SET",
+    "productionStartupReady": false,
+    "latestInstallationFiles": 3,
+    "focusedRegression": {
+      "pass": 258,
+      "fail": 0
+    },
+    "partialNativeChecks": {
+      "pass": 11,
+      "scope": "existing partial fixture; no complete restoration"
+    },
+    "nativeStartupValidated": true,
+    "latestRecoveryEvidence": "evidence/bounded-recovery/result.json",
+    "originalIdentityGateUnmodified": true,
+    "latestRecoveryAclGrantCount": 1,
+    "liveProviderAndTlsAcceptance": "PENDING"
+  },
+  "updatedAtUtc": "2026-11-10T18:34:53.190539+00:00"
+}

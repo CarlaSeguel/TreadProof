@@ -1,0 +1,163 @@
+{
+  "initial": {
+    "scope": "isolated partial reconstruction from retained authenticated exports; not a full original cluster backup",
+    "checks": [
+      {
+        "name": "native PostgreSQL 17, loopback, durable settings",
+        "pass": true
+      },
+      {
+        "name": "five complete terminal pairs preserve receipts, signatures, CAS and revisions",
+        "pass": true
+      },
+      {
+        "name": "all copied tables retain FORCE RLS and non-bypass application roles",
+        "pass": true
+      },
+      {
+        "name": "direct unscoped application connection sees no rows and cannot write",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read create_batch",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read confirm_pickup",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read start_transit",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read confirm_reception",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read confirm_valorization",
+        "pass": true
+      },
+      {
+        "name": "rollback restores lab-only marker without changing copied terminal rows",
+        "pass": true
+      },
+      {
+        "name": "current historical UNIQUE predicate and COMMENT match archive",
+        "pass": true
+      }
+    ],
+    "postgres": "17.11 (Debian 17.11-0+deb13u1)",
+    "rowFingerprint": "a0cca4e55404afbb66de05394f8055a4c8caa2de78aa6397c57c5c134c340fe4",
+    "pass": 11
+  },
+  "restart": {
+    "scope": "isolated partial reconstruction from retained authenticated exports; not a full original cluster backup",
+    "checks": [
+      {
+        "name": "native PostgreSQL 17, loopback, durable settings",
+        "pass": true
+      },
+      {
+        "name": "five complete terminal pairs preserve receipts, signatures, CAS and revisions",
+        "pass": true
+      },
+      {
+        "name": "all copied tables retain FORCE RLS and non-bypass application roles",
+        "pass": true
+      },
+      {
+        "name": "direct unscoped application connection sees no rows and cannot write",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read create_batch",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read confirm_pickup",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read start_transit",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read confirm_reception",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read confirm_valorization",
+        "pass": true
+      },
+      {
+        "name": "rollback restores lab-only marker without changing copied terminal rows",
+        "pass": true
+      },
+      {
+        "name": "current historical UNIQUE predicate and COMMENT match archive",
+        "pass": true
+      }
+    ],
+    "postgres": "17.11 (Debian 17.11-0+deb13u1)",
+    "rowFingerprint": "a0cca4e55404afbb66de05394f8055a4c8caa2de78aa6397c57c5c134c340fe4",
+    "pass": 11
+  },
+  "restore": {
+    "scope": "isolated partial reconstruction from retained authenticated exports; not a full original cluster backup",
+    "checks": [
+      {
+        "name": "native PostgreSQL 17, loopback, durable settings",
+        "pass": true
+      },
+      {
+        "name": "five complete terminal pairs preserve receipts, signatures, CAS and revisions",
+        "pass": true
+      },
+      {
+        "name": "all copied tables retain FORCE RLS and non-bypass application roles",
+        "pass": true
+      },
+      {
+        "name": "direct unscoped application connection sees no rows and cannot write",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read create_batch",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read confirm_pickup",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read start_transit",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read confirm_reception",
+        "pass": true
+      },
+      {
+        "name": "HIGH1 one-use scoped journal read confirm_valorization",
+        "pass": true
+      },
+      {
+        "name": "rollback restores lab-only marker without changing copied terminal rows",
+        "pass": true
+      },
+      {
+        "name": "current historical UNIQUE predicate and COMMENT match archive",
+        "pass": true
+      }
+    ],
+    "postgres": "17.11 (Debian 17.11-0+deb13u1)",
+    "rowFingerprint": "a0cca4e55404afbb66de05394f8055a4c8caa2de78aa6397c57c5c134c340fe4",
+    "pass": 11
+  },
+  "catalog": {
+    "before": "2e222c634452305cfd3c8484cb57ad5f6217aaac5f658897aef768115b96a8e9",
+    "restored": "2e222c634452305cfd3c8484cb57ad5f6217aaac5f658897aef768115b96a8e9",
+    "equal": true
+  }
+}

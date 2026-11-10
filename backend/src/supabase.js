@@ -1,3 +1,4 @@
+import {preparationStage,carryPreparationFailure,notePreparationCause} from './nfu-preparation-diagnostics.js';
 import { ApiError, requireThat, uuid } from './validation.js';
 
 export function supabaseConfig(env = process.env) {
@@ -10,14 +11,14 @@ export function supabaseConfig(env = process.env) {
 export class SupabaseGateway {
   constructor(config, token, fetcher = fetch) { this.config=config; this.token=token; this.fetcher=fetcher; }
   async request(path, { method='GET', body, binary=false, contentType='application/json', rotationCheck=false, headersOnly=false } = {}) {
-    let response;
+    let response;const requestSignal=AbortSignal.timeout(15000);
     try {
-      response = await this.fetcher(this.config.url + path, {
+      response = await preparationStage('supabase_request','body',()=>this.fetcher(this.config.url + path, {
         method, headers:{apikey:this.config.key, Authorization:`Bearer ${this.token}`, 'Content-Type':contentType, Prefer:'return=representation'},
         body:body === undefined ? undefined : (Buffer.isBuffer(body) ? body : JSON.stringify(body)),
-        signal:AbortSignal.timeout(15000), redirect:'error',...(headersOnly?{cache:'no-store'}:{}),
-      });
-    } catch { throw new ApiError(503,'supabase_unavailable'); }
+        signal:requestSignal, redirect:'error',...(headersOnly?{cache:'no-store'}:{}),
+      }));
+    } catch(error) { if(requestSignal.aborted&&requestSignal.reason?.name==='TimeoutError')notePreparationCause(error,'dependency_timeout');throw carryPreparationFailure(new ApiError(503,'supabase_unavailable'),error); }
     if (!response.ok) {
       if (rotationCheck) {
         const error=await response.json().catch(()=>null);
@@ -42,8 +43,7 @@ export class SupabaseGateway {
       }
       return Buffer.concat(chunks);
     }
-    const text=await response.text();
-    return text ? JSON.parse(text) : null;
+    return preparationStage('supabase_response','body',async()=>{try{const text=await response.text();return text ? JSON.parse(text) : null;}catch(error){if(requestSignal.aborted&&requestSignal.reason?.name==='TimeoutError')notePreparationCause(error,'dependency_timeout');throw error;}});
   }
   async user() {
     const user=await this.request('/auth/v1/user');

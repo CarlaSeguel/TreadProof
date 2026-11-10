@@ -1,0 +1,13 @@
+Dev Log — 2026-11-10 18:18:54 America/Santiago
+Integración terminada del lector HTTPS terminal de Plant. 299 pruebas de imagen,
+174 de frontend y8 de Chrome PASS; arranque/gate/reinicio nativo PASS, cuatro
+tablas sin cambios. Proveedor y wallet de pruebas sintéticos; aceptación HTTPS
+real aún pendiente. Sin Render/Git/NFU real.
+
+Change Log
+Composición GET exacta con mecanismo documental existente; autorización Plant,
+JWT/RLS/SEP53, binding y comprobación de bytes/version/hash. Cliente lector de
+un clic, sin uploads ni bytes persistidos en estado. HTTP60 no amplía frescura30.
+Seis fuentes modificadas, un módulo UI y dos pruebas añadidos. Pre/post hashes
+en CHANGE-SET.installed.json. Ningún cambio a Dockerfile/locks/SQL/RLS/índices/
+contratos, PDF o estados históricos. Paquete de recuperación anterior intacto.

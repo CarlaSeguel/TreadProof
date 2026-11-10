@@ -1,5 +1,6 @@
 // Closed projection only. No payloads, JWT, user/org, XDR, error message/stack or provider text.
 import {randomUUID} from 'node:crypto';
+import {snapshotDiagnostic} from './nfu-snapshot-diagnostics.js';
 import {diagnosticCode,diagnosticCategory,diagnosticStage,diagnosticPurpose,reportNfuDiagnostic} from './nfu-error-diagnostics.js';
 const stages=new Set(['received','identity_and_intent_validated','fresh_testnet_read_requested','fresh_testnet_read_validated',
  'revalidating_authorization','authorization_validated','approval_validated','checking_duplicate_signature',
@@ -19,7 +20,9 @@ export function createSigningDiagnostic(sink,step,{clock=Date.now}={}){
   const code=diagnosticCode(record);if(role==='primary'&&primaryId===null)primaryId=record.faultId;seen.add(record.faultId+'|'+role);
   emit({event:'nfu_causal_failure',faultId:record.faultId,role,code,category:diagnosticCategory(code),stage:diagnosticStage(record.stage),phase:diagnosticStage(record.phase),boundary:diagnosticStage(record.boundary),purpose:diagnosticPurpose(record.purpose)});
  };
- return Object.freeze({id,bindOperation(value){if(!ended&&uuid(value))operationId=value.toLowerCase();},fault,
+ return Object.freeze({id,snapshot(read,manifest,wallet,time,timings){
+   if(ended)return;try{emit({event:'nfu_snapshot_validation',stage:'snapshot_validation',phase:lastStage,snapshot:snapshotDiagnostic(read,manifest,wallet,time,timings)});}catch{/* Observation only. */}
+  },bindOperation(value){if(!ended&&uuid(value))operationId=value.toLowerCase();},fault,
   progress(stage){if(ended||!stages.has(stage))return;lastStage=stage;emit({event:['submit','query'].includes(step)?'nfu_dispatch':'nfu_signing',stage});if(stage==='completed')ended=true;},
   failed(error){if(ended)return;reportNfuDiagnostic(fault,error,{phase:'http_response'});emit({event:['submit','query'].includes(step)?'nfu_dispatch':'nfu_signing',stage:lastStage,code:diagnosticCode(error)});ended=true;}
  });

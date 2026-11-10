@@ -1,0 +1,221 @@
+{
+  "schema": "treadproof-d2-render-final-preparation-v1",
+  "apply": false,
+  "preparedAtUtc": "2026-11-10T21:18:54.837035+00:00",
+  "service": {
+    "name": "treadproof-d2-demo",
+    "type": "web_service",
+    "runtime": "Docker",
+    "region": "oregon",
+    "serviceId": null,
+    "privateSettingsVerifiedByOwner": true,
+    "privateSettingsInspectedByAgent": false,
+    "metadataSource": "user manual Settings/Deploys inspection without changes",
+    "reuse": "CONFIRMED_COMPATIBLE_GIT_DOCKER_SOURCE",
+    "repository": "CarlaSeguel/TreadProof",
+    "branch": "render/d2-readonly-demo",
+    "currentPlan": "free",
+    "currentAutoDeploy": "On Commit",
+    "lastLiveCommit": "9d5ea0747af7ab1913cb73772b1cf22076e25c01",
+    "origin": "https://treadproof-d2-demo.onrender.com",
+    "instances": 1,
+    "plan": "1c-2g",
+    "autoDeploy": false,
+    "dockerfile": "Dockerfile.d2.stellar",
+    "dockerContext": ".",
+    "cmd": [
+      "node",
+      "deploy/d2-runtime-entrypoint.mjs"
+    ],
+    "healthCheckPath": "/api/runtime-health"
+  },
+  "disk": {
+    "gigabytes": 1,
+    "mountPath": "/var/lib/treadproof",
+    "measuredLabPgKiB": 47764,
+    "measurement": "du -sk of stopped isolated restored PG volume, read-only mount; no original access",
+    "bootstrapRequired": true,
+    "availableInBuildPredeployOrOneOffJob": false
+  },
+  "topology": {
+    "public": "0.0.0.0:$PORT",
+    "internalApi": "127.0.0.1:3002",
+    "postgres": "127.0.0.1:55440",
+    "postgresPublic": false,
+    "managedPostgresRequired": false,
+    "additionalProxyServiceRequired": false,
+    "viteDevServerRequired": false
+  },
+  "costUsdPerMonth": {
+    "compute": 25,
+    "disk": 0.25,
+    "computePlusDisk": 25.25,
+    "onrenderSubdomainAndTlsAdditional": 0,
+    "cheapestPaidUnvalidatedAlternative": 7.25,
+    "alternative512mbValidated": false,
+    "freeSuitableForVerifiedPersistentRuntime": false,
+    "supabaseExistingPlan": "NOT_INSPECTED_NO_UPGRADE_PROPOSED",
+    "workspaceExistingPlan": "NOT_INSPECTED_NO_UPGRADE_PROPOSED",
+    "registry": "NOT_REQUIRED_EXISTING_GIT_DOCKER_SOURCE",
+    "extrasExcluded": [
+      "tax",
+      "currency_conversion",
+      "egress_overage",
+      "build_overage",
+      "existing_workspace_or_supabase_plan",
+      "optional_temporary_candidate"
+    ],
+    "spendAuthorized": false
+  },
+  "environment": {
+    "NODE_ENV": "production",
+    "HOST": "0.0.0.0",
+    "PORT": "8080",
+    "TREADPROOF_DEPLOYMENT_ORIGIN": "https://treadproof-d2-demo.onrender.com",
+    "SUPABASE_URL": "https://eviifvhdipdqhxzqxmbm.supabase.co",
+    "SUPABASE_PUBLISHABLE_KEY": "",
+    "TP_HIGH1_LAB_DATABASE": "treadproof_d2_high_integrated",
+    "TP_D2_POSTGRES_MODE": "restored-local",
+    "TP_D2_PGDATA": "/var/lib/treadproof/postgres/data",
+    "TP_D2_SECRET_DIRECTORY": "/etc/secrets",
+    "TREADPROOF_CODE_COMMIT": "",
+    "TREADPROOF_BUILD_ID": ""
+  },
+  "secretFileNames": [
+    "treadproof_pgpass",
+    "treadproof_high1_pgpass"
+  ],
+  "credentialsAccessed": false,
+  "remoteSecretsChanged": false,
+  "localValidatedImageId": "sha256:86b1960fd73fbe158bb2f85cdd21197e01eedb774d09dcc34acce6cbbaa847ec",
+  "finalImageRepoDigest": null,
+  "finalCodeCommit": null,
+  "finalBuildId": null,
+  "documentReader": {
+    "state": "INSTALLED_AND_VERIFIED_LOCALLY_NOT_DEPLOYED",
+    "reuse": [
+      "TreadProofService.getEvidence",
+      "SupabaseGateway.download",
+      "SupabaseGateway.objectVersion",
+      "approved wallet gateway",
+      "JWT/RLS and SEP53"
+    ],
+    "routeProposed": "GET /api/v1/evidence/0faee5e8-9543-42c3-a9ca-c8d4380ed30b",
+    "batchUuid": "c7aba1fd-1991-40b5-9e63-d42ab439f867",
+    "sha256": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d",
+    "bytes": 76314,
+    "role": "original Plant",
+    "uploadsEnabled": false,
+    "publicDocumentUrl": false,
+    "oldWorkflowVerifierNotSuitable": [
+      "localhost-only origin",
+      "one-hour operational approval",
+      "requires Received while terminal batch is Valorized"
+    ],
+    "verificationResult": "output/verification/d2-https-document-reader/RESULT.json",
+    "routeImplemented": "GET /api/v1/evidence/0faee5e8-9543-42c3-a9ca-c8d4380ed30b"
+  },
+  "rollback": {
+    "preservePriorArtifact": true,
+    "automaticDeployDisabledProposed": true,
+    "plannedMaintenanceRequiredWithDisk": true,
+    "diskStateRolledBackByCodeRollback": false,
+    "postgresRecovery": "verified logical backup into a new target directory; not raw disk snapshot",
+    "originalDataTouched": false
+  },
+  "verification": {
+    "sourcePinsUnchanged": 330,
+    "priorSealedPackage": {
+      "integrity": "PASS",
+      "coherence": "PASS",
+      "filesVerified": 94,
+      "realConfirmedTransactions": 5,
+      "releaseAcceptance": "BLOCKED",
+      "remainingGates": [
+        "final_commit_and_tag",
+        "release_build_bound_to_final_commit_tag",
+        "deployed_current_build_and_same_origin_acceptance",
+        "freighter_extension_version",
+        "clean_fresh_account_reviewer_run",
+        "final_regression_log",
+        "video_recording_url_and_sha256",
+        "official_delivery_date_and_30_day_availability_start",
+        "live_https_auth_jwt_rls_sep53_and_private_evidence_acceptance",
+        "release.codeCommit",
+        "release.tag",
+        "release.imageDigest",
+        "release.buildId",
+        "release.releaseUrl",
+        "release.videoUrl",
+        "release.videoSha256",
+        "release.officialDeliveryAt",
+        "release.maintenanceEndAt",
+        "compatibility.freighterExtensionVersion",
+        "hosting.currentBatch3ReleasePublished",
+        "maintenance.actualStartAt"
+      ],
+      "networkRequests": 0,
+      "businessWrites": 0
+    },
+    "newFunctionalCodeInstalled": true,
+    "publicProbeFile": "public-service-observation.json",
+    "publicRecoveryProbeFile": "public-recovery-observation.json",
+    "http503": "TRANSIENT_OBSERVED_503_THEN_200; idle spinup compatible but not proven, Events/logs unavailable",
+    "deployedComparison": {
+      "ADD": 73,
+      "MODIFY": 27,
+      "UNCHANGED": 30
+    },
+    "deploymentInputCount": 130,
+    "runtimeRegressionRerun": {
+      "imageFocused": {
+        "tests": 299,
+        "pass": 299,
+        "fail": 0
+      },
+      "frontendFocused": {
+        "tests": 174,
+        "pass": 174,
+        "fail": 0
+      },
+      "chrome": {
+        "pass": 8,
+        "fail": 0
+      },
+      "totalDistinctAssertionsReported": 481,
+      "nativeImageRestart": "PASS",
+      "allFixtureTableFingerprintsUnchanged": true
+    },
+    "httpsProviderAcceptance": "PENDING_FOR_NEW_BUILD",
+    "newNfuRowsOrStellarTransactions": 0,
+    "gitCommitTagPushOrDeployment": 0,
+    "authorizedSourceChanges": 6,
+    "readerUiAndNewTests": 3,
+    "newImageContainsPrivatePdfOrCredentials": false,
+    "historicalRecoveryPackagePreserved": true
+  },
+  "humanMetadataPending": [
+    "artifact retention for rollback",
+    "Billing and Supabase quotas",
+    "budget choice and maintenance approval"
+  ],
+  "nextAuthorizations": [
+    "disable On Commit and verify Off BEFORE any push; approve scoped deployment-branch commit/push, paid Render resources and destination-only restore/bootstrap/credentials; manually deploy exact SHA and verify with original users"
+  ],
+  "sources": [
+    "https://render.com/pricing",
+    "https://render.com/docs/compute-plans",
+    "https://render.com/docs/disks",
+    "https://render.com/docs/configure-environment-variables",
+    "https://render.com/docs/docker-secrets",
+    "https://render.com/docs/deploying-an-image",
+    "https://render.com/docs/deploys",
+    "https://render.com/docs/rollbacks",
+    "https://render.com/docs/tls",
+    "https://supabase.com/docs/guides/getting-started/api-keys",
+    "https://supabase.com/docs/guides/storage/security/access-control",
+    "https://supabase.com/docs/guides/auth/redirect-urls",
+    "https://supabase.com/changelog.md"
+  ],
+  "report": "C:\\Users\\k_bxo\\AppData\\Local\\TreadProof\\worktrees\\d2-hosted-demo\\docs\\instawards\\D2_HTTPS_DOCUMENT_READER_RESULT.txt"
+}

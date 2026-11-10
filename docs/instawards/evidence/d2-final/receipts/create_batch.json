@@ -1,0 +1,36 @@
+{
+  "mode": "synthetic",
+  "onchainConfirmed": false,
+  "verification": "synthetic_rpc_result_and_ledger_changes",
+  "transactionHash": "b1bf0615c597d4ffb7f7051df0aed3a047020452d0db0e65754e8e324b649fa6",
+  "ledger": 5589704,
+  "createdAt": 1793972161,
+  "contract": "CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS",
+  "action": "create_batch",
+  "onchainBatchId": "3",
+  "actor": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF",
+  "target": {
+    "plant": "ad7f40cc-c066-45ee-841f-d348f63c2635",
+    "carrier": "b4386fee-4f10-488f-9e3e-0cbb5520b46e",
+    "company": "021ea67e-3ce8-4eab-bfd9-203f8a4a5b95"
+  },
+  "parameters": {
+    "plant": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+    "carrier": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+    "company": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF",
+    "declared_mass": "1000"
+  },
+  "evidenceHash": null,
+  "resultDigest": "e61b5d0f4d529eec8f7dac51a09ddb3a5ec75c6a081d5908537706750a06d2e4",
+  "resultDigestVersion": "stellar-testnet-company3-txmeta-v4-core-metrics-invoke-time-nsecs-u64-zero-sha256-v1",
+  "projection": "No JWT, signature, XDR, application user ID or organization ID; original receipt retained separately",
+  "receiptOrigin": "Persisted Company/JWT/RLS/HIGH1 terminal export; original legacy labels preserved; independently verified against RPC",
+  "independentNetworkProof": {
+    "source": "independent Horizon SUCCESS plus read-only Stellar RPC validation",
+    "proofFile": "evidence/five-network-confirmations.json",
+    "hash": "b1bf0615c597d4ffb7f7051df0aed3a047020452d0db0e65754e8e324b649fa6",
+    "ledger": 5589704,
+    "status": "SUCCESS",
+    "verifiedAt": "2026-11-10T04:35:03.933993+00:00"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "cause": "temporary_issuer_allowed_recover_but_exact_reader_requests_intent",
+  "priorGuard": "request.kind === recover",
+  "correctedScope": "read_journal/intent/exact original Company UUID only",
+  "frontendGenericMapping": "authorization_required is not in AUTH_MESSAGES; non-NFU errors map to auth_unavailable",
+  "identityAndBindingPreviouslyVerified": true,
+  "sqlRowsModified": 0,
+  "newNfuOperations": 0,
+  "originalHttpBodyNotRetained": true
+}

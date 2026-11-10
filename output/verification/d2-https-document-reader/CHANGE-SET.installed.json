@@ -1,0 +1,54 @@
+{
+  "schema": "treadproof-d2-document-reader-installed-v1",
+  "authorizedScope": "terminal GET only, original Plant, batch3, existing evidenceId/PDF",
+  "files": {
+    "backend/src/server.js": {
+      "beforeSha256": "d80af75a6a7ac4b25e6e6cd79d2625aa91efc8cb44d295f585fe4a75c95a4456",
+      "afterSha256": "dd46bc95e843dc3fe3eaaecd4efdc7daef4b72b5257c7beb5b9e91267245a358",
+      "bytes": 22395
+    },
+    "deploy/build-d2-public.mjs": {
+      "beforeSha256": "1811598772a4ac7eb3a94c4e71f4e527c79aa5dc94613858d58b6e06530f8649",
+      "afterSha256": "efa09f38d75642163a2915fc3e8d4b186ae64cd9cd8aa9e8a7156618d665c2c6",
+      "bytes": 7695
+    },
+    "deploy/d2-readonly-server.mjs": {
+      "beforeSha256": "76c305a8e2578f65bf1f2bf7039d5e345e11f7d05a7c171e126bddec7086d148",
+      "afterSha256": "6e0ab0f1e60fbb930ae03ab37d60e5350e88e67edda90ff957e737a69b0d5c10",
+      "bytes": 7079
+    },
+    "deploy/d2-runtime-entrypoint.mjs": {
+      "beforeSha256": "ca0771c0554f0df7201e7d0ad180792a8ac4d51d44cde62b37788178c6c37e65",
+      "afterSha256": "b67bd575af5313f620f51ec70cc47d73a0e212bf68e713b2641545131c5abcd0",
+      "bytes": 14256
+    },
+    "deploy/test/d2-document.test.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "8e25a6e5dd1dd931f8ee411b44d960181c8e11d95c02036fe3a36fd00363f826",
+      "bytes": 15231
+    },
+    "web/src/auth-session.mjs": {
+      "beforeSha256": "56072ab202f65e606f296e8e27b64051ab7406a9e90eb927ec4862469e1645b2",
+      "afterSha256": "dd3b723c9bf9344d73b17fc8b051b09ad41a28e5483d11a47b2fc927ccaa6a45",
+      "bytes": 20226
+    },
+    "web/src/main.mjs": {
+      "beforeSha256": "860bb40aa9037c3df7149484990fa7b4fe8bb3b53f4aae163d2d69daf9d401fc",
+      "afterSha256": "8c962471f28e67c7b11bf16e1037676938a032d559f2628c29188e8621eecaef",
+      "bytes": 6798
+    },
+    "web/src/nfu-document-view.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "b620f1a4b338cbe56bdd7fade9ccf51de3c4ac49bf13942b9a70cb457fd9cf8d",
+      "bytes": 5923
+    },
+    "web/test/nfu-document-view.test.mjs": {
+      "beforeSha256": null,
+      "afterSha256": "b5d67964fbaadff86b5d9bf89270fbb96d88bac3176f5f05100444348cb936b6",
+      "bytes": 6370
+    }
+  },
+  "unchangedProtectedSourceFiles": 330,
+  "businessSqlRlsContractsUnchanged": true,
+  "historicalEvidencePackageUnchanged": true
+}

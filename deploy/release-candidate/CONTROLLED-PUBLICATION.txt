@@ -1,0 +1,71 @@
+TreadProof D2 — corte preparado, no publicado
+
+Servicio existente: treadproof-d2-demo, GitHub CarlaSeguel/TreadProof,
+rama render/d2-readonly-demo, Oregon, Dockerfile.d2.stellar, contexto raíz.
+Último Live acreditado por el titular: 9d5ea0747af7ab1913cb73772b1cf22076e25c01.
+No hay commit nuevo ni tag/release. El identificador preparado es un Git tree.
+El SHA del futuro commit y buildId aún no existen; no usar HEAD antiguo como release.
+
+NO PUSH hasta autorización independiente y comprobación inmediata de Auto-Deploy Off.
+Pasos para el titular, SOLO cuando autorice ese cambio: Dashboard Render -> servicio
+treadproof-d2-demo -> Settings -> sección Auto-Deploy -> Edit -> Off -> Save.
+Volver a cargar Settings y verificar Off en el mismo servicio/rama; comprobar en
+Events/Deploys que no se disparó una publicación. No elegir After CI Checks Pass.
+No cambiar Environment, Secret Files, plan, disco, dominio ni disparar Manual Deploy.
+Si la pantalla ofrece rebuild/deploy en vez de guardar ese ajuste, detenerse.
+Hoy no se ejecutó ninguna de esas acciones. Un mensaje [skip render] no sustituye Off.
+
+Publicación posterior: verificar que la punta remota siga coincidiendo con el padre
+aprobado; detenerse si cambió. Crear el commit SOLO con el tree preparado y el padre
+verificado, sin git add -A ni mezclar el índice compartido. Publicar por fast-forward
+normal, nunca force, y comparar el tree del commit con el manifiesto antes de push.
+Crear commit/push exige autorización posterior; el preparador no los ejecuta.
+
+No desplegar el CMD final en Free o sin PGDATA restaurado. Primero autorizar recursos
+y bootstrap/restauración SOLO del conjunto acotado de destino. El disco no se monta
+en build/pre-deploy/one-off jobs. La fase temporal de mantenimiento debe revisarse y
+autorizarse antes de cualquier cambio que pueda activar deploy. No hay auto-initdb.
+Generar credenciales nuevas de destino; no exportar claves/JWT/passfiles del origen.
+
+Env/Secret Files: plantilla runtime.env.example sin valores secretos. El titular
+configurará publishable key real y dos Secret Files (treadproof_pgpass para
+tp_d2_repro_runner, treadproof_high1_pgpass para tp_nfu_auth_login), solo del destino.
+No service_role, sb_secret key, HIGH2 writer, participant JWT ni clave Stellar.
+Fijar origen HTTPS exacto; TREADPROOF_CODE_COMMIT y BUILD_ID deben ser los reales.
+Supabase Auth/Data/Storage permanece remoto y sujeto al JWT/RLS original, sin cambios.
+
+Después: Manual Deploy -> Deploy a specific commit -> SHA aprobado. Registrar build
+real/versions/digest, sin atribuir el image ID local a un RepoDigest publicado.
+Aceptar /, /operator.html, /batch3.json, /api/status, /api/runtime-health200 y TLS
+válido, frontend/API mismo origen, código/build coincidentes, sin tráfico mixto.
+Login y SEP-53 manuales de los participantes originales; historial con aislamiento
+1/2/2; PDF privado solo Plant, evidenceId aprobado, 76314bytes y SHA-256 exactos.
+Wrong user/org/wallet/origen, expiry/logout, hash/version mismatch y rutas anónimas
+deben rechazarse. Las diez rutas NFU y las cargas siguen bloqueadas. No nuevas TX.
+La raíz distingue el corte Stellar archivado del historial LOCAL sin RPC fresco.
+
+Rollback: confirmar AHORA en una futura lectura que Render retiene el artifact del
+deploy9d5ea07 antes de sustituirlo. Conservar su configuración y fixture, sin exponer
+secretos en este paquete. Rollback desde Deploys al artifact previo; verificar URL,
+health y rotulado. Un git archive conserva fuente, no la imagen histórica exacta:
+el Dockerfile antiguo usaba Node flotante, no prometer rebuild byte-idéntico.
+Render rollback no revierte disco/plan/dominios; PG se recupera desde respaldo lógico
+acreditado hacia un directorio NUEVO del destino, nunca sobre el origen ni mediante
+snapshot crudo de un PG activo. No reset/force-push de la rama para deshacer despliegue.
+
+Pruebas reproducibles: Node24, backend/package-lock.json y web/package-lock.json.
+299 casos de imagen y174 de frontend constan en output/verification/d2-https-document-reader.
+Para los tests del PDF, D2_TEST_PDF apunta a la copia privada ya autorizada externa a
+Git; validar76314bytes/SHA028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d.
+El PDF NO está en este corte ni en la imagen. No descargue ni vuelva a cargar evidencia
+para ejecutar pruebas. Las8 pruebas Chrome están archivadas con fixture Auth/wallet;
+no equivalen a aceptación de Supabase real/HTTPS/Freighter en el hosting.
+
+El paquete d2-final conserva evidencia histórica de builds anteriores: sus SOURCE-PINS
+no son los pins del corte nuevo. Usar el manifiesto externo de este Git tree para el
+candidato. No se han completado los gates de release, cuentas nuevas, video o30d.
+
+Referencias oficiales: https://render.com/docs/deploys
+https://render.com/docs/rollbacks
+https://render.com/docs/configure-environment-variables
+https://render.com/docs/disks

@@ -1,0 +1,102 @@
+{
+  "pass": true,
+  "environment": "native Node24 on WSL; existing loopback database; isolated local HTTP ports",
+  "httpsPublished": false,
+  "containerExecuted": false,
+  "profile": "authenticated_read_only",
+  "catalogGatePassed": true,
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "bytes": 4576
+    },
+    {
+      "path": "/operator.html",
+      "status": 200,
+      "bytes": 15406
+    },
+    {
+      "path": "/batch3.json",
+      "status": 200,
+      "bytes": 3735
+    },
+    {
+      "path": "/api/status",
+      "status": 200,
+      "bytes": 269,
+      "body": {
+        "service": "treadproof-d2",
+        "mode": "archived_verified_testnet",
+        "network": "testnet",
+        "batchId": "3",
+        "verification": "archived_independent_confirmation",
+        "verifiedAt": "2026-11-10T03:13:39.942828+00:00",
+        "signingEnabled": false,
+        "dispatchEnabled": false,
+        "build": {
+          "node": "24.19.0"
+        }
+      }
+    },
+    {
+      "path": "/api/runtime-health",
+      "status": 200,
+      "bytes": 165,
+      "body": {
+        "service": "treadproof-d2-runtime",
+        "status": "ok",
+        "internalApi": "authenticated_read_only",
+        "writesEnabled": false,
+        "high1ReadGrantsOnly": true,
+        "build": {
+          "node": "24.19.0"
+        }
+      }
+    },
+    {
+      "path": "/api/v1/nfu-live/prepare",
+      "status": 404,
+      "blocked": true
+    },
+    {
+      "path": "/api/v1/nfu-live/simulate",
+      "status": 404,
+      "blocked": true
+    },
+    {
+      "path": "/api/v1/nfu-live/approve",
+      "status": 404,
+      "blocked": true
+    },
+    {
+      "path": "/api/v1/nfu-live/signed",
+      "status": 404,
+      "blocked": true
+    },
+    {
+      "path": "/api/v1/nfu-live/submit",
+      "status": 404,
+      "blocked": true
+    },
+    {
+      "path": "/api/v1/nfu-live/query",
+      "status": 404,
+      "blocked": true
+    },
+    {
+      "path": "/api/v1/nfu-evidence/store",
+      "status": 404,
+      "blocked": true
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 401,
+      "jwtRequired": true
+    }
+  ],
+  "nfuTransactions": 0,
+  "participantJwtUsed": false,
+  "newBusinessIntents": 0,
+  "high1GrantsIssuedByThisCheck": 0
+}

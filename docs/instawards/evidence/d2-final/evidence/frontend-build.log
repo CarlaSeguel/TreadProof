@@ -1,0 +1,20 @@
+vite v8.3.4 building client environment for production...
+transforming...
+✓ 576 modules transformed.
+rendering chunks...
+computing gzip size...
+../../../../../../../../../..<isolated-audit-build>/web-dist/nfu-lab.html                       5.71 kB │ gzip:  2.19 kB
+../../../../../../../../../..<isolated-audit-build>/web-dist/nfu-tracking.html                  8.86 kB │ gzip:  2.78 kB
+../../../../../../../../../..<isolated-audit-build>/web-dist/index.html                        15.19 kB │ gzip:  4.39 kB
+../../../../../../../../../..<isolated-audit-build>/web-dist/assets/nfu-CBLy0DIV.css            0.89 kB │ gzip:  0.50 kB
+../../../../../../../../../..<isolated-audit-build>/web-dist/assets/tracking-D--AzQsE.css       1.49 kB │ gzip:  0.58 kB
+../../../../../../../../../..<isolated-audit-build>/web-dist/assets/style-E2x1m7MT.css          5.05 kB │ gzip:  1.77 kB
+../../../../../../../../../..<isolated-audit-build>/web-dist/assets/style-quMbAGcg.js           0.67 kB │ gzip:  0.38 kB
+../../../../../../../../../..<isolated-audit-build>/web-dist/assets/tracking-BqV4WpVZ.js        5.63 kB │ gzip:  2.37 kB
+../../../../../../../../../..<isolated-audit-build>/web-dist/assets/nfu-DTeApyqz.js            10.60 kB │ gzip:  3.54 kB
+../../../../../../../../../..<isolated-audit-build>/web-dist/assets/auth-session-CeF2G3fj.js   56.13 kB │ gzip: 18.37 kB
+../../../../../../../../../..<isolated-audit-build>/web-dist/assets/main-d_84sble.js          379.88 kB │ gzip: 94.53 kB
+
+✓ built in 2.53s
+
+Path substitution only; original log retained in restricted operator audit.

@@ -1,0 +1,115 @@
+{
+  "schema": "treadproof-d2-isolated-docker-lab-v1",
+  "verifiedAtUtc": "2026-11-10T05:29:03.563867+00:00",
+  "run": "d2-docker-20261110T050454Z",
+  "result": "BUILD_AND_PARTIAL_RESTORE_PASS_RUNTIME_STARTUP_BLOCKED",
+  "releaseReady": false,
+  "image": {
+    "tag": "treadproof-d2-lab:d2-docker-20261110t050454z",
+    "id": "sha256:0ef162aafe9464cc5d8b4c0b56692f6f9ab3a0fd515c66e95d7cb80be4f881c5",
+    "localRepoDigests": [
+      "treadproof-d2-lab@sha256:0ef162aafe9464cc5d8b4c0b56692f6f9ab3a0fd515c66e95d7cb80be4f881c5"
+    ],
+    "ociIndexDigest": "sha256:0ef162aafe9464cc5d8b4c0b56692f6f9ab3a0fd515c66e95d7cb80be4f881c5",
+    "published": false,
+    "node": "v24.19.0",
+    "postgres": "psql (PostgreSQL) 17.11 (Debian 17.11-0+deb13u1)",
+    "stellar": "stellar 26.0.0 (60f7458e7ecffddf2f2d91dc6d0d2db4fab03ecc)\nstellar-xdr 26.0.0 (dd7a165a193126fd37a751d867bee1cb8f3b55a6)\nxdr curr (cff714a5ebaaaf2dac343b3546c2df73f0b7a36e)",
+    "uid": 10001,
+    "activeBackendSourcesMatched": 80,
+    "embeddedManifestSha256": "2e97e24472497e675f53e8aefa2fffd45efb44b0b9828895ef953915a914b1e7"
+  },
+  "protectedSourcePinsUnchanged": 336,
+  "runtimePinsUnchanged": 6,
+  "isolation": {
+    "pass": true,
+    "networkEgressProbe": "ENETUNREACH",
+    "containersStopped": true,
+    "originalDatabaseMounted": false,
+    "originalCredentialsUsed": false,
+    "remoteSupabaseConnections": 0,
+    "stellarRequests": 0,
+    "hostDatabasePortsPublished": false,
+    "audit": "docker-lab/isolation.json"
+  },
+  "tests": {
+    "publicRuntimeExactImage": {
+      "tests": 20,
+      "pass": 20,
+      "fail": 0,
+      "skipped": 0
+    },
+    "authSep53ExactImage": {
+      "pass": 180,
+      "fixtureSuiteLoadFailures": 2,
+      "description": "synthetic Auth and cryptographic SEP-53; no real participant credentials"
+    },
+    "supplementalFixtureRegression": {
+      "tests": 58,
+      "pass": 57,
+      "fail": 1,
+      "skipped": 0,
+      "supportFile": "read-only copy of web/src/nfu-xdr-budget.mjs mounted for test fixtures, not installed in candidate image",
+      "failure": "local-auth-server health expectation omits company_batch3_reference_read_only=true"
+    },
+    "nativeCopyCases": 11,
+    "countsAreUniqueCasesNotSummedAcrossRestartRestore": true
+  },
+  "persistence": {
+    "restart": "PASS",
+    "restoration": "PASS_PARTIAL_LOGICAL_COPY",
+    "rollback": "PASS_TRANSACTION_ROLLBACK_LAB_CONTROL",
+    "rowFingerprintBeforeAfter": "a0cca4e55404afbb66de05394f8055a4c8caa2de78aa6397c57c5c134c340fe4",
+    "catalogFingerprint": "2e222c634452305cfd3c8484cb57ad5f6217aaac5f658897aef768115b96a8e9",
+    "terminalIntents": 5,
+    "terminalAttempts": 5,
+    "fullOriginalClusterBackup": false,
+    "roleAclSource": "explicit laboratory reconstruction, not a complete export of original cluster globals",
+    "productionCatalogEquivalence": "NOT_CLAIMED; proposed SQL-asset overlay reaches read-only gate but fails integrated_identity_surface_open in partial lab ACL"
+  },
+  "documentCopy": {
+    "byteSize": 76314,
+    "sha256": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d",
+    "bytesEqualAfterBackupRestore": true,
+    "scope": "independent local private-volume copy; not a remote Supabase Storage restoration"
+  },
+  "blockers": [
+    {
+      "code": "MISSING_RUNTIME_SQL_ASSETS",
+      "path": "/app/backend/sql/d2-high1-high2-integrated-lab.sql",
+      "allRequiredAssets": [
+        "d2-high1-high2-integrated-lab.sql",
+        "d2-high-integrated-preparation.sql",
+        "d2-high-integrated-journal.sql"
+      ],
+      "actualCliStartup": "rejected",
+      "proposal": "docker-lab/PACKAGING-SQL.proposed.patch; two packaging files only; not installed"
+    },
+    {
+      "code": "STALE_HEALTH_TEST_EXPECTATION",
+      "description": "one supplied-fixture regression fails on an additional read-only health capability"
+    }
+  ],
+  "limits": [
+    "HTTPS/TLS not exercised; tests used loopback HTTP with configured HTTPS Origin",
+    "No fresh accounts, reviewer run, Freighter UI or NFU transactions",
+    "No complete original-cluster or remote Auth/Storage backup/restore",
+    "No Render deployment or costs; no Git commit/tag/push"
+  ],
+  "operations": {
+    "newRealNfuIntents": 0,
+    "newRealAttempts": 0,
+    "stellarTransactions": 0,
+    "originalBusinessWrites": 0,
+    "originalSqlRlsIndexChanges": 0
+  },
+  "reproductionFiles": [
+    "lab-plan.json",
+    "seed-copy.private.sql",
+    "pg-hold.mjs",
+    "native-copy-test.mjs",
+    "catalog-fingerprint.sql",
+    "backups/lab-roles.sql",
+    "backups/confirmed-five.private.dump"
+  ]
+}

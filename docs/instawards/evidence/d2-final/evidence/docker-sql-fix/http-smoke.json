@@ -1,0 +1,35 @@
+{
+  "pass": true,
+  "scope": "actual packaged frontend/public proxy/API; trusted synthetic Auth/proof/history dependencies; native production startup separately blocked",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/operator.html",
+      "status": 200
+    },
+    {
+      "path": "/batch3.json",
+      "status": 200
+    },
+    {
+      "path": "/api/status",
+      "status": 200
+    },
+    {
+      "path": "/api/runtime-health",
+      "status": 200
+    },
+    {
+      "compiledAssetsVerified": 4
+    }
+  ],
+  "unauthenticated": 401,
+  "transactionRoutesBlocked": 10,
+  "evidenceWriteBlocked": true,
+  "originalCredentialsUsed": false,
+  "realWalletOrSupabaseSession": false,
+  "transport": "loopback HTTP; HTTPS Origin header; no TLS claim"
+}

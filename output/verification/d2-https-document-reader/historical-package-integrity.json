@@ -1,0 +1,32 @@
+{
+  "integrity": "PASS",
+  "coherence": "PASS",
+  "filesVerified": 94,
+  "realConfirmedTransactions": 5,
+  "releaseAcceptance": "BLOCKED",
+  "remainingGates": [
+    "final_commit_and_tag",
+    "release_build_bound_to_final_commit_tag",
+    "deployed_current_build_and_same_origin_acceptance",
+    "freighter_extension_version",
+    "clean_fresh_account_reviewer_run",
+    "final_regression_log",
+    "video_recording_url_and_sha256",
+    "official_delivery_date_and_30_day_availability_start",
+    "live_https_auth_jwt_rls_sep53_and_private_evidence_acceptance",
+    "release.codeCommit",
+    "release.tag",
+    "release.imageDigest",
+    "release.buildId",
+    "release.releaseUrl",
+    "release.videoUrl",
+    "release.videoSha256",
+    "release.officialDeliveryAt",
+    "release.maintenanceEndAt",
+    "compatibility.freighterExtensionVersion",
+    "hosting.currentBatch3ReleasePublished",
+    "maintenance.actualStartAt"
+  ],
+  "networkRequests": 0,
+  "businessWrites": 0
+}

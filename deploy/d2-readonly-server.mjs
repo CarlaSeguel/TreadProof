@@ -1,147 +1,76 @@
-import { createServer } from 'node:http';
-import { readFile, stat } from 'node:fs/promises';
-import { resolve, sep, extname } from 'node:path';
+import {createServer} from 'node:http';
+import {readFile,realpath,stat} from 'node:fs/promises';
+import {resolve,sep,extname} from 'node:path';
+import {pathToFileURL} from 'node:url';
 
-const root = resolve('deploy/d2-public');
-const host = process.env.HOST || '127.0.0.1';
-const port = Number(process.env.PORT || 8080);
-
-const mime = {
-  '.html': 'text/html; charset=utf-8',
-  '.js': 'text/javascript; charset=utf-8',
-  '.css': 'text/css; charset=utf-8',
-  '.json': 'application/json; charset=utf-8',
-  '.txt': 'text/plain; charset=utf-8',
-  '.svg': 'image/svg+xml',
-  '.png': 'image/png',
-  '.ico': 'image/x-icon',
-  '.woff2': 'font/woff2'
-};
-
-createServer(async (req, res) => {
-  const send = (status, body) => {
-    res.writeHead(status, {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'X-Content-Type-Options': 'nosniff',
-      'Cache-Control': 'no-store'
-    });
-    res.end(req.method === 'HEAD' ? undefined : body);
-  };
-
-  if (!['GET', 'HEAD'].includes(req.method)) {
-    return send(405, 'Metodo no permitido');
-  }
-
-  try {
-    const pathname = new URL(req.url, 'http://localhost').pathname;
-
-    if (pathname === '/api/runtime-health') {
-      try {
-        const response = await fetch('http://127.0.0.1:3001/health', {
-          signal: AbortSignal.timeout(2000)
-        });
-
-        if (!response.ok) throw new Error('internal_api_unavailable');
-
-        const health = await response.json();
-
-        if (health.status !== 'ok' ||
-            health.service !== 'treadproof-local-auth' ||
-            health.capabilities?.batch_operations !== false) {
-          throw new Error('unexpected_internal_api');
-        }
-
-        res.writeHead(200, {
-          'Content-Type': 'application/json; charset=utf-8',
-          'X-Content-Type-Options': 'nosniff',
-          'Cache-Control': 'no-store'
-        });
-
-        res.end(req.method === 'HEAD' ? undefined :
-          JSON.stringify({
-            service: 'treadproof-d2-runtime',
-            status: 'ok',
-            internalApi: 'restricted',
-            writesEnabled: false
-          }));
-        return;
-      } catch {
-        return send(503, 'API interna no disponible');
-      }
+const apiRoutes=new Map([
+ ['/auth/login','POST'],['/auth/logout','POST'],['/v1/me','GET'],
+ ['/v1/evidence/0faee5e8-9543-42c3-a9ca-c8d4380ed30b','GET'],
+ ...['challenges','verify','status'].map(s=>['/v1/wallet-proof/'+s,'POST']),
+ ...['intent','operation','recover'].map(s=>['/v1/nfu-journal/'+s,'POST'])
+]);
+const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.txt':'text/plain; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.ico':'image/x-icon','.woff2':'font/woff2'};
+const safeOrigin=value=>{let u;try{u=new URL(value);}catch{throw Error('invalid_public_origin');}if(u.origin!==value||u.protocol!=='https:'||u.username||u.password)throw Error('invalid_public_origin');return u.origin;};
+export function createD2PublicServer({root,origin,backendUrl='http://127.0.0.1:3002',snapshot,build={},fetcher=fetch,proxyTimeoutMs=120000}={}){
+ const base=resolve(root),trusted=safeOrigin(origin),backend=new URL(backendUrl);
+ if(backend.protocol!=='http:'||backend.hostname!=='127.0.0.1'||backend.pathname!=='/'||backend.search||backend.username||backend.password||backend.hash)throw Error('invalid_internal_backend');
+ if(snapshot?.mode!=='archived_verified_testnet'||snapshot?.batchId!=='3'||snapshot?.operations?.length!==5)throw Error('invalid_public_snapshot');
+ if(!Number.isSafeInteger(proxyTimeoutMs)||proxyTimeoutMs<5||proxyTimeoutMs>120000)throw Error('invalid_proxy_timeout');
+ const json=(res,status,value,head=false)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8'});res.end(head?undefined:JSON.stringify(value));};
+ return createServer({requestTimeout:20000,headersTimeout:10000,maxHeaderSize:16384},async(req,res)=>{
+  res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('Cache-Control','no-store');
+  res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; connect-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'");
+  const fail=(status,code)=>json(res,status,{error:code},req.method==='HEAD');
+  try{
+   const url=new URL(req.url,'http://localhost'),path=url.pathname;
+   if(path==='/api/status'&&['GET','HEAD'].includes(req.method)){
+    return json(res,200,{service:'treadproof-d2',mode:snapshot.mode,network:'testnet',batchId:'3',verification:'archived_independent_confirmation',verifiedAt:snapshot.verifiedAt,signingEnabled:false,dispatchEnabled:false,build},req.method==='HEAD');
+   }
+   if(path==='/api/runtime-health'&&['GET','HEAD'].includes(req.method)){
+    const response=await fetcher(new URL('/health',backend),{redirect:'error',signal:AbortSignal.timeout(2000)});
+    if(!response.ok)throw Error('health_failed');const h=await response.json();
+    if(h.status!=='ok'||h.service!=='treadproof-local-auth'||h.capabilities?.batch_operations!==false||
+      ['nfu_live_workflow','nfu_simulation','nfu_signing','nfu_dispatch','create_batch_preparation','metadata_registration','nfu_evidence_storage','nfu_reconciliation'].some(k=>h.capabilities?.[k]===true))throw Error('unsafe_internal_api');
+    return json(res,200,{service:'treadproof-d2-runtime',status:'ok',internalApi:'authenticated_read_only',writesEnabled:false,high1ReadGrantsOnly:h.capabilities.journal_read_only===true,build},req.method==='HEAD');
+   }
+   if(path==='/api'||path.startsWith('/api/')){
+    const target=path.slice(4),method=apiRoutes.get(target);
+    if(!method||url.search||req.url.includes('%'))return fail(404,'route_not_found');
+    if(req.method!==method)return fail(405,'method_not_allowed');
+    if(req.headers['sec-fetch-site']==='cross-site'||(req.method==='POST'&&req.headers.origin!==trusted)||(req.headers.origin&&req.headers.origin!==trusted))return fail(403,'untrusted_origin');
+    const headers={Accept:'application/json'};for(const k of ['authorization','origin','content-type','sec-fetch-site'])if(req.headers[k])headers[k]=req.headers[k];
+    if(target==='/v1/evidence/0faee5e8-9543-42c3-a9ca-c8d4380ed30b'){
+     // Same-origin GET fetches need not carry Origin. Bind only this route to the
+     // configured origin after browser provenance checks, never Host/Referer.
+     if(!req.headers.origin&&req.headers['sec-fetch-site']!=='same-origin')return fail(403,'untrusted_origin');
+     headers.origin=trusted;
     }
-    if (pathname === '/api/status') {
-      const status = {
-        service: 'treadproof-d2',
-        mode: 'synthetic_read_only',
-        network: 'testnet',
-        verifiedOnStellar: false,
-        signingEnabled: false,
-        dispatchEnabled: false
-      };
-
-      res.writeHead(200, {
-        'Content-Type': 'application/json; charset=utf-8',
-        'X-Content-Type-Options': 'nosniff',
-        'Referrer-Policy': 'no-referrer',
-        'Cache-Control': 'no-store'
-      });
-
-      res.end(req.method === 'HEAD' ? undefined : JSON.stringify(status));
-      return;
+    const chunks=[];let bytes=0;
+    if(req.method==='POST'){
+     if(req.headers['content-type']?.split(';')[0]!=='application/json')return fail(415,'json_required');
+     for await(const chunk of req){bytes+=chunk.length;if(bytes>8192)return fail(413,'payload_too_large');chunks.push(chunk);}
     }
-
-    if (pathname.startsWith('/api/') || pathname === '/api') {
-      return send(404, 'API no expuesta');
-    }
-
-    const decoded = decodeURIComponent(pathname);
-    if (decoded.includes('\0') || decoded.includes('\\')) {
-      return send(400, 'Ruta invalida');
-    }
-
-    const segments = decoded.split('/');
-    if (segments.includes('..') || segments.some(s => s.startsWith('.'))) {
-      return send(403, 'Ruta no permitida');
-    }
-
-    const relative = decoded === '/' ? 'nfu-tracking.html' : decoded.slice(1);
-    // Publicar exclusivamente la vista D2, su evidencia y
-    // los recursos compilados que necesita esa página.
-    const allowed =
-      relative === 'nfu-tracking.html' ||
-      relative === 'evidence/nfu-demo-d2-001-valorization.txt' ||
-      /^assets\/tracking-[A-Za-z0-9_-]+\.(js|css)$/.test(relative) ||
-      /^assets\/style-[A-Za-z0-9_-]+\.(js|css)$/.test(relative);
-
-    if (!allowed) {
-      return send(404, 'Recurso no publicado');
-    }
-
-    const target = resolve(root, relative);
-
-    if (!target.startsWith(root + sep)) {
-      return send(403, 'Ruta no permitida');
-    }
-
-    const info = await stat(target);
-    if (!info.isFile()) return send(404, 'No encontrado');
-
-    const type = mime[extname(target)];
-    if (!type) return send(415, 'Tipo no permitido');
-
-    const contents = await readFile(target);
-
-    res.writeHead(200, {
-      'Content-Type': type,
-      'X-Content-Type-Options': 'nosniff',
-      'Referrer-Policy': 'no-referrer',
-      'Cache-Control': 'no-store'
-    });
-
-    res.end(req.method === 'HEAD' ? undefined : contents);
-  } catch {
-    send(404, 'No encontrado');
-  }
-}).listen(port, host, () => {
-  console.log(`TreadProof D2 read-only: http://${host}:${port}`);
-});
+    const controller=new AbortController(),abort=()=>controller.abort(),timer=setTimeout(abort,proxyTimeoutMs);
+    req.once('aborted',abort);res.once('close',abort);
+    try{
+     const r=await fetcher(new URL(target,backend),{method:req.method,headers,body:req.method==='POST'?Buffer.concat(chunks):undefined,redirect:'error',signal:controller.signal});
+     if(!r.headers.get('content-type')?.startsWith('application/json'))throw Error('invalid_internal_response');
+     let size=0;const body=[];for await(const chunk of r.body){size+=chunk.length;if(size>524288)throw Error('invalid_internal_response');body.push(chunk);}
+     if(controller.signal.aborted||res.destroyed)return;
+     const value=JSON.parse(Buffer.concat(body).toString('utf8'));return json(res,r.status,value);
+    }finally{clearTimeout(timer);req.removeListener('aborted',abort);res.removeListener('close',abort);}
+   }
+   if(!['GET','HEAD'].includes(req.method))return fail(405,'method_not_allowed');
+   const decoded=decodeURIComponent(path);if(decoded.includes('\0')||decoded.includes('\\')||decoded.split('/').some(s=>s==='..'||s.startsWith('.')))return fail(403,'invalid_path');
+   const rel=decoded==='/'?'index.html':decoded.slice(1);
+   if(!(['index.html','operator.html','nfu-tracking.html','batch3.json','evidence/nfu-demo-d2-001-valorization.txt'].includes(rel)||/^assets\/[A-Za-z0-9_-]+\.(js|css|svg|png|woff2)$/.test(rel)))return fail(404,'resource_not_published');
+   const f=resolve(base,rel),real=await realpath(f),realBase=await realpath(base);
+   if(!real.startsWith(realBase+sep)||!(await stat(real)).isFile())return fail(403,'invalid_path');
+   const type=mime[extname(real)];if(!type)return fail(415,'unsupported_type');
+   const body=await readFile(real);res.writeHead(200,{'Content-Type':type});res.end(req.method==='HEAD'?undefined:body);
+  }catch{if(!res.destroyed&&!res.headersSent)fail(503,'read_runtime_unavailable');else if(!res.destroyed)res.end();}
+ });
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
+ console.error('Start the composed D2 runtime entrypoint; the standalone public server does not activate an API.');process.exitCode=1;
+}

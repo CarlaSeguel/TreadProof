@@ -16,14 +16,23 @@ const codes=new Set(['authentication_required','auth_unavailable','supabase_requ
  'simulation_authorization_mismatch','simulation_fee_mismatch','simulation_result_mismatch','simulation_assembly_failed','simulation_assembly_mismatch',
  'persistence_not_authorized','persistence_identity_changed','persistence_unavailable','persistence_review_mismatch',
  'persistence_conflict','persistence_transition_rejected','persistence_timeout','invalid_persistence_response','invalid_persistence_input']);
+const responseCauseCodes=new Set(['latest_ledger_invalid','resource_fee_format_invalid',
+ 'resource_fee_limit_exceeded','result_cardinality_invalid','transaction_data_xdr_invalid',
+ 'return_value_xdr_invalid','authorization_xdr_invalid']);
+const responseCauses=new WeakMap();
+// Only trusted validator code can attach a cause; provider fields are never projected.
+export function noteSimulationResponseCause(error,causeCode){
+ if(error&&typeof error==='object'&&error.code==='invalid_simulation_response'&&responseCauseCodes.has(causeCode)&&!responseCauses.has(error))responseCauses.set(error,causeCode);
+ return error;
+}
 export function createSimulationDiagnostic(sink,{clock=Date.now}={}){
  const id=randomUUID(),start=clock();let lastStage='received',ended=false;
- const emit=(stage,code)=>{if(typeof sink!=='function')return;
+ const emit=(stage,code,causeCode)=>{if(typeof sink!=='function')return;
   try{sink(Object.freeze({event:'nfu_simulation',requestId:id,stage,
-   elapsedMs:Math.max(0,clock()-start),...(code?{code}:{})}));}catch{/* Diagnostics cannot change authorization or retry work. */}
+   elapsedMs:Math.max(0,clock()-start),...(code?{code}:{}),...(causeCode?{causeCode}:{})}));}catch{/* Diagnostics cannot change authorization or retry work. */}
  };
  return Object.freeze({id,
   progress(stage){if(ended||!stages.has(stage))return;lastStage=stage;emit(stage);if(stage==='completed')ended=true;},
-  failed(error){if(ended)return;ended=true;emit(lastStage,codes.has(error?.code)?error.code:'unclassified_error');}
+  failed(error){if(ended)return;ended=true;const code=codes.has(error?.code)?error.code:'unclassified_error';emit(lastStage,code,code==='invalid_simulation_response'?responseCauses.get(error):undefined);}
  });
 }

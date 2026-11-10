@@ -1,0 +1,101 @@
+import { prepareTrackingDemo } from './nfu-tracking.mjs';
+
+const actions = [
+  'Creación', 'Retiro', 'Traslado', 'Recepción', 'Valorización'
+];
+
+const participants = [
+  'company', 'carrier', 'carrier', 'plant', 'plant'
+];
+
+async function loadTracking() {
+  const response = await fetch(
+    new URL('./nfu-tracking-demo.json', import.meta.url)
+  );
+
+  if (!response.ok) {
+    throw new Error('No se pudo cargar el JSON sintético');
+  }
+
+  const demo = prepareTrackingDemo(await response.json());
+  const formatMass = value =>
+    new Intl.NumberFormat('es-CL').format(value) + ' kg';
+
+  document.querySelector('#batch-title').textContent = demo.batchId;
+
+  const participantRows = document.querySelectorAll(
+    '#participants .account-details dd'
+  );
+
+  ['company', 'carrier', 'plant'].forEach((role, index) => {
+    participantRows[index].textContent = demo.participants[role];
+  });
+
+  const massRows = document.querySelectorAll(
+    '#mass .tracking-masses dd'
+  );
+
+  demo.massesKg.forEach((mass, index) => {
+    massRows[index].textContent = formatMass(mass);
+  });
+
+  const cycleItems = document.querySelectorAll('#cycle ol li');
+
+  demo.events.forEach((event, index) => {
+    const participant = demo.participants[participants[index]];
+    const measured = event.massKg === null
+      ? 'Sin nueva medición'
+      : formatMass(event.massKg);
+
+    cycleItems[index].querySelector('p').textContent =
+      participant + ' · Evento sintético';
+
+    cycleItems[index].querySelector('.status').textContent =
+      'Simulado · ' + measured;
+  });
+
+  const history = document.querySelector('#history .tracking-history');
+  history.replaceChildren();
+
+  demo.events.forEach((event, index) => {
+    const details = document.createElement('details');
+    const summary = document.createElement('summary');
+    const time = document.createElement('time');
+    const description = document.createElement('p');
+    const reference = document.createElement('code');
+
+    time.dateTime = event.time;
+    time.textContent = event.time.slice(11, 16);
+
+    summary.append(
+      time,
+      ' · ' + actions[index] + ' · Sintético'
+    );
+
+    description.append(
+      demo.participants[event.role] +
+      ' · ' +
+      (event.massKg === null
+        ? 'Sin nueva medición'
+        : formatMass(event.massKg)) +
+      '. Referencia local: '
+    );
+
+    reference.textContent = event.id;
+    description.append(
+      reference,
+      '. Sin hash de transacción Stellar.'
+    );
+
+    details.append(summary, description);
+    history.append(details);
+  });
+
+  console.log('TreadProof D2: datos sintéticos cargados');
+}
+
+loadTracking().catch(error => {
+  console.error('TreadProof D2:', error);
+  const title = document.querySelector('#batch-title');
+  if (title) title.textContent = 'Error al cargar datos sintéticos';
+});

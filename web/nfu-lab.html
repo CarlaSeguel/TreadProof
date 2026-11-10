@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://127.0.0.1:5173; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>TreadProof · Laboratorio NFU</title></head><body>
+<header class="topbar"><a class="brand" href="/">TreadProof</a><strong>Laboratorio NFU · sin operaciones reales</strong></header>
+<main>
+<section class="intro"><p class="eyebrow">D1 · RECORRIDO TRANSACCIONAL</p><h1>Del lote al resultado.</h1>
+<p>Auth, wallet, firma y red son sintéticos en esta pantalla. No se conecta a Supabase, Freighter ni Stellar. No introduzcas credenciales reales.</p></section>
+<section class="wallet-card"><h2>1. Participante del laboratorio</h2>
+<div class="lab-grid"><label>Identidad ficticia<select data-participant><option value="company">Company · Empresa</option><option value="carrier">Carrier · Transportista</option><option value="plant">Plant · Planta</option></select></label>
+<label>Wallet simulada<select data-lab-wallet disabled><option value="">Inicia sesión</option></select></label>
+<label>Red simulada<select data-lab-network><option value="testnet">Stellar Testnet · simulada</option><option value="wrong">Otra red · caso negativo</option></select></label></div>
+<div class="actions"><button class="primary" data-lab-login>Iniciar sesión sintética</button><button class="secondary" data-lab-logout disabled>Cerrar sesión</button></div>
+<p data-lab-auth role="status">Sin sesión autenticada</p><p class="error" data-lab-auth-error role="alert"></p>
+<dl class="account-details"><div><dt>Organización</dt><dd data-lab-org>—</dd></div><div><dt>Rol autorizado</dt><dd data-lab-role>—</dd></div>
+<div><dt>Wallet</dt><dd><code data-lab-address>—</code></dd></div></dl>
+<p class="hint">Cambiar de wallet o de red cierra esta sesión. Recargar la página exige iniciar sesión otra vez; los intentos se recuperan desde el servidor.</p></section>
+<section class="wallet-card"><h2>2. Preparar una operación</h2><form data-nfu-form>
+<div class="lab-grid"><label>Operación<select data-nfu-action><option value="create_batch">Crear lote · Company</option><option value="confirm_pickup">Confirmar retiro · Carrier</option><option value="start_transit">Iniciar traslado · Carrier</option><option value="confirm_reception">Confirmar recepción · Plant</option><option value="confirm_valorization">Confirmar valorización · Plant</option></select></label>
+<label>Lote<select data-nfu-batch><option value="">Selecciona un lote</option></select></label>
+<label data-mass-label>Masa exacta en gramos<input data-nfu-mass type="text" inputmode="numeric" value="1000" maxlength="20"></label></div>
+<label data-evidence-label hidden>Hash SHA-256 de evidencia sintética<input data-nfu-evidence type="text" maxlength="64" placeholder="64 caracteres hexadecimales"></label>
+<div class="actions"><button class="primary" data-nfu-prepare type="submit" disabled>Preparar y simular</button><button class="secondary" data-nfu-catalog type="button" disabled>Actualizar lotes</button></div></form>
+<p class="hint">La masa se expresa como entero de gramos. Los actores y permisos los determina el backend, no este formulario.</p></section>
+<section class="wallet-card"><div class="card-heading"><h2>3. Revisar y autorizar</h2><span class="status" data-nfu-status role="status">Sin operación</span></div>
+<p class="error" data-nfu-error role="alert"></p><dl class="account-details" data-nfu-review></dl>
+<div class="actions"><button class="primary" data-nfu-approve disabled>Revisé los datos · autorizar firma sintética</button><button class="primary" data-nfu-submit disabled>Enviar al RPC sintético</button>
+<button class="secondary" data-nfu-query disabled>Consultar resultado</button><button class="secondary" data-nfu-cancel disabled>Cancelar</button></div>
+<p class="hint">Un envío aceptado queda pendiente. Solo una consulta validada puede mostrar el resultado del laboratorio. Nunca se reenvían intentos inciertos automáticamente.</p>
+<pre data-nfu-receipt aria-label="Recibo sintético">Todavía no hay un recibo sintético.</pre></section>
+<section class="wallet-card"><h2>4. Recuperar un intento</h2><p>Después de recargar, inicia sesión con el mismo participante y carga sus operaciones. No se guardan tokens en el navegador.</p>
+<div class="actions"><button class="secondary" data-nfu-list disabled>Cargar mis operaciones</button><select data-nfu-history><option value="">Sin operaciones cargadas</option></select><button class="secondary" data-nfu-recover disabled>Recuperar por hash</button></div></section>
+<dialog data-sign-dialog><h2>Freighter simulado</h2><p>Esta aprobación usa una identidad ficticia del laboratorio. No abre la extensión ni firma con tus wallets reales.</p>
+<p>Cuenta: <code data-sign-address></code></p><div class="actions"><button class="primary" data-sign-accept>Firmar de forma sintética</button><button class="secondary" data-sign-reject>Rechazar firma</button></div></dialog>
+<footer>Laboratorio local. Ningún resultado de esta pantalla representa confirmación en blockchain real.</footer>
+</main><script type="module" src="/src/nfu-lab-main.mjs"></script></body></html>

@@ -1,0 +1,33 @@
+{
+  "mode": "synthetic",
+  "onchainConfirmed": false,
+  "verification": "synthetic_rpc_result_and_ledger_changes",
+  "transactionHash": "899881abecbff106ba4cd429456a7739cf06a6213abbf943ce9bf2f0eccd9e66",
+  "ledger": 5651173,
+  "createdAt": 1794279507,
+  "contract": "CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS",
+  "action": "confirm_valorization",
+  "onchainBatchId": "3",
+  "actor": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+  "target": {
+    "batch_id": "c7aba1fd-1991-40b5-9e63-d42ab439f867"
+  },
+  "parameters": {
+    "id": "3",
+    "evidence_hash": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d",
+    "valorized_mass": "900"
+  },
+  "evidenceHash": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d",
+  "resultDigest": "c0340a9ef90f0459b0267f9fbdaaedf666c2649e0a33229a54def9e7adcae05a",
+  "resultDigestVersion": "stellar-testnet-d2-remaining-batch3-txmeta-v4-core-metrics-invoke-time-nsecs-u64-zero-sha256-v1",
+  "projection": "No JWT, signature, XDR, application user ID or organization ID; original receipt retained separately",
+  "receiptOrigin": "Existing structural validator receipt; legacy labels preserved unchanged",
+  "independentNetworkProof": {
+    "source": "independent Horizon SUCCESS plus read-only Stellar RPC validation",
+    "proofFile": "evidence/five-network-confirmations.json",
+    "hash": "899881abecbff106ba4cd429456a7739cf06a6213abbf943ce9bf2f0eccd9e66",
+    "ledger": 5651173,
+    "status": "SUCCESS",
+    "verifiedAt": "2026-11-10T03:13:39.942828+00:00"
+  }
+}

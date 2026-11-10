@@ -1,0 +1,32 @@
+{
+  "restore": "PASS",
+  "scope": "complete declared bounded D2 set; not complete original history or managed Supabase recovery",
+  "allFourTableFingerprintsMatch": true,
+  "catalogWithOwnersAclRlsCommentsMatches": true,
+  "rolesNoPasswords": 9,
+  "memberships": 2,
+  "fiveReceiptDigestLedgerActorMappingsMatch": true,
+  "bindingEvidenceAttestationMatches": true,
+  "pdfBytesEqual": true,
+  "schemaSha256": "48d916971f8529afa2b2cec4be3439ce4d6764775d378c5c51e224ba25404c39",
+  "tableFingerprints": {
+    "nfu_store.intents": {
+      "count": 5,
+      "sha256": "55ac421653a3b648a48bc3ef0f0c415be3fb0b4b5292f930dba4adc5c9d01f1d"
+    },
+    "nfu_store.attempts": {
+      "count": 5,
+      "sha256": "c32b883dc72f90334f8f12a3f1fd77f2e3bd843c877e982d294f1d18c5efc297"
+    },
+    "d2_security.auth_grants": {
+      "count": 20,
+      "sha256": "6a6f9cdf23a5c2adab031396386c85490669ed0bda4216b5774f573c34b3e026"
+    },
+    "lab_control.marker": {
+      "count": 1,
+      "sha256": "ae3237299f275608aec7d14d94e7ff3ef270e1a9646df392f5aa4c8afd4dbba1"
+    }
+  },
+  "realStellarRequests": 0,
+  "originalWrites": 0
+}

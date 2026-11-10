@@ -1,0 +1,24 @@
+{
+  "pass": 8,
+  "fail": 0,
+  "cases": [
+    "no_automatic_private_read",
+    "real_chrome_click_one_GET_exact_pdf_download",
+    "wrong_role_hides_download_control",
+    "missing_sep53_no_download",
+    "hash_mismatch_no_download",
+    "logout_cancels_pending_private_download",
+    "server_restart_requires_proof_then_recovers_same_bytes",
+    "no_external_requests_no_NFU_or_upload_POST"
+  ],
+  "byteSize": 76314,
+  "sha256": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d",
+  "externalRequests": 0,
+  "apiMethods": [
+    "GET"
+  ],
+  "realBrowser": true,
+  "isolatedChromeProfile": true,
+  "providerAndWallet": "synthetic fixtures only; real existing API/service/client path",
+  "tlsAcceptance": false
+}

@@ -1,0 +1,29 @@
+{
+  "apply": false,
+  "provider": "Render",
+  "existingServiceName": "treadproof-d2-demo",
+  "plan": "1c-2g",
+  "diskGbProposed": 1,
+  "publicListen": "0.0.0.0:$PORT",
+  "apiListen": "127.0.0.1:3002",
+  "postgresListen": "127.0.0.1:55440",
+  "nodeMajor": 24,
+  "nodeExactVersion": "pending isolated image validation",
+  "stellarCliDigestCurrentlyRecorded": "sha256:4c83ab3fb952748b30764f2a11f5df69173dd4e5aff8b122d1f39a7529a7c237",
+  "stellarCliVersionRecorded": "26.0.0",
+  "frontend": "current compiled web frontend; old fixture remains historical",
+  "reverseProxy": "exact /api allowlist, strip /api, preserve verified origin",
+  "privateBucketRemainsPrivate": true,
+  "noAutoMigration": true,
+  "noAutoNfuTransactions": true,
+  "autoDeploy": false,
+  "requiredBeforeApply": "approved immutable image, isolated DB restoration and exact runtime origin/profile",
+  "localNativeRuntime": "PASS",
+  "runtimeFilesCorrected": true,
+  "dockerImageValidated": false,
+  "postgresStartup": "existing-loopback or explicitly restored-local; no initdb/migration/restore at startup",
+  "secretFiles": [
+    "treadproof_pgpass",
+    "treadproof_high1_pgpass"
+  ]
+}

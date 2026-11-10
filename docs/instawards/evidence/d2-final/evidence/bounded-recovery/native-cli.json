@@ -1,0 +1,22 @@
+{
+  "gate": {
+    "compatible": true,
+    "bodySha256": "1304b8bfb25c2be9dd8f47316ebc0fd5ae9de891e4b724ba6de5b7d89a76d805",
+    "xdrProfile": "d2_company_create_batch_1000g_600s"
+  },
+  "actualProductionEntryPoint": true,
+  "apiFactoryReplaced": false,
+  "nativeAuthenticatedReadOnlyProfileStarted": true,
+  "statuses": {
+    "/": 200,
+    "/operator.html": 200,
+    "/batch3.json": 200,
+    "/api/runtime-health": 200
+  },
+  "unauthenticated": 401,
+  "transactionRoutesBlocked": 10,
+  "providerSession": "NOT_TESTED_OFFLINE_NO_REAL_JWT",
+  "sourcePgAuthentication": "isolated pre-existing trust; no source passwords copied",
+  "tls": "NOT_TESTED",
+  "businessWrites": 0
+}

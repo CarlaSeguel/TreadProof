@@ -1,0 +1,51 @@
+{
+  "status": "PREPARATION_PASS_DELIVERY_PENDING",
+  "createdAt": "2026-11-10T03:47:13.660296+00:00",
+  "checks": [
+    {
+      "name": "package-verification",
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passedExpectedBehavior": true
+    },
+    {
+      "name": "strict-release-block",
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "passedExpectedBehavior": true
+    },
+    {
+      "name": "package-negative-tests",
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "passedExpectedBehavior": true
+    }
+  ],
+  "linksChecked": 3,
+  "publicPackageSecretPatternScan": "PASS (pattern scan only, not certification)",
+  "sourcesPinnedUnchanged": 330,
+  "catalogUnchanged": true,
+  "backendHealth": {
+    "status": "ok",
+    "network": "testnet",
+    "service": "treadproof-local-auth",
+    "protocol": "auth-sep53-v1",
+    "capabilities": {
+      "wallet_proof": true,
+      "batch_operations": false,
+      "challenge_logout_invalidation": true,
+      "journal_read_only": true
+    }
+  },
+  "frontendHttp": 200,
+  "newNfuTransactions": 0,
+  "businessWrites": 0,
+  "sqlChanges": 0,
+  "commits": 0,
+  "tags": 0,
+  "deployments": 0,
+  "packageTests": {
+    "passed": 10,
+    "failed": 0
+  }
+}

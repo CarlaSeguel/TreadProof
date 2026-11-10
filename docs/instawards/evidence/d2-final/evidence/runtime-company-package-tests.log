@@ -1,0 +1,16 @@
+test_claiming_delivery_with_pending_fields_rejected (__main__.PackageValidation.test_claiming_delivery_with_pending_fields_rejected) ... ok
+test_jwt_field_in_public_receipt_rejected (__main__.PackageValidation.test_jwt_field_in_public_receipt_rejected) ... ok
+test_missing_receipt_rejected (__main__.PackageValidation.test_missing_receipt_rejected) ... ok
+test_persisted_company_export_cannot_be_substituted_by_rpc_only_claim (__main__.PackageValidation.test_persisted_company_export_cannot_be_substituted_by_rpc_only_claim) ... ok
+test_preparation_integrity_does_not_claim_delivery (__main__.PackageValidation.test_preparation_integrity_does_not_claim_delivery) ... ok
+test_receipt_path_traversal_rejected (__main__.PackageValidation.test_receipt_path_traversal_rejected) ... ok
+test_resealed_wrong_hash_or_duplicate_rejected (__main__.PackageValidation.test_resealed_wrong_hash_or_duplicate_rejected) ... ok
+test_strict_release_rejects_pending_fields (__main__.PackageValidation.test_strict_release_rejects_pending_fields) ... ok
+test_synthetic_receipt_is_not_itself_chain_confirmation (__main__.PackageValidation.test_synthetic_receipt_is_not_itself_chain_confirmation) ... ok
+test_unsealed_byte_change_rejected (__main__.PackageValidation.test_unsealed_byte_change_rejected) ... ok
+test_wrong_evidence_even_after_reseal_rejected (__main__.PackageValidation.test_wrong_evidence_even_after_reseal_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 9.295s
+
+OK

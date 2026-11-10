@@ -1,0 +1,48 @@
+{
+  "pass": true,
+  "operationId": "5d576ab0-9b23-49e6-a310-b39f5e1a9be5",
+  "counts": {
+    "dispatch_claim_verified": 1,
+    "before_rpc_submission": 1,
+    "submission_response_received": 1,
+    "signed_reference_staged": 1,
+    "rpc_query_validated": 1
+  },
+  "requests": [
+    {
+      "timestamp": "2026-11-10T02:57:05.204Z",
+      "requestId": "57b83c8b-7d4f-40e7-accc-6cd9eefcbe0b",
+      "step": "signed",
+      "stage": "signed_reference_staged",
+      "elapsedMs": 52182
+    },
+    {
+      "timestamp": "2026-11-10T02:57:57.136Z",
+      "requestId": "44d97d4c-1a46-46cc-92f2-d5e3b645a76f",
+      "step": "submit",
+      "stage": "dispatch_claim_verified",
+      "elapsedMs": 47379
+    },
+    {
+      "timestamp": "2026-11-10T02:58:20.024Z",
+      "requestId": "44d97d4c-1a46-46cc-92f2-d5e3b645a76f",
+      "step": "submit",
+      "stage": "before_rpc_submission",
+      "elapsedMs": 70267
+    },
+    {
+      "timestamp": "2026-11-10T02:58:25.813Z",
+      "requestId": "44d97d4c-1a46-46cc-92f2-d5e3b645a76f",
+      "step": "submit",
+      "stage": "submission_response_received",
+      "elapsedMs": 76056
+    },
+    {
+      "timestamp": "2026-11-10T03:00:13.436Z",
+      "requestId": "c27c66f1-f0c0-4aca-a6d8-ea39bb18b125",
+      "step": "query",
+      "stage": "rpc_query_validated",
+      "elapsedMs": 86947
+    }
+  ]
+}

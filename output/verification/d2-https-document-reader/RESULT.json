@@ -1,0 +1,70 @@
+{
+  "schema": "treadproof-d2-https-document-reader-result-v1",
+  "verifiedAtUtc": "2026-11-10T21:17:18.178483+00:00",
+  "status": "PASS_LOCAL_AND_ISOLATED_IMAGE_NOT_DEPLOYED",
+  "route": "GET /api/v1/evidence/0faee5e8-9543-42c3-a9ca-c8d4380ed30b",
+  "role": "original Plant only",
+  "auth": "caller JWT/RLS, approved organization wallet, SEP53, exact HTTPS origin, actorBinding; context remains at most30s",
+  "operationWindowsRequired": false,
+  "terminalState": "Valorized/900g",
+  "evidenceId": "0faee5e8-9543-42c3-a9ca-c8d4380ed30b",
+  "documentBytes": 76314,
+  "documentSha256": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d",
+  "tests": {
+    "imageFocused": {
+      "tests": 299,
+      "pass": 299,
+      "fail": 0
+    },
+    "frontendFocused": {
+      "tests": 174,
+      "pass": 174,
+      "fail": 0
+    },
+    "chrome": {
+      "pass": 8,
+      "fail": 0
+    },
+    "totalDistinctAssertionsReported": 481,
+    "nativeImageRestart": "PASS",
+    "allFixtureTableFingerprintsUnchanged": true
+  },
+  "image": {
+    "localReference": "sha256:86b1960fd73fbe158bb2f85cdd21197e01eedb774d09dcc34acce6cbbaa847ec",
+    "imageConfigId": "sha256:86b1960fd73fbe158bb2f85cdd21197e01eedb774d09dcc34acce6cbbaa847ec",
+    "node": "24.19.0",
+    "postgres": "psql (PostgreSQL) 17.11 (Debian 17.11-0+deb13u1)",
+    "stellarCli": "stellar 26.0.0 (60f7458e7ecffddf2f2d91dc6d0d2db4fab03ecc)\nstellar-xdr 26.0.0 (dd7a165a193126fd37a751d867bee1cb8f3b55a6)\nxdr curr (cff714a5ebaaaf2dac343b3546c2df73f0b7a36e)",
+    "platform": "linux/amd64",
+    "registryPublishedDigest": null,
+    "deployed": false,
+    "privatePdfOrCredentialsIncluded": 0
+  },
+  "isolation": {
+    "allLabelledContainersStopped": true,
+    "network": "none",
+    "publishedPorts": 0,
+    "browserProfile": "separate synthetic local Chrome profile; local HTTP only",
+    "originalDatabaseConnections": 0,
+    "remoteSupabaseOrStellarRequests": 0,
+    "realDestinationCredentialsUsed": false,
+    "labPassfiles": "existing synthetic lab credential volume mounted read-only; not copied/exported",
+    "nfuRowsCreatedOrModified": 0,
+    "sqlRlsIndexChanges": 0,
+    "renderChanges": 0,
+    "gitCommitsTagsPush": 0
+  },
+  "limits": [
+    "Supabase positive responses and wallet possession use synthetic test seams; real provider/JWT/RLS session and Freighter message approval still require manual hosted acceptance",
+    "Chrome verifies the actual document view/client/service path; its Auth/wallet state is synthetic, not the full Freighter login journey",
+    "No new on-chain reads/transactions; Stellar read response is a fixture in document tests",
+    "TLS and final hosted build not accepted yet"
+  ],
+  "pending": [
+    "authorize Auto-Deploy Off and verify before any push",
+    "authorize reviewed deployment-branch commit/push and exact-SHA publication",
+    "approve chosen paid compute/disk cost and target-only bootstrap/restore/secrets",
+    "manual HTTPS Auth/SEP53/history/private PDF acceptance with original users; no NFU operations",
+    "release tag/video/fresh-account reproduction/official delivery date/30-day maintenance remain separately pending"
+  ]
+}

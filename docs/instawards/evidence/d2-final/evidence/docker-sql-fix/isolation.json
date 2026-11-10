@@ -1,0 +1,12 @@
+{
+  "pass": true,
+  "network": "none; native tests share only a laboratory parent with network=none",
+  "publishedPorts": false,
+  "originalDatabaseMounted": false,
+  "productiveCredentialsUsed": false,
+  "allContainersStopped": true,
+  "inspectedContainers": 7,
+  "parentLabVolumesOnly": true,
+  "supabaseRemoteConnections": 0,
+  "stellarNetworkRequests": 0
+}

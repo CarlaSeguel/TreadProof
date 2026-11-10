@@ -1,0 +1,121 @@
+{
+  "schema": "treadproof-d2-test-evidence-v1",
+  "countsMustNotBeSummed": true,
+  "runs": [
+    {
+      "name": "History and tracking evidence presentation",
+      "status": "PASS",
+      "pass": 22,
+      "fail": 0,
+      "skipped": 0,
+      "platform": "Ubuntu WSL / Node24.19.0",
+      "dateUtc": "2026-11-10",
+      "log": "evidence/history-presentation-tests.tap",
+      "command": "node --test --test-reporter=tap --test-concurrency=1 test/nfu-journal-view.test.mjs test/nfu-tracking-evidence.test.mjs",
+      "cwd": "web",
+      "releaseScope": "current dirty worktree source pins; not final release"
+    },
+    {
+      "name": "Production Vite compilation",
+      "status": "PASS",
+      "log": "evidence/frontend-build.log",
+      "platform": "Ubuntu WSL / Node24.19.0",
+      "dateUtc": "2026-11-10",
+      "command": "node web/node_modules/vite/bin/vite.js build --outDir <isolated-audit-build>/web-dist",
+      "releaseScope": "current source; no container build or deployment"
+    },
+    {
+      "name": "Terminal Plant reader and role/evidence rejection tests",
+      "status": "PASS",
+      "pass": 20,
+      "fail": 0,
+      "dateUtc": "2026-11-10",
+      "basis": "retained terminal-verification reader tests; no new NFU writes"
+    },
+    {
+      "name": "Five existing HIGH2 validators and receipt/digest consolidation",
+      "status": "PASS",
+      "cases": 5,
+      "dateUtc": "2026-11-10",
+      "basis": "Five RPC-valid receipts/digests consolidated; all five persisted terminal exports now matched. Company evidence/company-terminal.json closes the earlier documentary gap."
+    },
+    {
+      "name": "Final operational client proposal installation",
+      "status": "HISTORICAL_PASS",
+      "pass": 132,
+      "fail": 0,
+      "basis": "prior installed client validation and complete synthetic workflow; not rerun as a full release suite"
+    },
+    {
+      "name": "Full final-release backend/web/native/acceptance regression",
+      "status": "NOT_RUN_FOR_FINAL_RELEASE",
+      "basis": "must run against final commit; preserve five generic Auth baseline failures as historical until assessed, not as current passing results"
+    },
+    {
+      "name": "Artifact integrity, tamper/references/provenance and strict release gates",
+      "status": "PASS",
+      "pass": 10,
+      "fail": 0,
+      "skipped": 0,
+      "dateUtc": "2026-11-10",
+      "log": "evidence/package-negative-tests.log",
+      "command": "python3 tests/test_verify_package.py -v",
+      "scope": "artifact validation only; no NFU or DB operations"
+    },
+    {
+      "name": "Public composition, same-origin proxy, dependency packaging and cancellation",
+      "status": "PASS",
+      "pass": 20,
+      "fail": 0,
+      "log": "evidence/runtime-local-tests.tap",
+      "dateUtc": "2026-11-10",
+      "command": "node --test --test-reporter=tap --test-concurrency=1 deploy/test/d2-runtime.test.mjs"
+    },
+    {
+      "name": "Existing SEP-53 and journal-read regressions",
+      "status": "PASS",
+      "pass": 54,
+      "fail": 0,
+      "log": "evidence/runtime-core-regressions.tap",
+      "dateUtc": "2026-11-10",
+      "command": "node --test --test-reporter=tap --test-concurrency=1 test/sep53.test.js test/nfu-journal-read.test.js",
+      "cwd": "backend"
+    },
+    {
+      "name": "Exact authenticated Company terminal collector and issuer-policy integration",
+      "status": "PASS",
+      "pass": 28,
+      "fail": 0,
+      "log": "evidence/company-reader-tests.tap",
+      "dateUtc": "2026-11-10",
+      "scope": "read-only collector; no operational grants"
+    },
+    {
+      "name": "Native read-only runtime boot on isolated WSL HTTP ports",
+      "status": "PASS",
+      "log": "evidence/runtime-native-local.json",
+      "dockerExecuted": false,
+      "httpsPublished": false
+    },
+    {
+      "name": "Company fresh RPC versus authenticated persisted receipt/digest",
+      "status": "PASS",
+      "log": "evidence/company-terminal.json",
+      "businessWrites": 0
+    },
+    {
+      "name": "Updated package integrity, Company stored export binding and negative cases",
+      "status": "PASS",
+      "pass": 11,
+      "fail": 0,
+      "log": "evidence/runtime-company-package-tests.log",
+      "dateUtc": "2026-11-10",
+      "scope": "updated runtime/Company evidence package; strict release remains blocked intentionally"
+    }
+  ],
+  "limitations": [
+    "No summed global PASS count",
+    "No final tag or image yet",
+    "No real NFU operations in these checks"
+  ]
+}

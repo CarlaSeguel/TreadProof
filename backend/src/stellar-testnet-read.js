@@ -75,13 +75,13 @@ function account(entry,address){
 export function pendingTestnetRead(contract){return {readOnly:true,status:'pending',reason:'reader_not_configured',checkedAt:null,
  endpoint:TESTNET_READ_ENDPOINT,network:pending('reader_not_configured'),rpc:pending('reader_not_configured'),accounts:[],
  contract:{...pending('reader_not_configured'),address:contract},historical:{...pending('reader_not_configured'),id:'1',externalCode:'TP-DEMO-0001'}};}
-export function createStellarTestnetReader({manifest,fetcher=fetch,now=Date.now,timeoutMs=8000}={}){
+export function createStellarTestnetReader({manifest,fetcher=fetch,now=Date.now,timeoutMs=10000}={}){
  requireThat(manifest?.network==='testnet'&&manifest.network_passphrase===TESTNET_READ_NETWORK&&StrKey.isValidContract(manifest.tire_registry)&&
   /^[a-f0-9]{64}$/.test(manifest.wasm_sha256?.tire_registry||'')&&['company','carrier','plant'].every(r=>StrKey.isValidEd25519PublicKey(manifest[r]||'')),503,'invalid_read_manifest');
- requireThat(typeof fetcher==='function'&&Number.isInteger(timeoutMs)&&timeoutMs>=5&&timeoutMs<=10000,503,'invalid_read_configuration');
+ requireThat(typeof fetcher==='function'&&Number.isInteger(timeoutMs)&&timeoutMs>=5&&timeoutMs<=20000,503,'invalid_read_configuration');
  const expected=structuredClone(manifest),keys=testnetReadKeys(expected.tire_registry);
  return Object.freeze({mode:'testnet_ledger_read_only',async inspect({signal}={}){
-  const result=pendingTestnetRead(expected.tire_registry);result.checkedAt=new Date(now()).toISOString();result.methodsUsed=[];
+  const started=performance.now(),result=pendingTestnetRead(expected.tire_registry);result.checkedAt=new Date(now()).toISOString();result.methodsUsed=[];result.diagnostics={rpcCalls:[],wasmVersionChecked:false,totalMs:0,transportTimeoutMs:timeoutMs};
   result.accounts=DEMO_WALLET_PROPOSALS.map(p=>({...pending('network_not_verified'),role:p.role,address:p.stellar_address}));
   result.reason='read_incomplete';result.rpc=pending('network_not_verified');
   const controller=new AbortController(),abort=()=>controller.abort(),timer=setTimeout(abort,timeoutMs);
@@ -107,11 +107,11 @@ export function createStellarTestnetReader({manifest,fetcher=fetch,now=Date.now,
    check(json.result&&typeof json.result==='object'&&!Array.isArray(json.result),'malformed_response');return json.result;
   }
   async function call(method,params={}){
-   let onAbort;
+   const callStarted=performance.now();let outcome='completed',onAbort;
    try{return await Promise.race([callRaw(method,params),new Promise((_,reject)=>{
     onAbort=()=>reject(new ReadError(signal?.aborted?'read_cancelled':'rpc_timeout'));
     if(controller.signal.aborted)return onAbort();controller.signal.addEventListener('abort',onAbort,{once:true});
-   })]);}finally{controller.signal.removeEventListener('abort',onAbort);}
+   })]);}catch(error){outcome='rejected';throw error;}finally{result.diagnostics.rpcCalls.push({method,elapsedMs:Math.max(0,performance.now()-callStarted),outcome});controller.signal.removeEventListener('abort',onAbort);}
   }
   async function entries(wanted){
    const raw=await call('getLedgerEntries',{keys:wanted,xdrFormat:'base64'});check(u32(raw.latestLedger)&&Array.isArray(raw.entries),'malformed_response');
@@ -121,9 +121,21 @@ export function createStellarTestnetReader({manifest,fetcher=fetch,now=Date.now,
   }
   const capture=fn=>{try{return fn();}catch(error){return unavailable(codeOf(error));}};
   try{
-   const net=await call('getNetwork');check(typeof net.passphrase==='string'&&Number.isInteger(net.protocolVersion)&&net.protocolVersion>0,'malformed_response');
+   // These three calls disclose no account/contract keys. Validate Testnet before
+   // querying entries, and finish the latest-ledger read before the entry snapshot.
+   const networkRequest=call('getNetwork'),healthRequest=call('getHealth'),latestRequest=call('getLatestLedger');
+   // Health remains mandatory for final confirmation, but it need not delay the
+   // entry lookup once Testnet is verified and the latest-ledger read has finished.
+   // Reuse only these same-read public results. No cross-read cache or retries.
+   const entryRequest=Promise.all([networkRequest,Promise.allSettled([latestRequest])]).then(([net])=>{
+    check(typeof net.passphrase==='string'&&Number.isInteger(net.protocolVersion)&&net.protocolVersion>0,'malformed_response');
+    check(net.passphrase===TESTNET_READ_NETWORK,'network_mismatch');
+    return entries([...keys.accounts,keys.instance,keys.batch,keys.code(expected.wasm_sha256.tire_registry)]);
+   }).then(value=>({value}),error=>({error}));
+   const [networkRead,h,l]=await Promise.allSettled([networkRequest,healthRequest,latestRequest]);
+   if(networkRead.status==='rejected')throw networkRead.reason;
+   const net=networkRead.value;check(typeof net.passphrase==='string'&&Number.isInteger(net.protocolVersion)&&net.protocolVersion>0,'malformed_response');
    check(net.passphrase===TESTNET_READ_NETWORK,'network_mismatch');result.network={status:'confirmed',passphrase:net.passphrase,protocolVersion:net.protocolVersion};
-   const [h,l]=await Promise.allSettled([call('getHealth'),call('getLatestLedger')]);
    if(h.status==='fulfilled'&&l.status==='fulfilled')result.rpc=capture(()=>{
     const health=h.value,latest=l.value;check(health.status==='healthy'&&u32(health.latestLedger)&&u32(health.oldestLedger)&&health.oldestLedger<=health.latestLedger&&
      u32(latest.sequence)&&/^[a-f0-9]{64}$/.test(latest.id)&&Number.isInteger(latest.protocolVersion)&&latest.protocolVersion===net.protocolVersion,'malformed_response');
@@ -132,7 +144,9 @@ export function createStellarTestnetReader({manifest,fetcher=fetch,now=Date.now,
     return {status:'confirmed',latestLedger:latest.sequence,healthLedger:health.latestLedger,oldestLedger:health.oldestLedger,
      closeTime:latest.closeTime,protocolVersion:latest.protocolVersion};
    });else result.rpc=unavailable(codeOf(h.status==='rejected'?h.reason:l.reason));
-   const data=await entries([...keys.accounts,keys.instance,keys.batch]);
+   // Pin the code key to the manifest, then independently validate the instance,
+   // its executable hash, the returned code bytes and both TTLs in this same batch.
+   const entryResult=await entryRequest;if(entryResult.error)throw entryResult.error;const data=entryResult.value;
    if(result.rpc.status==='confirmed')check(data.ledger>=result.rpc.latestLedger,'ledger_inconsistent');result.observedLedger=data.ledger;
    result.accounts=result.accounts.map((p,i)=>{const e=data.found.get(keys.accounts[i]);return {...p,...(e?capture(()=>({status:'confirmed',reason:null,...account(entryType(keys.accounts[i],e),p.address)})):missing())};});
    const instance=data.found.get(keys.instance);
@@ -145,12 +159,12 @@ export function createStellarTestnetReader({manifest,fetcher=fetch,now=Date.now,
      return {status:'pending',reason:'wasm_not_read',wasmHash:actualHash,...ttl(instance,data.ledger)};
     })};
     if(result.contract.wasmHash){
-     const codeKey=keys.code(result.contract.wasmHash),codeData=await entries([codeKey]),codeEntry=codeData.found.get(codeKey);
+     const codeKey=keys.code(result.contract.wasmHash),codeData=data,codeEntry=codeData.found.get(codeKey);
      check(codeData.ledger>=data.ledger,'ledger_inconsistent');result.codeObservedLedger=codeData.ledger;
      if(!codeEntry)result.contract={...result.contract,...missing()};
      else result.contract={...result.contract,...capture(()=>{
       const code=entryType(codeKey,codeEntry).value;check(sha(code.code)===result.contract.wasmHash,'wasm_mismatch');
-      check(hex(Buffer.from(code.code).subarray(0,8))==='0061736d01000000','invalid_wasm_code');
+      check(hex(Buffer.from(code.code).subarray(0,8))==='0061736d01000000','invalid_wasm_code');result.diagnostics.wasmVersionChecked=true;
       // Recheck instance TTL against the later ledger, not the earlier snapshot alone.
       const instanceTtl=ttl(instance,Math.max(data.ledger,codeData.ledger));
       return {status:'confirmed',reason:null,...instanceTtl,codeTtl:ttl(codeEntry,codeData.ledger),wasmBytes:code.code.length};
@@ -173,10 +187,16 @@ export function createStellarTestnetReader({manifest,fetcher=fetch,now=Date.now,
    if(result.historical.status==='pending')result.historical={...result.historical,...unavailable(reason)};
   }finally{clearTimeout(timer);signal?.removeEventListener('abort',abort);}
   check(!signal?.aborted,'read_cancelled');
+  // Validate ledger age again after response decoding/hash verification. A late result
+  // is informational only; finishing the HTTP requests never refreshes the ledger time.
+  if(result.rpc.status==='confirmed'){
+   const age=now()/1000-Number(result.rpc.closeTime);
+   if(age < -30 || age > 120){result.rpc=unavailable('rpc_stale');result.reason='rpc_stale';}
+  }
   const components=[result.network,result.rpc,...result.accounts,result.contract,result.historical];
   check(components.every(v=>statuses.includes(v.status)),'malformed_response');
   result.status=components.every(v=>v.status==='confirmed')?'confirmed':'unavailable';
   if(result.status==='confirmed')result.reason=null;else result.reason??='read_incomplete';
-  result.completedAt=new Date(now()).toISOString();return result;
+  result.completedAt=new Date(now()).toISOString();result.diagnostics.totalMs=Math.max(0,performance.now()-started);return result;
  }});
 }

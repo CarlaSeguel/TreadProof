@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "source": "synthetic_local_demo",
+  "verifiedOnStellar": false,
+  "batch": {
+    "id": "NFU-DEMO-D2-001",
+    "status": "simulated_valorized",
+    "network": "testnet"
+  },
+  "participants": {
+    "company": "Empresa Origen Demo",
+    "carrier": "Transportes Demo",
+    "plant": "Planta Circular Demo"
+  },
+  "massesKg": {
+    "declared": 5000,
+    "pickedUp": 4980,
+    "received": 4950,
+    "valorized": 4900
+  },
+  "events": [
+    {
+      "id": "DEMO-EVT-001",
+      "action": "create_batch",
+      "role": "company",
+      "time": "2026-10-29T09:00:00-03:00",
+      "massKg": 5000,
+      "synthetic": true
+    },
+    {
+      "id": "DEMO-EVT-002",
+      "action": "confirm_pickup",
+      "role": "carrier",
+      "time": "2026-10-29T10:00:00-03:00",
+      "massKg": 4980,
+      "synthetic": true
+    },
+    {
+      "id": "DEMO-EVT-003",
+      "action": "start_transit",
+      "role": "carrier",
+      "time": "2026-10-29T10:15:00-03:00",
+      "massKg": null,
+      "synthetic": true
+    },
+    {
+      "id": "DEMO-EVT-004",
+      "action": "confirm_reception",
+      "role": "plant",
+      "time": "2026-10-29T12:00:00-03:00",
+      "massKg": 4950,
+      "synthetic": true
+    },
+    {
+      "id": "DEMO-EVT-005",
+      "action": "confirm_valorization",
+      "role": "plant",
+      "time": "2026-10-29T16:00:00-03:00",
+      "massKg": 4900,
+      "synthetic": true
+    }
+  ],
+  "evidence": {
+    "file": "./evidence/nfu-demo-d2-001-valorization.txt",
+    "sha256": "A39E2CE68CEA57D09CD9D9070D19A01629C61EFB2F252CE60DCA13056CF75CC4"
+  },
+  "stellar": {
+    "contractId": null,
+    "transactionHashes": [],
+    "lastVerifiedLedger": null
+  }
+}

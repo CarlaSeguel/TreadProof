@@ -1,0 +1,72 @@
+{
+  "pass": true,
+  "verifiedAt": "2026-11-10T03:13:24.575Z",
+  "intentId": "5d576ab0-9b23-49e6-a310-b39f5e1a9be5",
+  "hash": "899881abecbff106ba4cd429456a7739cf06a6213abbf943ce9bf2f0eccd9e66",
+  "stellar": "SUCCESS",
+  "ledger": 5651173,
+  "batchState": "Valorized",
+  "valorizedMassGrams": "900",
+  "intent": {
+    "phase": "confirmed",
+    "revision": 4
+  },
+  "attempt": {
+    "state": "confirmed",
+    "revision": 3,
+    "attempted": true,
+    "dispatchCommittedAt": "2026-11-09T23:57:38.938015-03:00",
+    "ledger": 5651173,
+    "receiptPresent": true,
+    "digest": "c0340a9ef90f0459b0267f9fbdaaedf666c2649e0a33229a54def9e7adcae05a",
+    "digestVersion": "stellar-testnet-d2-remaining-batch3-txmeta-v4-core-metrics-invoke-time-nsecs-u64-zero-sha256-v1",
+    "receiptMatchesIndependentRpc": true,
+    "digestMatchesIndependentRpc": true
+  },
+  "signaturesVerified": 1,
+  "sequence": "22759186320326660",
+  "reviewedFeeStroops": "129169",
+  "feeChargedStroops": "108706",
+  "history": {
+    "pages": 1,
+    "rows": 4,
+    "completeWithinPlantAuthRls": true,
+    "additionalUnresolvedVisible": false,
+    "valorizationReferences": [
+      {
+        "id": "38f54850-099e-4b8a-a93d-aae7bb357381",
+        "phase": "prepared",
+        "state": null,
+        "hash": "c850c8fc20bdd93e24cbc20767a121aec745c2dfc252e32fbce750a0917a4979"
+      },
+      {
+        "id": "5d576ab0-9b23-49e6-a310-b39f5e1a9be5",
+        "phase": "confirmed",
+        "state": "confirmed",
+        "hash": "899881abecbff106ba4cd429456a7739cf06a6213abbf943ce9bf2f0eccd9e66"
+      }
+    ],
+    "globalAbsenceClaimed": false
+  },
+  "dispatch": {
+    "claimCount": 1,
+    "postEntryCount": 1,
+    "providerResponseCount": 1,
+    "observedScope": "audited backend and original Plant user/organization"
+  },
+  "evidence": {
+    "evidenceId": "0faee5e8-9543-42c3-a9ca-c8d4380ed30b",
+    "sha256": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d",
+    "byteSize": 76314,
+    "privateBytesMatch": true,
+    "onchainHashMatches": true,
+    "metadataDigest": "3939083189f96f7e8489cdd0e1180ea9746b730801cd87d7d099226c22f5a84d",
+    "versionStableDuringRead": true,
+    "attestingActor": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+    "transition": "Valorized",
+    "existingReceptionPreimagesUnchanged": true
+  },
+  "historicalDataModified": false,
+  "terminalWritesExecuted": 0,
+  "actualSubmissions": 0
+}

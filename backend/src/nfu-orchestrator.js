@@ -1,7 +1,9 @@
+import{D2_REMAINING_XDR_PROFILE,remainingD2Scope}from'../../web/src/d2-carrier-xdr-profile.mjs';
 // Backend-only lifecycle. Distinct synthetic and controlled Testnet compositions; no default transport.
+import {assertD2SinglePermit,assertCompanySingleOwner} from './nfu-single-dispatch-permit.js';
 import {ApiError,requireThat} from './validation.js';
 import {createHash} from 'node:crypto';
-import {nfuEnvelope,validateNfuApproval,validateNfuSignature,validateNfuResult,decodeNfuXdr} from './nfu-confirmation.js';
+import {nfuEnvelope,validateNfuApproval,validateNfuSignature,validateNfuResult,decodeNfuXdr,NFU_RESULT_DIGEST_RAW_V1} from './nfu-confirmation.js';
 import {validateJournalRow} from './nfu-journal.js';
 import {reportNfuDiagnostic,carryNfuDiagnostic} from './nfu-error-diagnostics.js';
 import {xdr} from '@stellar/stellar-sdk/base';
@@ -10,17 +12,21 @@ const safeUnknown=error=>['operation_cancelled','operation_timeout','transaction
  'simulation_network_mismatch'].includes(error?.code)?error.code:'transaction_result_ambiguous';
 export function createSyntheticNfuOrchestrator(options){return createNfuOrchestrator(options,false);}
 export function createTestnetNfuOrchestrator(options){return createNfuOrchestrator(options,true);}
-function createNfuOrchestrator({manifest,rpc,journal,authorize,now=Date.now,timeoutMs=15000,dispatchTimeoutMs=timeoutMs,onFault,beforeClaim,reuseExistingSigned=false,pickupReuseScope=null,transitReuseScope=null,receptionReuseScope=null,valorizationReuseScope=null}={},real){
+function createNfuOrchestrator({manifest,rpc,journal,authorize,now=Date.now,timeoutMs=15000,authorizationTimeoutMs=timeoutMs,dispatchTimeoutMs=timeoutMs,onFault,beforeClaim,reuseExistingSigned=false,d2ReusePermit=null,pickupReuseScope=null,transitReuseScope=null,receptionReuseScope=null,valorizationReuseScope=null,resultDigestVersion=NFU_RESULT_DIGEST_RAW_V1}={},real){
  requireThat(rpc?.mode===(real?'testnet_rpc_transactional':'synthetic')&&typeof rpc.sendTransaction==='function'&&typeof rpc.getTransaction==='function'&&
   journal?.mode===(real?'server_owned_testnet':'synthetic_server_owned')&&['get','create','compareAndSwap'].every(k=>typeof journal[k]==='function')&&
   typeof authorize==='function'&&typeof now==='function'&&Number.isInteger(timeoutMs)&&timeoutMs>=5&&timeoutMs<=15000,
   503,'invalid_orchestrator_dependencies');
  requireThat(Number.isInteger(dispatchTimeoutMs)&&dispatchTimeoutMs>=timeoutMs&&dispatchTimeoutMs<=120000,503,'invalid_dispatch_timeout');
  requireThat(typeof reuseExistingSigned==='boolean'&&(!reuseExistingSigned||real),503,'invalid_orchestrator_dependencies');
+ if(d2ReusePermit!==null){assertD2SinglePermit(d2ReusePermit,manifest,now());requireThat(real&&reuseExistingSigned&&[pickupReuseScope,transitReuseScope,receptionReuseScope,valorizationReuseScope].every(s=>s===null),503,'invalid_orchestrator_dependencies');}
  if(pickupReuseScope!==null){requireThat(real&&reuseExistingSigned&&Object.keys(pickupReuseScope).sort().join(',')==='batchId,onchainBatchId,pickupMass'&&/^[a-f0-9-]{36}$/.test(pickupReuseScope.batchId??'')&&pickupReuseScope.batchId!=='d93fe917-f32f-4ea1-9d1c-49d88b2e979d'&&pickupReuseScope.onchainBatchId==='2'&&pickupReuseScope.pickupMass==='1000',503,'invalid_orchestrator_dependencies');pickupReuseScope=Object.freeze({...pickupReuseScope});}
  if(transitReuseScope!==null){requireThat(real&&reuseExistingSigned&&pickupReuseScope===null&&Object.keys(transitReuseScope).sort().join(',')==='batchId,onchainBatchId'&&transitReuseScope.batchId==='3a99c6f2-3189-4c4c-8c15-9befae586000'&&transitReuseScope.onchainBatchId==='2',503,'invalid_orchestrator_dependencies');transitReuseScope=Object.freeze({...transitReuseScope});}
  if(receptionReuseScope!==null){requireThat(real&&reuseExistingSigned&&pickupReuseScope===null&&transitReuseScope===null&&Object.keys(receptionReuseScope).sort().join(',')==='batchId,onchainBatchId,receivedMass'&&receptionReuseScope.batchId==='3a99c6f2-3189-4c4c-8c15-9befae586000'&&receptionReuseScope.onchainBatchId==='2'&&receptionReuseScope.receivedMass==='1000',503,'invalid_orchestrator_dependencies');receptionReuseScope=Object.freeze({...receptionReuseScope});}
  if(valorizationReuseScope!==null){const p=valorizationReuseScope;requireThat(real&&reuseExistingSigned&&pickupReuseScope===null&&transitReuseScope===null&&receptionReuseScope===null&&Object.keys(p).sort().join(',')==='batchId,evidenceId,evidenceSha256,onchainBatchId,valorizedMass'&&p.batchId==='3a99c6f2-3189-4c4c-8c15-9befae586000'&&p.onchainBatchId==='2'&&p.valorizedMass==='1000'&&p.evidenceId==='6eb4014c-b238-446e-abc6-962df4eadb1f'&&p.evidenceSha256==='fbfbfa84e6925c34642970931983e7df2cfce129f46688f2a741a594d726bd0b',503,'invalid_orchestrator_dependencies');valorizationReuseScope=Object.freeze({...p});}
+ // Trusted server option only; extended authorization wait is exclusive to the approved Carrier600 profile.
+ requireThat(Number.isInteger(authorizationTimeoutMs)&&authorizationTimeoutMs>=timeoutMs&&authorizationTimeoutMs<=60000,503,'invalid_authorization_timeout');
+ if(authorizationTimeoutMs!==timeoutMs)requireThat(real&&reuseExistingSigned&&(remainingD2Scope(d2ReusePermit?.xdrProfile,{action:d2ReusePermit?.action,role:d2ReusePermit?.action==='start_transit'?'carrier':'plant',userId:d2ReusePermit?.[d2ReusePermit?.action==='start_transit'?'carrier':'plant']?.user_id,organizationId:d2ReusePermit?.[d2ReusePermit?.action==='start_transit'?'carrier':'plant']?.organization_id,networkPassphrase:manifest.network_passphrase,contract:manifest.tire_registry,batchId:d2ReusePermit?.batchId,parameters:{id:d2ReusePermit?.onchainBatchId,...(d2ReusePermit?.action==='confirm_reception'?{received_mass:d2ReusePermit.receivedMass}:d2ReusePermit?.action==='confirm_valorization'?{valorized_mass:d2ReusePermit.valorizedMass,evidence_hash:d2ReusePermit.evidenceSha256}:{})}})||d2ReusePermit?.action==='confirm_pickup'&&['d2_carrier_confirm_pickup_950g_batch3_600s','d2_carrier_confirm_pickup_950g_batch3_720s'].includes(d2ReusePermit.xdrProfile)&&d2ReusePermit.batchId==='c7aba1fd-1991-40b5-9e63-d42ab439f867'&&d2ReusePermit.onchainBatchId==='3'&&d2ReusePermit.pickupMass==='950'),503,'invalid_authorization_timeout');
  const active=new Map();let generation=0;
  function invalidate(){generation++;for(const operation of active.values())operation.abort.abort();}
  function guard(operation){requireThat(operation.generation===generation&&!operation.abort.signal.aborted,409,'operation_cancelled');}
@@ -35,7 +41,7 @@ function createNfuOrchestrator({manifest,rpc,journal,authorize,now=Date.now,time
  }
  async function approval(hash,purpose,operation,previous){
   guard(operation);
-  const raw=await bounded(Promise.resolve().then(()=>authorize({hash,purpose,signal:operation.abort.signal})),operation);guard(operation);
+  const raw=await bounded(Promise.resolve().then(()=>authorize({hash,purpose,signal:operation.abort.signal})),operation,authorizationTimeoutMs);guard(operation);
   const approved=validateNfuApproval(raw,hash,manifest,{now:now(),forSubmission:purpose==='submit'});
   requireThat(!previous||previous.fingerprint===approved.fingerprint,409,'transaction_context_changed');return approved;
  }
@@ -83,7 +89,8 @@ function createNfuOrchestrator({manifest,rpc,journal,authorize,now=Date.now,time
    if(reuseExistingSigned){
     approved=await approval(hash,'submit',operation);
     const c=approved.context;
-    requireThat(valorizationReuseScope?c.action==='confirm_valorization'&&c.role==='plant'&&c.target?.batch_id===valorizationReuseScope.batchId&&c.parameters.id===valorizationReuseScope.onchainBatchId&&c.parameters.valorized_mass===valorizationReuseScope.valorizedMass&&c.parameters.evidence_hash===valorizationReuseScope.evidenceSha256&&Object.keys(c.parameters).length===3:receptionReuseScope?c.action==='confirm_reception'&&c.role==='plant'&&c.target?.batch_id===receptionReuseScope.batchId&&c.parameters.id===receptionReuseScope.onchainBatchId&&c.parameters.received_mass===receptionReuseScope.receivedMass&&Object.keys(c.parameters).length===2:transitReuseScope?c.action==='start_transit'&&c.role==='carrier'&&c.target?.batch_id===transitReuseScope.batchId&&c.parameters.id===transitReuseScope.onchainBatchId&&Object.keys(c.parameters).length===1:pickupReuseScope?c.action==='confirm_pickup'&&c.role==='carrier'&&c.target?.batch_id===pickupReuseScope.batchId&&c.parameters.id===pickupReuseScope.onchainBatchId&&c.parameters.pickup_mass===pickupReuseScope.pickupMass:c.action==='create_batch'&&c.role==='company',403,'transaction_not_authorized');
+    if(d2ReusePermit){assertD2SinglePermit(d2ReusePermit,manifest,now());assertCompanySingleOwner(d2ReusePermit,{context:{user:{id:c.userId},organization:{id:c.organizationId,organization_type:c.role}},wallet:c.actor},c.action,c.parameters);if(c.action!=='create_batch')requireThat(c.target?.batch_id===d2ReusePermit.batchId&&c.parameters.id===d2ReusePermit.onchainBatchId,403,'transaction_not_authorized');}
+    requireThat(d2ReusePermit?true:valorizationReuseScope?c.action==='confirm_valorization'&&c.role==='plant'&&c.target?.batch_id===valorizationReuseScope.batchId&&c.parameters.id===valorizationReuseScope.onchainBatchId&&c.parameters.valorized_mass===valorizationReuseScope.valorizedMass&&c.parameters.evidence_hash===valorizationReuseScope.evidenceSha256&&Object.keys(c.parameters).length===3:receptionReuseScope?c.action==='confirm_reception'&&c.role==='plant'&&c.target?.batch_id===receptionReuseScope.batchId&&c.parameters.id===receptionReuseScope.onchainBatchId&&c.parameters.received_mass===receptionReuseScope.receivedMass&&Object.keys(c.parameters).length===2:transitReuseScope?c.action==='start_transit'&&c.role==='carrier'&&c.target?.batch_id===transitReuseScope.batchId&&c.parameters.id===transitReuseScope.onchainBatchId&&Object.keys(c.parameters).length===1:pickupReuseScope?c.action==='confirm_pickup'&&c.role==='carrier'&&c.target?.batch_id===pickupReuseScope.batchId&&c.parameters.id===pickupReuseScope.onchainBatchId&&c.parameters.pickup_mass===pickupReuseScope.pickupMass:c.action==='create_batch'&&c.role==='company',403,'transaction_not_authorized');
     validateNfuSignature(signed.signedTxXdr,approved);guard(operation);
     // Signed was persisted by the explicit signing step. Read through the authorized journal; never restage or recreate it.
     const existing=await journal.get(hash);guard(operation);requireThat(existing,409,'transaction_not_tracked');row=validateJournalRow(existing);
@@ -142,7 +149,7 @@ function createNfuOrchestrator({manifest,rpc,journal,authorize,now=Date.now,time
      return publicResult(await update(row,{state:'unknown',reason:'transaction_not_found',ledger:null}));
     }
     const createdAt=typeof raw?.createdAt==='string'&&/^[1-9][0-9]{0,12}$/.test(raw.createdAt)?Number(raw.createdAt):raw.createdAt;
-    const verifiedRaw={...raw,createdAt};const result=validateNfuResult(verifiedRaw,approved);
+     const verifiedRaw={...raw,createdAt};const result=validateNfuResult(verifiedRaw,approved,{resultDigestVersion});
     requireThat(!['confirmed','failed'].includes(row.state)||(row.state===result.state&&row.ledger===result.ledger),
      409,'transaction_result_conflict');
     // The row may have been staged before a crash. Query can discover an external inclusion, but cannot send.

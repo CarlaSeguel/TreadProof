@@ -1,0 +1,55 @@
+TreadProof D2 — lector documental terminal integrado
+
+Resultado: PASS local/imagen aislada; NO desplegado en Render.
+GET exacto /api/v1/evidence/0faee5e8-9543-42c3-a9ca-c8d4380ed30b.
+Se reutiliza TreadProofService.getEvidence, gateway aprobado y Storage autenticado.
+Solo Plant original, JWT/RLS, organización/wallet/SEP-53, UUID #3, actores y binding.
+Se comprueba el lote Valorized/900g, evidenceId, path privado, metadatos,
+versión HEAD/GET/HEAD, 76.314 bytes y SHA-256 aprobado. Revalidación final de
+identidad/posesión/metadatos/binding. Tiempo monotónico por petición <=30s;
+HTTP60s no amplía frescura. No usa el verificador operacional Received/localhost.
+
+El frontend compilado de /operator.html ofrece un único botón lector para Plant.
+Compara bytes/SHA-256 en navegador y descarga una vez por clic; no retiene bytes
+en su estado ni publica URL de bucket/PDF. Logout/cambio de identidad/wallet,
+cancelación, prueba vencida, versión o hash incorrectos impiden la descarga.
+La raíz conserva el corte Stellar fechado; no convierte un historial local en
+confirmación RPC nueva. Todas las rutas transaccionales y cargas siguen bloqueadas.
+
+Pruebas: 299 PASS en imagen Docker, 174 PASS de frontend/Auth/SEP-53/historial,
+8 PASS de Chrome real con perfil separado: total481/0FAIL. No contar dos veces
+las repeticiones previas de los mismos casos. Chrome recuperó bytes idénticos,
+rechazó accesos/condiciones inválidas y volvió a recuperarlos después de reiniciar
+el servidor de prueba y renovar posesión sintética. Son fixtures de proveedor y
+wallet; no acredita una sesión real de Supabase o Freighter ni TLS de Render.
+
+El CMD original de la nueva imagen arrancó PG17 y gate original PASS en una copia
+independiente de la base de laboratorio, sin API factory reemplazada. Tras docker
+restart hubo HTTP200, diez rutas NFU bloqueadas, PDF anónimo401 y fingerprints de
+las cuatro tablas idénticos. No se crearon intent/attempt/reserva. Volumen de
+credenciales exclusivamente de laboratorio montado read-only, sin copiarlo al
+repo/imagen/informe. No hubo conexiones al PostgreSQL original o Supabase remoto.
+
+Se conservaron los ensayos fallidos de harness: faltaba un módulo de soporte de
+fixtures en el mount de tests (corregido solo en harness); la primera copia PG
+no pudo preservar permisos (destino descartado y nueva copia como UID10001);
+la primera prueba Chrome esperaba cierre de sockets keepalive (se modeló restart
+cerrando conexiones de ese servidor de prueba). Ninguno se corrigió relajando
+guardas, SQL/RLS o permisos del participante. Logs íntegros en el laboratorio.
+
+Solo seis fuentes existentes modificadas y un módulo UI lector añadido, más
+dos archivos de pruebas. CHANGE-SET.installed.json acredita pre/postimágenes;
+330 de336 pins anteriores permanecen idénticos. El paquete histórico sellado de
+recuperación no se sobrescribió; sus pins describen aquel build, no el nuevo.
+Dockerfile, lockfiles, SQL de negocio, RLS, índices, contratos y PDF originales
+sin cambios. El PDF no está en la imagen. No se reinició el backend/Vite original.
+
+Para Render: autorizar primero Auto-Deploy Off (actualmente On Commit), comprobar
+Off antes de cualquier push; autorizar el corte de rama revisado y build por SHA
+exacto. Aprobar cómputo/disco y restauración acotada SOLO del destino, bootstrap
+de mantenimiento y dos credenciales nuevas del destino más publishable key real.
+No es necesario un registro Docker adicional para el servicio GitHub existente.
+Conservar deploy previo y fixture histórico para rollback; no revierte el disco.
+Aceptar en HTTPS real las tres identidades, SEP-53, historial y bytes del PDF.
+Sin transacciones NFU nuevas. Los gates finales del SOW/reviewer/release/30d
+mantienen su estado pendiente; este resultado no declara entrega completa.

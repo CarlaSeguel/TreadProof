@@ -43,7 +43,7 @@ export function createNfuJournalReader({config,manifest,reader,gateway,origins=[
    try{
     before=await context(db);alive(token,signal);
     const scope=Object.freeze({userId:before.user.id,organizationId:before.organization.id});
-    rows=await reader[step](scope,step==='intent'?input.id:step==='operation'?input.hash:input.afterId,{signal});
+    rows=await reader[step](scope,step==='intent'?input.id:step==='operation'?input.hash:input.afterId,{signal,authArgs:{token,origin}});
     alive(token,signal);const after=await context(db);alive(token,signal);
     requireThat(JSON.stringify(before)===JSON.stringify(after),409,'authorization_context_changed');
    }catch(e){if(e instanceof ApiError)throw e;throw new ApiError(503,'journal_unavailable');}

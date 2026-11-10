@@ -1,0 +1,65 @@
+{
+  "nativeCli": "PASS",
+  "originalGate": "PASS",
+  "beforeRestart": {
+    "gate": "PASS",
+    "actualRuntime": true,
+    "statuses": {
+      "/": 200,
+      "/operator.html": 200,
+      "/batch3.json": 200,
+      "/api/runtime-health": 200
+    },
+    "unauthenticated": 401,
+    "nfuRoutesBlocked": 10,
+    "privatePathsUnpublished": true,
+    "pdfIntegrity": true,
+    "liveProviderSession": false,
+    "tls": false
+  },
+  "afterRestart": {
+    "gate": "PASS",
+    "actualRuntime": true,
+    "statuses": {
+      "/": 200,
+      "/operator.html": 200,
+      "/batch3.json": 200,
+      "/api/runtime-health": 200
+    },
+    "unauthenticated": 401,
+    "nfuRoutesBlocked": 10,
+    "privatePathsUnpublished": true,
+    "pdfIntegrity": true,
+    "liveProviderSession": false,
+    "tls": false
+  },
+  "documentBefore": {
+    "documentUnauthenticated": 401
+  },
+  "documentAfter": {
+    "documentUnauthenticated": 401
+  },
+  "allTableFingerprintsUnchanged": true,
+  "tableFingerprints": {
+    "nfu_store.intents": {
+      "count": 5,
+      "sha256": "55ac421653a3b648a48bc3ef0f0c415be3fb0b4b5292f930dba4adc5c9d01f1d"
+    },
+    "nfu_store.attempts": {
+      "count": 5,
+      "sha256": "c32b883dc72f90334f8f12a3f1fd77f2e3bd843c877e982d294f1d18c5efc297"
+    },
+    "d2_security.auth_grants": {
+      "count": 39,
+      "sha256": "4463eee7ff78596d8292ad11ecf824978278b7cabd7bc6ab61c00a27ff34d9e4"
+    },
+    "lab_control.marker": {
+      "count": 1,
+      "sha256": "ae3237299f275608aec7d14d94e7ff3ef270e1a9646df392f5aa4c8afd4dbba1"
+    }
+  },
+  "originalConnections": 0,
+  "remoteSupabaseOrStellarRequests": 0,
+  "newNfuRows": 0,
+  "scope": "independent copy of already isolated PG fixture; immutable image CMD; lab-only passfiles mounted read-only, not copied; no live provider session or TLS acceptance"
+}

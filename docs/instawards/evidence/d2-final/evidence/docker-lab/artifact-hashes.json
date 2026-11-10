@@ -1,0 +1,14 @@
+{
+  "scope": "retained local lab artifacts; private files are not included in public package",
+  "sha256": {
+    "docker-build.log": "d0b3b6ec0b9ffeed87e7a25934bcfebe23407604dc6440f4113c3e352a7c29c8",
+    "backups/confirmed-five.private.dump": "bb351b7505ae06515478e9d11b87d48d1159f2508d272cb8b92139510c81431d",
+    "backups/lab-roles.sql": "3a6af9bde2517d8b7524d2df4877741b0cd9274218f818043162d9656ff5ec21",
+    "backups/evidence.private.pdf": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d",
+    "seed-copy.private.sql": "374f5a0a63379a5660bcbc7126615b13cab00404483a1956eb900ba64ec4bd17",
+    "pg-hold.mjs": "e35bf9a20fc8d880373a37fd8cb3e29b8eb1be958271e7efd86f3c289e15fe17",
+    "native-copy-test.mjs": "ed378f87a648ac7a8f0c51f818caa150408bcd33a3fb05c62987adaf15ae8b85",
+    "catalog-fingerprint.sql": "bbebd3b9e919fd9d16c3b9b8e3e40f516f3aec4e76c7484e063ff47393fdfd87",
+    "finalize-lab.py": "02abc9b6f016e59b4292beb13039358018b840a908fb03dee2485d51510141c5"
+  }
+}

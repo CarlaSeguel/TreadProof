@@ -10,7 +10,7 @@ export const pendingPreparationStore=()=>Object.freeze({mode:'create_batch_prepa
 export function createPreparationRepository({execute,manifest}={}){
  requireThat(typeof execute==='function',503,'preparation_persistence_disabled');const encoder=createNfuOperationEncoder(manifest);
  return Object.freeze({mode:'create_batch_preparation_only',available:true,
-  async prepare({context,actors,target,draft,parameters,requestDigest,binding,idempotencyKey,origin}, {signal}={}){
+  async prepare({context,actors,target,draft,parameters,requestDigest,binding,idempotencyKey,origin}, {signal,authArgs}={}){
    uuid(idempotencyKey);requireThat(!signal?.aborted,409,'operation_cancelled');
    const descriptor={userId:context.user.id,organizationId:context.organization.id,role:'company',actor:actors.company,actors,origin,
     action:'create_batch',networkPassphrase:manifest.network_passphrase,contract:manifest.tire_registry,sequence:draft.sequence,parameters,target,
@@ -18,7 +18,7 @@ export function createPreparationRepository({execute,manifest}={}){
     metadataPlan:createBatchMetadataPlan(idempotencyKey,target)};
    const tx=TransactionBuilder.fromXDR(draft.transactionXdr,manifest.network_passphrase),payload={id:randomUUID(),idempotencyKey,descriptor,binding,
     payloadDigest:sha(canonical(descriptor)),reviewDigest:sha(draft.transactionXdr),hash:Buffer.from(tx.hash()).toString('hex'),requestDigest};
-   let row;try{row=await execute({userId:context.user.id,organizationId:context.organization.id},payload,{signal});}
+   let row;try{row=await execute({userId:context.user.id,organizationId:context.organization.id},payload,{signal,authArgs});}
    catch(e){if(e?.code==='23505')throw new ApiError(409,'preparation_idempotency_conflict');if(e?.code==='42501')throw new ApiError(403,'preparation_membership_required');throw e;}
    const stored=row?.descriptor;requireThat(row&&row.owner_user===context.user.id&&row.owner_org===context.organization.id&&row.idempotency_key===idempotencyKey&&
     row.phase==='prepared'&&row.binding===binding&&stored?.preparationKind===PREPARATION_KIND&&stored.requestDigest===requestDigest&&

@@ -1,0 +1,100 @@
+{
+  "mode": "archived_verified_testnet",
+  "batchId": "3",
+  "batchUuid": "c7aba1fd-1991-40b5-9e63-d42ab439f867",
+  "network": "Stellar Testnet",
+  "state": "Valorized",
+  "verifiedAt": "2026-11-10T03:13:39.942828+00:00",
+  "scenario": "Synthetic NFU measurements; real confirmed Stellar Testnet transactions",
+  "massesGrams": {
+    "declared": 1000,
+    "pickup": 950,
+    "received": 925,
+    "valorized": 900
+  },
+  "actors": {
+    "plant": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+    "carrier": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+    "company": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF"
+  },
+  "operations": [
+    {
+      "action": "create_batch",
+      "role": "company",
+      "actor": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF",
+      "massGrams": 1000,
+      "hash": "b1bf0615c597d4ffb7f7051df0aed3a047020452d0db0e65754e8e324b649fa6",
+      "ledger": 5589704,
+      "stellar": "SUCCESS",
+      "verifiedAt": "2026-11-10T04:35:03.933993+00:00",
+      "localState": "confirmed",
+      "terminalExportMatched": true,
+      "resultDigest": "e61b5d0f4d529eec8f7dac51a09ddb3a5ec75c6a081d5908537706750a06d2e4"
+    },
+    {
+      "action": "confirm_pickup",
+      "role": "carrier",
+      "actor": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+      "massGrams": 950,
+      "hash": "b69224eb2d97f6ed313b196e1d5362cef5210d10badbee64fc7032a26820c9d4",
+      "ledger": 5645267,
+      "stellar": "SUCCESS",
+      "verifiedAt": "2026-11-10T03:13:39.942828+00:00",
+      "localState": "confirmed",
+      "terminalExportMatched": true,
+      "resultDigest": "56b7a66127377eb34c00c4c3802aac1a4ca441cb11aed1886b7706c3fbb88e4a"
+    },
+    {
+      "action": "start_transit",
+      "role": "carrier",
+      "actor": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+      "massGrams": null,
+      "hash": "adbe71a9ef6fcc8f2275d6f59b00a9667126dba6b5d0527760bb386074a325ef",
+      "ledger": 5648484,
+      "stellar": "SUCCESS",
+      "verifiedAt": "2026-11-10T03:13:39.942828+00:00",
+      "localState": "confirmed",
+      "terminalExportMatched": true,
+      "resultDigest": "240816245d42336abc954b718313a24213d1c828c772719aba529599f1da8e24"
+    },
+    {
+      "action": "confirm_reception",
+      "role": "plant",
+      "actor": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+      "massGrams": 925,
+      "hash": "567d93bea4102f99ddfa3fc2c80e9659aff948ef432890ffd49e3984c6fb99e5",
+      "ledger": 5649550,
+      "stellar": "SUCCESS",
+      "verifiedAt": "2026-11-10T03:13:39.942828+00:00",
+      "localState": "confirmed",
+      "terminalExportMatched": true,
+      "resultDigest": "e335e21eda6e8d20b657051c52509cfadeea0bd6402c0dae50c24d2494e160a6"
+    },
+    {
+      "action": "confirm_valorization",
+      "role": "plant",
+      "actor": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+      "massGrams": 900,
+      "hash": "899881abecbff106ba4cd429456a7739cf06a6213abbf943ce9bf2f0eccd9e66",
+      "ledger": 5651173,
+      "stellar": "SUCCESS",
+      "verifiedAt": "2026-11-10T03:13:39.942828+00:00",
+      "localState": "confirmed",
+      "terminalExportMatched": true,
+      "resultDigest": "c0340a9ef90f0459b0267f9fbdaaedf666c2649e0a33229a54def9e7adcae05a"
+    }
+  ],
+  "evidence": {
+    "evidenceId": "0faee5e8-9543-42c3-a9ca-c8d4380ed30b",
+    "filename": "treadproof-d2-lote-3-valorizacion-900g-borrador.pdf",
+    "sha256": "028a738e3b060c4d78f2b60cd4a966830064090140a873f2a36565ef41a9228d",
+    "byteSize": 76314,
+    "private": true,
+    "attestingActor": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE"
+  },
+  "release": {
+    "commit": null,
+    "tag": null,
+    "deliveryComplete": false
+  }
+}

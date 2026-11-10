@@ -1,0 +1,64 @@
+{
+  "preimage": {
+    "acl": [
+      {
+        "grantee": "tp_nfu_store_owner",
+        "grantor": "tp_nfu_store_owner",
+        "grantable": false,
+        "privilege": "EXECUTE"
+      }
+    ],
+    "rows": "a0cca4e55404afbb66de05394f8055a4c8caa2de78aa6397c57c5c134c340fe4",
+    "target": {
+      "body": "746b1b7ca4dc7d6398c6dda89b30453f1a027bf43a1e27443f951866c95ab2c3",
+      "owner": "tp_nfu_store_owner",
+      "config": [
+        "search_path=\"\"",
+        "row_security=on"
+      ],
+      "secure": true,
+      "volatile": true,
+      "signature": "nfu_store.prepare_create_batch(jsonb)",
+      "appExecute": false,
+      "publicExecute": false
+    },
+    "intents": 5,
+    "attempts": 5,
+    "otherCatalog": "a3b5398089cb36b88697080edf7d5959a959a6c0a73ea3098ffe6528158576c3"
+  },
+  "onlyDelta": "EXECUTE prepare_create_batch to tp_nfu_app",
+  "postimage": {
+    "acl": [
+      {
+        "grantee": "tp_nfu_app",
+        "grantor": "tp_nfu_store_owner",
+        "grantable": false,
+        "privilege": "EXECUTE"
+      },
+      {
+        "grantee": "tp_nfu_store_owner",
+        "grantor": "tp_nfu_store_owner",
+        "grantable": false,
+        "privilege": "EXECUTE"
+      }
+    ],
+    "rows": "a0cca4e55404afbb66de05394f8055a4c8caa2de78aa6397c57c5c134c340fe4",
+    "target": {
+      "body": "746b1b7ca4dc7d6398c6dda89b30453f1a027bf43a1e27443f951866c95ab2c3",
+      "owner": "tp_nfu_store_owner",
+      "config": [
+        "search_path=\"\"",
+        "row_security=on"
+      ],
+      "secure": true,
+      "volatile": true,
+      "signature": "nfu_store.prepare_create_batch(jsonb)",
+      "appExecute": true,
+      "publicExecute": false
+    },
+    "intents": 5,
+    "attempts": 5,
+    "otherCatalog": "a3b5398089cb36b88697080edf7d5959a959a6c0a73ea3098ffe6528158576c3"
+  },
+  "originalChanges": 0
+}

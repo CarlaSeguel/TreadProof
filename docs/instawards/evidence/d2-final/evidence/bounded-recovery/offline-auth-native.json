@@ -1,0 +1,36 @@
+{
+  "pass": true,
+  "roles": [
+    {
+      "role": "company",
+      "records": 1,
+      "cryptoSep53": true,
+      "nativeHigh1Rls": true,
+      "crossRoleReference": 404,
+      "signingAndDispatchBlocked": true
+    },
+    {
+      "role": "carrier",
+      "records": 2,
+      "cryptoSep53": true,
+      "nativeHigh1Rls": true,
+      "crossRoleReference": 404,
+      "signingAndDispatchBlocked": true
+    },
+    {
+      "role": "plant",
+      "records": 2,
+      "cryptoSep53": true,
+      "nativeHigh1Rls": true,
+      "crossRoleReference": 404,
+      "signingAndDispatchBlocked": true
+    }
+  ],
+  "technicalReadGrants": 9,
+  "allConsumed": true,
+  "nativePostgresAuthentication": "SCRAM target-only generated credentials",
+  "externalAuth": "synthetic gateway fixtures; no real JWT or provider session",
+  "walletKeys": "ephemeral synthetic message-signing keys in memory; no Stellar account or transaction",
+  "nativeTables": "5 intents/5 attempts unchanged",
+  "realSupabaseRequests": 0
+}

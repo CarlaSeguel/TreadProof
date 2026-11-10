@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws://127.0.0.1:5173 ws://localhost:5173; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <title>TreadProof · Conexión de wallet</title>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="/" aria-label="TreadProof inicio"><span class="brand-mark">TP</span>TreadProof</a><span class="environment">Demostración · Testnet</span></header>
+  <main>
+    <section class="intro"><p class="eyebrow">D1 · CONEXIÓN DE WALLET</p><h1>Tu cuenta, conectada.</h1><p>Conecta Freighter para consultar tu dirección Stellar y comprobar la red de tu cuenta de demostración.</p></section>
+    <section class="wallet-card" aria-labelledby="wallet-title">
+      <div class="card-heading"><div><p class="eyebrow">WALLET</p><h2 id="wallet-title">Freighter</h2></div><span class="status" data-status data-state="idle" role="status">Sin conectar</span></div>
+      <div class="actions"><button class="primary" type="button" data-connect>Conectar Freighter</button><button class="secondary" type="button" data-disconnect disabled>Limpiar conexión</button></div>
+      <p class="error" data-error role="alert"></p>
+      <dl class="account-details">
+        <div class="address-row"><dt>Dirección pública</dt><dd><code data-address>Todavía no hay una cuenta conectada.</code></dd></div>
+        <div><dt>Red seleccionada</dt><dd data-network>—</dd></div>
+        <div><dt>¿Es Stellar Testnet?</dt><dd data-testnet>—</dd></div>
+      </dl>
+      <p class="change-note" data-change aria-live="polite"></p>
+      <p class="hint">La conexión se realiza solo cuando pulsas el botón. Limpiarla borra el estado de esta página; conserva tus cuentas y los permisos de Freighter.</p>
+    </section>
+    <section class="access-card" aria-labelledby="access-title"><div><p class="eyebrow">ACCESO A TREADPROOF</p><h2 id="access-title" data-auth>Sin sesión autenticada de TreadProof</h2><p>Conectar una wallet no acredita tu organización ni tu rol. Las operaciones del lote requieren autenticación y autorización verificadas.</p></div>
+      <form data-auth-form class="auth-form">
+        <label>Correo del participante<input name="email" type="email" autocomplete="username" required maxlength="254"></label>
+        <label>Contraseña<input name="password" type="password" autocomplete="current-password" required maxlength="1024"></label>
+        <button class="primary" data-login type="submit">Iniciar sesión</button>
+      </form>
+      <div class="actions"><button class="secondary" type="button" data-logout disabled>Cerrar sesión</button></div>
+      <p class="error" data-auth-error role="alert"></p>
+      <dl class="account-details">
+        <div><dt>Organización autorizada</dt><dd data-organization>—</dd></div>
+        <div><dt>Rol de la organización</dt><dd data-role>—</dd></div>
+        <div class="address-row"><dt>Dirección registrada en la organización</dt><dd><code data-authorized-address>—</code></dd></div>
+      </dl>
+      <p class="change-note" data-wallet-authorization aria-live="polite">Inicia sesión para comprobar la organización y su dirección autorizada.</p>
+      <p class="hint">Usa un usuario existente. La sesión permanece solo en memoria y se limpia al recargar o vencer. La comparación de direcciones no demuestra posesión de una wallet. Las asociaciones históricas se conservan.</p>
+      <fieldset disabled><legend>Operaciones del lote · no disponibles en esta etapa</legend><div class="batch-actions">
+        <button type="button" data-batch-action disabled>Crear lote</button><button type="button" data-batch-action disabled>Confirmar retiro</button><button type="button" data-batch-action disabled>Iniciar traslado</button><button type="button" data-batch-action disabled>Confirmar recepción</button><button type="button" data-batch-action disabled>Confirmar valorización</button>
+      </div></fieldset>
+    </section>
+    <section class="wallet-card proof-card" aria-labelledby="proof-title">
+      <div class="card-heading"><div><p class="eyebrow">PRUEBA DE POSESIÓN</p><h2 id="proof-title">Verificar mi wallet</h2></div></div>
+      <p>Al pulsar el botón, Freighter te pedirá firmar un mensaje temporal para demostrar que controlas esta dirección. Esta firma no envía transacciones ni cambia la wallet registrada de tu organización.</p>
+      <dl class="account-details">
+        <div class="address-row"><dt>Wallet que se solicitará firmar</dt><dd><code data-proof-address>Conecta primero tu cuenta Freighter.</code></dd></div>
+        <div class="address-row"><dt>Organización autenticada</dt><dd data-proof-organization>Inicia sesión con el participante.</dd></div>
+      </dl>
+      <p class="hint">Puedes comprobar la wallet nueva de tu participante aunque difiera de la dirección histórica. El backend debe autorizarla para tu usuario y organización. La aprobación administrativa sigue siendo un paso separado.</p>
+      <div class="actions"><button class="primary" type="button" data-verify-wallet disabled>Verificar mi wallet</button><button class="secondary" type="button" data-cancel-proof disabled>Cancelar comprobación</button></div>
+      <p data-proof-status data-state="idle" role="status" aria-live="polite">Sin prueba de posesión</p>
+      <p class="error" data-proof-error role="alert"></p>
+      <p class="change-note" data-proof-result role="status"></p>
+      <p class="hint" data-proof-pending></p>
+      <details><summary>Mensaje exacto solicitado</summary><pre data-proof-message>El desafío se mostrará aquí al iniciar la comprobación.</pre></details>
+    </section>
+    <section class="wallet-card" aria-labelledby="readiness-title">
+      <p class="eyebrow">D1 · PREPARACIÓN TRANSACCIONAL</p><h2 id="readiness-title">Revisar contexto NFU</h2>
+      <p>Consulta tu sesión y organización con el backend y vuelve a leer Freighter. Esta comprobación no prepara una transacción ni solicita firmas o envíos.</p>
+      <form data-readiness-form class="auth-form">
+        <label>Operación<select data-readiness-action><option value="create_batch">Crear lote · Company</option><option value="confirm_pickup">Confirmar retiro · Carrier</option><option value="start_transit">Iniciar traslado · Carrier</option><option value="confirm_reception">Confirmar recepción · Plant</option><option value="confirm_valorization">Confirmar valorización · Plant</option></select></label>
+        <label>UUID del lote existente (no se usa al crear)<input data-readiness-batch type="text" maxlength="36" autocomplete="off"></label>
+        <button type="submit" class="secondary" data-readiness-check disabled>Comprobar preparación · sin firma</button>
+      </form>
+      <p data-readiness-status role="status" aria-live="polite">Todavía no se consultó la preparación NFU.</p><ul data-readiness-blockers></ul>
+      <h3>Lectura real de Stellar Testnet</h3>
+      <p data-stellar-read-status data-state="pending" role="status" aria-live="polite">Pendiente · todavía no se consultó Stellar.</p>
+      <dl class="account-details" data-stellar-read-details></dl>
+      <p class="hint">Solo lectura de cuentas, contrato y lote histórico. Un dato no encontrado puede estar ausente o archivado. No se realizan restauraciones, simulaciones, firmas ni envíos. Las lecturas pueden corresponder a ledgers distintos y no autorizan operaciones.</p>
+      <p class="hint">Leer una dirección no acredita posesión ni aprobación administrativa. Las wallets históricas se conservan. Las cinco operaciones reales siguen bloqueadas.</p>
+    </section>
+    <section class="wallet-card" aria-labelledby="company-batch3-title">
+      <p class="eyebrow">D2 · CONSULTA AUTENTICADA RLS</p><h2 id="company-batch3-title">Resolver referencia local del lote Stellar #3</h2>
+      <p>Consulta limitada al lote #3 usando la sesión Company y su JWT/RLS. Lee el estado actual en Stellar Testnet y el binding visible. Esta acción es de solo lectura: no crea intenciones, no concilia metadatos y no habilita Carrier.</p>
+      <div class="actions"><button type="button" class="secondary" data-company-batch3-lookup disabled>Consultar lote #3 · solo lectura</button></div>
+      <p data-company-batch3-status role="status" aria-live="polite">Inicia sesión como Company y conecta su wallet en Testnet para habilitar la consulta.</p>
+      <dl class="account-details" data-company-batch3-result></dl>
+      <p class="hint">«Sin coincidencia visible bajo RLS» no demuestra que el registro no exista. Solo usa un UUID cuando la interfaz indique que el binding también fue verificado.</p>
+    </section>
+    <section class="wallet-card" aria-labelledby="create-preparation-title">
+      <p class="eyebrow">D1 · PREPARACIÓN LOCAL</p><h2 id="create-preparation-title">Preparar lote nuevo · Company</h2>
+      <p>Revisa participantes, masa y disponibilidad de Testnet. No utiliza TP-DEMO-0001. No simula, firma ni envía una transacción.</p>
+      <form data-create-form class="auth-form"><label>Masa declarada · gramos enteros<input data-create-mass type="text" inputmode="numeric" maxlength="20" value="1000" required autocomplete="off"></label>
+        <button type="submit" class="secondary" data-create-review disabled>Revisar preparación local · sin firma</button></form>
+      <p data-create-status role="status" aria-live="polite">Solo Company · lote nuevo · sin simulación, firma ni envío.</p><ul data-create-details class="account-details"></ul>
+      <p class="hint">Una wallet conectada o una firma SEP-53 no aprueban por sí mismas su asociación administrativa. Si faltan asociaciones o la capacidad SQL preparatoria, no se registra una intención. Los reintentos en esta página conservan la misma clave para la misma preparación; nunca se reenvían transacciones.</p>
+    </section>
+    <section class="wallet-card" aria-labelledby="journal-title">
+      <p class="eyebrow">D1 · SOLO CONSULTA</p><h2 id="journal-title">Historial local de operaciones</h2>
+      <p>Consulta tus referencias durables. Un estado guardado localmente, incluso «confirmed», no demuestra confirmación en Stellar.</p>
+      <div class="actions"><button type="button" class="secondary" data-journal-recover disabled>Recuperar mis referencias</button><button type="button" class="secondary" data-journal-next disabled>Siguiente página</button></div>
+      <form data-journal-form class="auth-form"><label>Buscar por<select data-journal-kind><option value="intent">UUID de intención</option><option value="operation">Hash de operación</option></select></label>
+      <label>Referencia propia<input type="text" data-journal-reference maxlength="64" autocomplete="off"></label><button type="submit" class="secondary" data-journal-find disabled>Consultar referencia</button></form>
+      <p data-journal-status role="status" aria-live="polite">Sin consulta. Las operaciones reales siguen bloqueadas.</p><p class="hint" data-journal-observed></p><ul data-journal-records></ul>
+      <p class="hint">La autenticación permite consultar referencias propias; no demuestra control de una wallet. Esta sección no consulta Stellar, no reenvía operaciones y no prepara ni solicita firmas. Si el lector PostgreSQL no está disponible, la consulta falla sin asumir que esté vacío.</p>
+    </section>
+    <section class="wallet-card" aria-labelledby="live-title">
+      <p class="eyebrow">D1 · RECORRIDO NFU CONTROLADO</p><h2 id="live-title">Operaciones del lote nuevo</h2>
+      <p>Revisión y preparación local autenticada. Simulación RPC, firma transaccional y envío reales permanecen deshabilitados por separado. TP-DEMO-0001 está protegido.</p>
+      <form data-live-form class="auth-form">
+        <label>Acción de tu rol<select data-live-action><option value="create_batch">Crear lote · Company</option><option value="confirm_pickup">Confirmar retiro · Carrier</option><option value="start_transit">Iniciar traslado · Carrier</option><option value="confirm_reception">Confirmar recepción · Plant</option><option value="confirm_valorization">Confirmar valorización · Plant</option></select></label>
+        <label data-live-batch-label>UUID del lote nuevo de D1<input data-live-batch type="text" maxlength="36" autocomplete="off"></label>
+        <label data-live-mass-label>Masa · gramos enteros<input data-live-mass type="text" inputmode="numeric" maxlength="20" value="1000" autocomplete="off"></label>
+        <label data-live-file-label>Archivo de evidencia · solo procesamiento local · máximo5MiB<input data-live-file type="file" disabled></label>
+        <button class="secondary" type="submit" data-live-review disabled>Revisar operación</button>
+      </form>
+      <div class="actions"><button type="button" class="secondary" data-live-store-evidence hidden disabled>Almacenar y verificar comprobante</button><button type="button" class="secondary" data-live-verify-evidence hidden disabled>Recuperar y verificar comprobante</button><button type="button" class="secondary" data-live-head-evidence hidden disabled>Comprobar acceso privado · HEAD</button></div>
+      <p class="hint" data-live-evidence>Sin archivo comprobado.</p>
+      <div class="actions"><button class="secondary" type="button" data-live-prepare disabled>Guardar intención local</button><button class="secondary" type="button" data-live-simulate disabled>Simular RPC</button><button class="secondary" type="button" data-live-approve disabled>Aprobar revisión</button><button class="secondary" type="button" data-live-sign disabled>Firmar con Freighter</button><button class="secondary" type="button" data-live-submit disabled>Enviar una vez</button><button class="secondary" type="button" data-live-query disabled>Consultar confirmación RPC</button><button class="secondary" type="button" data-live-recover disabled>Recuperar referencias locales</button></div>
+      <p data-live-status role="status" aria-live="polite">Sin sesión · operaciones reales bloqueadas.</p><ul data-live-details></ul>
+      <p class="hint">El hash local no acredita carga remota ni anclaje. No se guarda el archivo remotamente. Los estados locales no son confirmaciones en blockchain. Un resultado incierto se consulta por hash y nunca se reenvía automáticamente.</p>
+    </section>
+    <footer>Demostración Testnet. La prueba de posesión requiere una acción explícita. Las operaciones sobre lotes permanecen bloqueadas.</footer>
+  </main>
+  <script type="module" src="/src/main.mjs"></script>
+</body>
+</html>

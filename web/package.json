@@ -1,0 +1,23 @@
+{
+  "name": "treadproof-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0 <25"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test --test-reporter=tap --test-concurrency=1 test/*.test.mjs",
+    "test:browser": "node --test --test-reporter=tap scripts/browser-check.mjs"
+  },
+  "dependencies": {
+    "@stellar/freighter-api": "6.0.1",
+    "@stellar/stellar-sdk": "17.2.1"
+  },
+  "devDependencies": {
+    "vite": "8.3.4"
+  }
+}

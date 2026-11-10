@@ -1,0 +1,8 @@
+{
+  "Dockerfile.d2.stellar": "ef2baa6496341fc9cb4a47a4865ec072a7504b1641d1c013423fa0b4a356d40b",
+  "Dockerfile.d2.stellar.dockerignore": "c9a1b4dc84d96a928b041524b69c7ee3d8a8df97699b8f596fde7a375681f974",
+  "deploy/d2-readonly-server.mjs": "76c305a8e2578f65bf1f2bf7039d5e345e11f7d05a7c171e126bddec7086d148",
+  "deploy/d2-runtime-entrypoint.mjs": "ca0771c0554f0df7201e7d0ad180792a8ac4d51d44cde62b37788178c6c37e65",
+  "deploy/build-d2-public.mjs": "1811598772a4ac7eb3a94c4e71f4e527c79aa5dc94613858d58b6e06530f8649",
+  "deploy/test/d2-runtime.test.mjs": "083b556c9424326aa1799f5b70e30f3ee40e67529765d4faa5b5f776e0d7bd7d"
+}

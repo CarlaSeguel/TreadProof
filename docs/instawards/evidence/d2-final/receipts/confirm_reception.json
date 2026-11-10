@@ -1,0 +1,32 @@
+{
+  "mode": "synthetic",
+  "onchainConfirmed": false,
+  "verification": "synthetic_rpc_result_and_ledger_changes",
+  "transactionHash": "567d93bea4102f99ddfa3fc2c80e9659aff948ef432890ffd49e3984c6fb99e5",
+  "ledger": 5649550,
+  "createdAt": 1794271392,
+  "contract": "CABWQG36C7ZNGREQUJBZOMSWG4T3KVR2RH2OGRLUM2GMTCBYWOEV6KYS",
+  "action": "confirm_reception",
+  "onchainBatchId": "3",
+  "actor": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+  "target": {
+    "batch_id": "c7aba1fd-1991-40b5-9e63-d42ab439f867"
+  },
+  "parameters": {
+    "id": "3",
+    "received_mass": "925"
+  },
+  "evidenceHash": null,
+  "resultDigest": "e335e21eda6e8d20b657051c52509cfadeea0bd6402c0dae50c24d2494e160a6",
+  "resultDigestVersion": "stellar-testnet-d2-remaining-batch3-txmeta-v4-core-metrics-invoke-time-nsecs-u64-zero-sha256-v1",
+  "projection": "No JWT, signature, XDR, application user ID or organization ID; original receipt retained separately",
+  "receiptOrigin": "Existing structural validator receipt; legacy labels preserved unchanged",
+  "independentNetworkProof": {
+    "source": "independent Horizon SUCCESS plus read-only Stellar RPC validation",
+    "proofFile": "evidence/five-network-confirmations.json",
+    "hash": "567d93bea4102f99ddfa3fc2c80e9659aff948ef432890ffd49e3984c6fb99e5",
+    "ledger": 5649550,
+    "status": "SUCCESS",
+    "verifiedAt": "2026-11-10T03:13:39.942828+00:00"
+  }
+}

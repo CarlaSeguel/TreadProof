@@ -1,0 +1,162 @@
+[
+  {
+    "id": "D2-01",
+    "sow": "§7 / §6",
+    "requirement": "Cinco acciones, roles y cuatro mediciones",
+    "status": "CUMPLIDO",
+    "evidence": "manifest.json operations; evidence/cycle-closure-summary.json",
+    "pending": "No repetir operaciones #3."
+  },
+  {
+    "id": "D2-02",
+    "sow": "§7",
+    "requirement": "Interfaz con historia, attestation, evidencia y Stellar",
+    "status": "CUMPLIDO_LOCAL_PUBLICACION_PENDIENTE",
+    "evidence": "deploy/build-d2-public.mjs; evidence/runtime-native-local.json",
+    "pending": "Publicar exactamente la imagen validada; el servicio Render existente no se modificó."
+  },
+  {
+    "id": "D2-03",
+    "sow": "§6.6 / §7",
+    "requirement": "Separar estado local y confirmación blockchain",
+    "status": "CUMPLIDO_LOCAL",
+    "evidence": "evidence/history-presentation-tests.tap",
+    "pending": "Revisar etiquetas en build HTTPS final."
+  },
+  {
+    "id": "D2-04",
+    "sow": "§6.4 / §7",
+    "requirement": "Recuperar bytes privados y comprobar SHA-256 antes de attestation",
+    "status": "CUMPLIDO",
+    "evidence": "evidence/valorization-terminal.json",
+    "pending": "Mantener PDF privado; no repetir registro/carga."
+  },
+  {
+    "id": "D2-05",
+    "sow": "§7 entorno",
+    "requirement": "Linux, Node.js 24 y tooling fijado",
+    "status": "RUNTIME_NATIVO_LAB_PASS_HTTPS_PENDIENTE",
+    "evidence": "evidence/bounded-recovery/native-cli.json; restored-gate.json",
+    "pending": "Node24/PG17/CLI e imagen validados; configurar y validar origen HTTPS real/proveedor antes de aceptación alojada."
+  },
+  {
+    "id": "D2-06",
+    "sow": "§6.3 / §7",
+    "requirement": "HTTPS y frontend/API del mismo origen mediante proxy",
+    "status": "PARCIAL",
+    "evidence": "evidence/runtime-native-local.json; evidence/runtime-local-tests.tap",
+    "pending": "Validación HTTPS en origen publicado; las pruebas ejecutadas usaron HTTP local aislado."
+  },
+  {
+    "id": "D2-07",
+    "sow": "§7 / M2",
+    "requirement": "Cuentas nuevas, organizaciones y pertenencia explícita",
+    "status": "PENDIENTE_EJECUCION",
+    "evidence": "REPRODUCTION-RECOVERY.md",
+    "pending": "Fixture aislado y ejecución humana autorizada; preservar #3."
+  },
+  {
+    "id": "D2-08",
+    "sow": "§7",
+    "requirement": "Comandos, entorno sin secretos y fixtures sintéticos",
+    "status": "PREPARADO",
+    "evidence": "REPRODUCTION-RECOVERY.md; deployment/runtime.env.example",
+    "pending": "Ejecutar reproducción limpia."
+  },
+  {
+    "id": "D2-09",
+    "sow": "§7",
+    "requirement": "Manifiesto único de commit/tag/build/contratos/hashes/pruebas/video/URL",
+    "status": "PARCIAL",
+    "evidence": "manifest.json; RELEASE-PLAN.md",
+    "pending": "Commit/tag/build/image/video/URL finales; las cinco exportaciones terminales están incorporadas."
+  },
+  {
+    "id": "D2-10",
+    "sow": "§7 / §9",
+    "requirement": "Regresión/aceptación del release con resultados reales",
+    "status": "REGRESION_FOCAL_Y_RECUPERACION_PASS_ACEPTACION_FINAL_PENDIENTE",
+    "evidence": "evidence/bounded-recovery/regression.tap; offline-auth-native.json",
+    "pending": "258 PASS/0 FAIL y 11 casos nativos PASS antes/después de reinicio; no equivale a suite global/revisor/HTTPS real."
+  },
+  {
+    "id": "D2-11",
+    "sow": "§7",
+    "requirement": "Video de demostración",
+    "status": "GUION_PREPARADO",
+    "evidence": "VIDEO-SCRIPT.md",
+    "pending": "Grabar, revisar y registrar URL/SHA-256."
+  },
+  {
+    "id": "D2-12",
+    "sow": "§7 / M4",
+    "requirement": "Revisor distinto al operador con cuentas nuevas",
+    "status": "PENDIENTE_EJECUCION",
+    "evidence": "REPRODUCTION-RECOVERY.md",
+    "pending": "Designar revisor y autorizar corrida separada."
+  },
+  {
+    "id": "D2-13",
+    "sow": "§7",
+    "requirement": "Acceso autorizado a evidencia privada",
+    "status": "CUMPLIDO_LOCAL",
+    "evidence": "evidence/valorization-terminal.json",
+    "pending": "Verificar JWT/RLS en origen final; no publicar bucket."
+  },
+  {
+    "id": "D2-14",
+    "sow": "§7",
+    "requirement": "Restauración ante reset y archivo histórico",
+    "status": "RECUPERACION_CONJUNTO_D2_ACOTADO_PASS",
+    "evidence": "evidence/bounded-recovery/coverage.json; restore-verification.json; restart-status.json",
+    "pending": "Recuperación del conjunto declarado validada; no todo el historial original ni SaaS. Procedimiento reset Testnet permanece documentado, sin nuevas transacciones."
+  },
+  {
+    "id": "D2-15",
+    "sow": "§7 / §10",
+    "requirement": "Disponibilidad 30 días, responsable y costo dentro de D2",
+    "status": "PLANIFICADO",
+    "evidence": "MAINTENANCE-30-DAYS.md",
+    "pending": "Fijar fecha de entrega y registrar período real."
+  },
+  {
+    "id": "D2-16",
+    "sow": "§3 / §7",
+    "requirement": "Finalización, crédito y badge separados",
+    "status": "DELIMITADO",
+    "evidence": "README.md; VIDEO-SCRIPT.md",
+    "pending": "No emitir crédito ni badges nuevos para cerrar D2."
+  },
+  {
+    "id": "M1-contexto",
+    "sow": "§11 M1",
+    "requirement": "Freighter, roles, negativos y SEP-53",
+    "status": "REGRESION_FINAL_PENDIENTE",
+    "evidence": "TEST-INVENTORY.json; manifest.json compatibility",
+    "pending": "Registrar extensión y regresión final."
+  },
+  {
+    "id": "M2-contexto",
+    "sow": "§11 M2",
+    "requirement": "Demo HTTPS: cinco acciones con cuentas nuevas y persistencia",
+    "status": "PARCIAL",
+    "evidence": "HOSTING-DEPLOYMENT.md",
+    "pending": "El flujo local #3 no acredita por sí solo M2 alojado."
+  },
+  {
+    "id": "M4-compartido",
+    "sow": "§11 M4",
+    "requirement": "Revisor, reproducción limpia y release sin campos pendientes",
+    "status": "PENDIENTE",
+    "evidence": "RELEASE-PLAN.md",
+    "pending": "Cerrar gates reales antes de declarar entrega."
+  },
+  {
+    "id": "D3-limite",
+    "sow": "§8 / M3",
+    "requirement": "Review/reviewer, revocación y pilot-readiness nuevos",
+    "status": "FUERA_DEL_ALCANCE_D2",
+    "evidence": "SOW completo §8",
+    "pending": "Evaluar en D3; no agregar funciones aquí."
+  }
+]

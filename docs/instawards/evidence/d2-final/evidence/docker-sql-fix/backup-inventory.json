@@ -1,0 +1,1 @@
+{"scope": "retained authorized audit backup tree; file reads only", "databaseConnections": 0, "candidates": [{"path": "/home/carla/treadproof-d2-integration-backup/carrier-xdr600-install-20261108T000617Z/preinstall.private.dump", "bytes": 75466, "sha256": "1d77209f94a43cd081667c3c81f4de2dc4b24a7fe94fdf503e04a074bf6d54ea"}]}

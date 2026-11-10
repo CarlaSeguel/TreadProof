@@ -1,0 +1,178 @@
+TAP version 13
+# Subtest: Plant identity, RLS binding and proof: empty own \#3 history is captured without a writer
+ok 1 - Plant identity, RLS binding and proof: empty own \#3 history is captured without a writer
+  ---
+  duration_ms: 49.365492
+  type: 'test'
+  ...
+# Subtest: Company creation with batchId null is read by exact ID and hash only
+ok 2 - Company creation with batchId null is read by exact ID and hash only
+  ---
+  duration_ms: 14.285611
+  type: 'test'
+  ...
+# Subtest: Plant preflight rejects wrong_user
+ok 3 - Plant preflight rejects wrong_user
+  ---
+  duration_ms: 1.51209
+  type: 'test'
+  ...
+# Subtest: Plant preflight rejects wrong_org
+ok 4 - Plant preflight rejects wrong_org
+  ---
+  duration_ms: 1.010094
+  type: 'test'
+  ...
+# Subtest: Plant preflight rejects wrong_role
+ok 5 - Plant preflight rejects wrong_role
+  ---
+  duration_ms: 1.057893
+  type: 'test'
+  ...
+# Subtest: Plant preflight rejects wrong_wallet
+ok 6 - Plant preflight rejects wrong_wallet
+  ---
+  duration_ms: 0.915594
+  type: 'test'
+  ...
+# Subtest: Plant preflight rejects wrong_binding
+ok 7 - Plant preflight rejects wrong_binding
+  ---
+  duration_ms: 1.423391
+  type: 'test'
+  ...
+# Subtest: Plant preflight rejects wrong_state
+ok 8 - Plant preflight rejects wrong_state
+  ---
+  duration_ms: 1.449891
+  type: 'test'
+  ...
+# Subtest: Plant preflight rejects cancelled
+ok 9 - Plant preflight rejects cancelled
+  ---
+  duration_ms: 0.988694
+  type: 'test'
+  ...
+# Subtest: Plant preflight rejects cancelled_mid
+ok 10 - Plant preflight rejects cancelled_mid
+  ---
+  duration_ms: 1.60649
+  type: 'test'
+  ...
+# Subtest: Plant preflight rejects identity_changed
+ok 11 - Plant preflight rejects identity_changed
+  ---
+  duration_ms: 1.067793
+  type: 'test'
+  ...
+# Subtest: Plant preflight rejects metadata_changed
+ok 12 - Plant preflight rejects metadata_changed
+  ---
+  duration_ms: 10.939032
+  type: 'test'
+  ...
+# Subtest: Plant preflight rejects no_proof
+ok 13 - Plant preflight rejects no_proof
+  ---
+  duration_ms: 7.141356
+  type: 'test'
+  ...
+# Subtest: Plant preflight rejects expired_proof
+ok 14 - Plant preflight rejects expired_proof
+  ---
+  duration_ms: 11.34863
+  type: 'test'
+  ...
+# Subtest: Plant preflight rejects expired_window
+ok 15 - Plant preflight rejects expired_window
+  ---
+  duration_ms: 0.855395
+  type: 'test'
+  ...
+# Subtest: exact reader rejects arbitrary UUID or partial pagination entry
+ok 16 - exact reader rejects arbitrary UUID or partial pagination entry
+  ---
+  duration_ms: 1.321092
+  type: 'test'
+  ...
+# Subtest: logout cancels reader identity authority
+ok 17 - logout cancels reader identity authority
+  ---
+  duration_ms: 1.535691
+  type: 'test'
+  ...
+# Subtest: terminal reader keeps state guard for an incorrect received mass
+ok 18 - terminal reader keeps state guard for an incorrect received mass
+  ---
+  duration_ms: 2.119086
+  type: 'test'
+  ...
+# Subtest: terminal evidence rejects wrong_valorized_mass
+ok 19 - terminal evidence rejects wrong_valorized_mass
+  ---
+  duration_ms: 2.083787
+  type: 'test'
+  ...
+# Subtest: terminal evidence rejects wrong_evidence
+ok 20 - terminal evidence rejects wrong_evidence
+  ---
+  duration_ms: 1.016794
+  type: 'test'
+  ...
+# Subtest: installed prior policy deterministically rejects exact intent before issuing grant
+ok 21 - installed prior policy deterministically rejects exact intent before issuing grant
+  ---
+  duration_ms: 3.025783
+  type: 'test'
+  ...
+# Subtest: corrected policy permits only exact original Company intent read
+ok 22 - corrected policy permits only exact original Company intent read
+  ---
+  duration_ms: 0.888395
+  type: 'test'
+  ...
+# Subtest: policy rejects broadened scope x=>x.request.id='11111111-1111-4111-a111-111111111111'
+ok 23 - policy rejects broadened scope x=>x.request.id='11111111-1111-4111-a111-111111111111'
+  ---
+  duration_ms: 0.541897
+  type: 'test'
+  ...
+# Subtest: policy rejects broadened scope x=>x.request.kind='recover'
+ok 24 - policy rejects broadened scope x=>x.request.kind='recover'
+  ---
+  duration_ms: 0.380098
+  type: 'test'
+  ...
+# Subtest: policy rejects broadened scope x=>x.authorization.role='plant'
+ok 25 - policy rejects broadened scope x=>x.authorization.role='plant'
+  ---
+  duration_ms: 0.292298
+  type: 'test'
+  ...
+# Subtest: policy rejects broadened scope x=>x.authorization.userId='11111111-1111-4111-a111-111111111111'
+ok 26 - policy rejects broadened scope x=>x.authorization.userId='11111111-1111-4111-a111-111111111111'
+  ---
+  duration_ms: 0.286098
+  type: 'test'
+  ...
+# Subtest: policy rejects broadened scope x=>x.operation='stage'
+ok 27 - policy rejects broadened scope x=>x.operation='stage'
+  ---
+  duration_ms: 0.243099
+  type: 'test'
+  ...
+# Subtest: policy rejects broadened scope x=>x.operation='cas'
+ok 28 - policy rejects broadened scope x=>x.operation='cas'
+  ---
+  duration_ms: 0.344598
+  type: 'test'
+  ...
+1..28
+# tests 28
+# suites 0
+# pass 28
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 44278.091681

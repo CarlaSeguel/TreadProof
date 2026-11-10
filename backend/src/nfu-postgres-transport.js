@@ -13,6 +13,9 @@ export function createLocalPostgresTransport({database,runtime,timeoutMs=12000,l
  return Object.freeze({mode:target.mode,database:target.database,
   async call(scope,operation,payload,{signal}={}){
    uuid(scope?.userId);uuid(scope?.organizationId);requireThat(operations.includes(operation),400,'invalid_persistence_operation');
+    // HIGH 2: terminal writes require an isolated Stellar verifier transport.
+    // Fail closed until that authenticated transport is integrated.
+    requireThat(operation!=='verified',403,'verified_transport_required');
    requireThat(!signal?.aborted,409,'operation_cancelled');
    const text=JSON.stringify(payload);requireThat(text.length<=1048576,400,'invalid_persistence_input');
    const hex=Buffer.from(text).toString('hex');

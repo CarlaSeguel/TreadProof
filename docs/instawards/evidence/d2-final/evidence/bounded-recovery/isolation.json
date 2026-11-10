@@ -1,0 +1,15 @@
+{
+  "pass": true,
+  "allContainersStopped": true,
+  "network": "none; source native check shared only prior isolated lab loopback",
+  "publishedDatabaseOrHttpPorts": 0,
+  "sourceOriginalMounts": 0,
+  "productivePasswordsOrJwtsCopied": 0,
+  "sourceCredentialsCopied": 0,
+  "targetOnlyGeneratedPasswords": 2,
+  "secretsVolumeExcludedFromBackup": true,
+  "originalDatabaseConnections": 0,
+  "supabaseRemoteConnections": 0,
+  "stellarRequestsOrTransactions": 0,
+  "containersInspected": 6
+}

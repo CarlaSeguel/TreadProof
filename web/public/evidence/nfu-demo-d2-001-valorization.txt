@@ -1,0 +1,27 @@
+TREADPROOF D2 — DECLARACIÓN SINTÉTICA DE VALORIZACIÓN
+
+ADVERTENCIA: DOCUMENTO FICTICIO DE DEMOSTRACIÓN.
+No acredita recepción, valorización ni gestión real de NFU.
+No está firmado por una planta ni anclado en Stellar.
+
+Lote local: NFU-DEMO-D2-001
+Empresa: Empresa Origen Demo
+Transportista: Transportes Demo
+Planta: Planta Circular Demo
+Fecha ficticia: 2026-10-29
+
+Masa declarada: 5000 kg
+Masa retirada: 4980 kg
+Masa recibida: 4950 kg
+Masa valorizada: 4900 kg
+
+Etapas sintéticas:
+DEMO-EVT-001 | create_batch | company | 2026-10-29T09:00:00-03:00
+DEMO-EVT-002 | confirm_pickup | carrier | 2026-10-29T10:00:00-03:00
+DEMO-EVT-003 | start_transit | carrier | 2026-10-29T10:15:00-03:00
+DEMO-EVT-004 | confirm_reception | plant | 2026-10-29T12:00:00-03:00
+DEMO-EVT-005 | confirm_valorization | plant | 2026-10-29T16:00:00-03:00
+
+Declaración de planta: SIMULADA Y NO FIRMADA.
+No existe verificación on-chain para este lote.
+El SHA-256 acredita integridad de bytes, no autenticidad.

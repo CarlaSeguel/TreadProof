@@ -1,0 +1,10 @@
+{
+  "node": "v24.19.0",
+  "psql": "psql (PostgreSQL) 17.11 (Ubuntu 17.11-1.pgdg24.04+2)",
+  "stellar": "not at standard path",
+  "chromeCurrentInspection": "156.0.8078.80",
+  "freighterApi": "6.0.1",
+  "stellarSdk": "17.2.1",
+  "vite": "8.3.4",
+  "inspectedAt": "2026-11-10T03:26:20.328419+00:00"
+}

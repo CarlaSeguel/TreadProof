@@ -1,0 +1,10 @@
+{
+  "checkedAtUtc": "2026-11-10T04:51:11.691167+00:00",
+  "clientVersion": "29.9.2",
+  "context": "desktop-linux",
+  "daemonAvailable": false,
+  "observedError": "DockerDesktopLinuxEngine pipe not found",
+  "imageBuildExecuted": false,
+  "imageRunExecuted": false,
+  "cloudDeploymentExecuted": false
+}

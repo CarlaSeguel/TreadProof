@@ -1,0 +1,65 @@
+{
+  "pass_": true,
+  "verifiedAt": "2026-11-10T03:13:39.942828+00:00",
+  "operations": [
+    {
+      "action": "create_batch",
+      "massGrams": "1000",
+      "hash": "b1bf0615c597d4ffb7f7051df0aed3a047020452d0db0e65754e8e324b649fa6",
+      "ledger": 5589704,
+      "stellar": "SUCCESS",
+      "createdAt": "2026-11-06T13:36:01Z",
+      "source": "GCY7P4RGEP7PWIKRXDP4T4HNOIHEGUBEEHEO3AOKOACRESCRLRAE4VBF",
+      "sequence": "22756081058971650"
+    },
+    {
+      "action": "confirm_pickup",
+      "massGrams": "950",
+      "hash": "b69224eb2d97f6ed313b196e1d5362cef5210d10badbee64fc7032a26820c9d4",
+      "ledger": 5645267,
+      "stellar": "SUCCESS",
+      "createdAt": "2026-11-09T18:46:17Z",
+      "source": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+      "sequence": "22759182025359363"
+    },
+    {
+      "action": "start_transit",
+      "massGrams": null,
+      "hash": "adbe71a9ef6fcc8f2275d6f59b00a9667126dba6b5d0527760bb386074a325ef",
+      "ledger": 5648484,
+      "stellar": "SUCCESS",
+      "createdAt": "2026-11-09T23:14:22Z",
+      "source": "GA254STX7VLWZT7AKWRX2FHZKYYWR4U6MGQLCU4LXPOUHDJVPKJZRMEA",
+      "sequence": "22759182025359364"
+    },
+    {
+      "action": "confirm_reception",
+      "massGrams": "925",
+      "hash": "567d93bea4102f99ddfa3fc2c80e9659aff948ef432890ffd49e3984c6fb99e5",
+      "ledger": 5649550,
+      "stellar": "SUCCESS",
+      "createdAt": "2026-11-10T00:43:12Z",
+      "source": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+      "sequence": "22759186320326659"
+    },
+    {
+      "action": "confirm_valorization",
+      "massGrams": "900",
+      "hash": "899881abecbff106ba4cd429456a7739cf06a6213abbf943ce9bf2f0eccd9e66",
+      "ledger": 5651173,
+      "stellar": "SUCCESS",
+      "createdAt": "2026-11-10T02:58:27Z",
+      "source": "GASNPMKSQEEZ44S35INBRMFAD6N7JRVTGCYNL2AARPIWUNKOUEB5DUTE",
+      "sequence": "22759186320326660"
+    }
+  ],
+  "historyTransitions": 5,
+  "batchState": "Valorized",
+  "masses": {
+    "declared": "1000",
+    "pickup": "950",
+    "received": "925",
+    "valorized": "900"
+  },
+  "newTransactions": 0
+}

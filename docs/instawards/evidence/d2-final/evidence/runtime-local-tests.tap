@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: archive labels local persistence separately from dated independent Stellar evidence
+ok 1 - archive labels local persistence separately from dated independent Stellar evidence
+  ---
+  duration_ms: 2.471645
+  type: 'test'
+  ...
+# Subtest: public projection contains no user/JWT/XDR/private PDF bytes
+ok 2 - public projection contains no user/JWT/XDR/private PDF bytes
+  ---
+  duration_ms: 0.369492
+  type: 'test'
+  ...
+# Subtest: invalid evidence hash or failed chain reference cannot be published
+ok 3 - invalid evidence hash or failed chain reference cannot be published
+  ---
+  duration_ms: 1.048176
+  type: 'test'
+  ...
+# Subtest: requires exact HTTPS deployment origin
+ok 4 - requires exact HTTPS deployment origin
+  ---
+  duration_ms: 0.385791
+  type: 'test'
+  ...
+# Subtest: public archive and status serve without signing or submission authority
+ok 5 - public archive and status serve without signing or submission authority
+  ---
+  duration_ms: 80.064915
+  type: 'test'
+  ...
+# Subtest: all NFU, SQL, storage and metadata writes are blocked before proxy
+ok 6 - all NFU, SQL, storage and metadata writes are blocked before proxy
+  ---
+  duration_ms: 69.468401
+  type: 'test'
+  ...
+# Subtest: cross-origin or wrong method does not reach internal API
+ok 7 - cross-origin or wrong method does not reach internal API
+  ---
+  duration_ms: 15.814706
+  type: 'test'
+  ...
+# Subtest: proxy preserves original JWT and origin and strips /api once
+ok 8 - proxy preserves original JWT and origin and strips /api once
+  ---
+  duration_ms: 16.009605
+  type: 'test'
+  ...
+# Subtest: timeout produces a sanitized error with no retry
+ok 9 - timeout produces a sanitized error with no retry
+  ---
+  duration_ms: 27.26524
+  type: 'test'
+  ...
+# Subtest: malformed response never becomes success or triggers retry
+ok 10 - malformed response never becomes success or triggers retry
+  ---
+  duration_ms: 9.010947
+  type: 'test'
+  ...
+# Subtest: health rejects an internal runtime with transactional capabilities
+ok 11 - health rejects an internal runtime with transactional capabilities
+  ---
+  duration_ms: 14.765413
+  type: 'test'
+  ...
+# Subtest: secrets, private files, source and arbitrary API query remain unpublished
+ok 12 - secrets, private files, source and arbitrary API query remain unpublished
+  ---
+  duration_ms: 22.716867
+  type: 'test'
+  ...
+# Subtest: static symlink cannot escape the published root
+ok 13 - static symlink cannot escape the published root
+  ---
+  duration_ms: 10.626838
+  type: 'test'
+  ...
+# Subtest: restored PostgreSQL profile never initializes, restores, migrates or changes roles
+ok 14 - restored PostgreSQL profile never initializes, restores, migrates or changes roles
+  ---
+  duration_ms: 0.774996
+  type: 'test'
+  ...
+# Subtest: missing or wrong restored cluster is rejected before a native process starts
+ok 15 - missing or wrong restored cluster is rejected before a native process starts
+  ---
+  duration_ms: 0.616596
+  type: 'test'
+  ...
+# Subtest: existing PostgreSQL profile does not restart the database
+ok 16 - existing PostgreSQL profile does not restart the database
+  ---
+  duration_ms: 0.172799
+  type: 'test'
+  ...
+# Subtest: public build copies only compiled assets and leaves private evidence out
+ok 17 - public build copies only compiled assets and leaves private evidence out
+  ---
+  duration_ms: 32.26401
+  type: 'test'
+  ...
+# Subtest: packaged backend relative dependency graph includes both omitted web modules
+ok 18 - packaged backend relative dependency graph includes both omitted web modules
+  ---
+  duration_ms: 233.992824
+  type: 'test'
+  ...
+# Subtest: integrated same-origin Auth, JWT context, SEP-53 and history remain read only
+ok 19 - integrated same-origin Auth, JWT context, SEP-53 and history remain read only
+  ---
+  duration_ms: 106.326875
+  type: 'test'
+  ...
+# Subtest: client cancellation aborts the same upstream request without retry
+ok 20 - client cancellation aborts the same upstream request without retry
+  ---
+  duration_ms: 21.358775
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 34765.894093

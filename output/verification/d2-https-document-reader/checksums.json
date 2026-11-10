@@ -1,0 +1,16 @@
+{
+  "schema": "treadproof-d2-document-reader-checksums-v1",
+  "files": {
+    "docs/instawards/D2_HTTPS_DOCUMENT_READER_RESULT.txt": "0128dcc7543798ac9291336efa931c015529508b369270d246632612680c6222",
+    "output/verification/d2-https-document-reader/browser-result.json": "9c15ef8a31287cad6b68b224dcb11ce2226c1b5a28114aa895a268bed791cc3e",
+    "output/verification/d2-https-document-reader/CHANGE-SET.installed.json": "fec2efe533432c0c79cb52e1f4d19d3b7bda9f02a488b6c649c0cb72c55ef02a",
+    "output/verification/d2-https-document-reader/DEV-CHANGE-LOG.txt": "b341a62099edd5b7f4450801280a17a3b9d2c4107e5d26051b254c149a966268",
+    "output/verification/d2-https-document-reader/frontend-regression.tap": "a6aa416943fc4b2166b612d1e176171fe3e1f07b50b3f8010017d5888d7f5d7f",
+    "output/verification/d2-https-document-reader/historical-package-integrity.json": "0e4a0fa036269cd183f5e9c19c997cb4c66d9d3e474fab703d822ecdb3a113e1",
+    "output/verification/d2-https-document-reader/image-regression.tap": "2b8b2d241f96879384b4ee4b1c077afaffbc02633de355612a3844d9fcd2efff",
+    "output/verification/d2-https-document-reader/image-verification.json": "486b31c12a98056106385c27f23caf1821d1eff7fc9d936c6b55f03622c64f6c",
+    "output/verification/d2-https-document-reader/native-restart.json": "41d1081956eed41157eb4a7a56b8e9936d1ecc0140fecd326af4472b31bbc3f0",
+    "output/verification/d2-https-document-reader/render-current.proposed.json": "abd664fc6a4beef72c044d6c0bd1060bdd215df461b9b1e5204bc7a96f241ef1",
+    "output/verification/d2-https-document-reader/RESULT.json": "8972662a7d6cada4b6d62e1111b6c07779e18e6e56c7fc463c4a604f43d2cd0d"
+  }
+}

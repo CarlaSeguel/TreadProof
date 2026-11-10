@@ -1,0 +1,12 @@
+{
+  "pass": true,
+  "preliminaryIntentId": "38f54850-099e-4b8a-a93d-aae7bb357381",
+  "assembledIntentId": "5d576ab0-9b23-49e6-a310-b39f5e1a9be5",
+  "assemblyKeyMatches": true,
+  "sameSourceSequenceOperationTimeBounds": true,
+  "preliminaryAttemptCount": 0,
+  "preliminaryUnsigned": true,
+  "expiredAt": "2026-11-10T00:04:46-03:00",
+  "reusable": false,
+  "historicalReferenceModified": false
+}

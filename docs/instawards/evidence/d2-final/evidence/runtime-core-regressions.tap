@@ -1,0 +1,334 @@
+TAP version 13
+# Subtest: journal: projection never treats a stored confirmed row or fabricated receipt as chain confirmation
+ok 1 - journal: projection never treats a stored confirmed row or fabricated receipt as chain confirmation
+  ---
+  duration_ms: 8.680745
+  type: 'test'
+  ...
+# Subtest: journal: absent/malformed token rejected undefined
+ok 2 - journal: absent/malformed token rejected undefined
+  ---
+  duration_ms: 1.311291
+  type: 'test'
+  ...
+# Subtest: journal: absent/malformed token rejected x
+ok 3 - journal: absent/malformed token rejected x
+  ---
+  duration_ms: 3.256379
+  type: 'test'
+  ...
+# Subtest: journal: Auth rejects invalid before SQL
+ok 4 - journal: Auth rejects invalid before SQL
+  ---
+  duration_ms: 1.889988
+  type: 'test'
+  ...
+# Subtest: journal: Auth rejects expired before SQL
+ok 5 - journal: Auth rejects expired before SQL
+  ---
+  duration_ms: 1.49399
+  type: 'test'
+  ...
+# Subtest: journal: Auth rejects rejected before SQL
+ok 6 - journal: Auth rejects rejected before SQL
+  ---
+  duration_ms: 0.394297
+  type: 'test'
+  ...
+# Subtest: journal: missing profile and anonymous identity rejected before SQL
+ok 7 - journal: missing profile and anonymous identity rejected before SQL
+  ---
+  duration_ms: 3.10878
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field userId
+ok 8 - journal: rejects authority field userId
+  ---
+  duration_ms: 0.609496
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field organizationId
+ok 9 - journal: rejects authority field organizationId
+  ---
+  duration_ms: 0.504397
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field role
+ok 10 - journal: rejects authority field role
+  ---
+  duration_ms: 7.86745
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field wallet
+ok 11 - journal: rejects authority field wallet
+  ---
+  duration_ms: 1.59279
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field confirmed
+ok 12 - journal: rejects authority field confirmed
+  ---
+  duration_ms: 0.400598
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field result
+ok 13 - journal: rejects authority field result
+  ---
+  duration_ms: 0.285099
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field rpc
+ok 14 - journal: rejects authority field rpc
+  ---
+  duration_ms: 0.304098
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field operation
+ok 15 - journal: rejects authority field operation
+  ---
+  duration_ms: 7.101255
+  type: 'test'
+  ...
+# Subtest: journal: rejects authority field binding
+ok 16 - journal: rejects authority field binding
+  ---
+  duration_ms: 0.405498
+  type: 'test'
+  ...
+# Subtest: journal: foreign and missing reference produce the same unavailable response
+ok 17 - journal: foreign and missing reference produce the same unavailable response
+  ---
+  duration_ms: 2.717783
+  type: 'test'
+  ...
+# Subtest: journal: every relevant wait is followed by Auth/profile/organization revalidation
+ok 18 - journal: every relevant wait is followed by Auth/profile/organization revalidation
+  ---
+  duration_ms: 2.762783
+  type: 'test'
+  ...
+# Subtest: journal: repeated/concurrent unknown recovery is query-only
+ok 19 - journal: repeated/concurrent unknown recovery is query-only
+  ---
+  duration_ms: 1.837488
+  type: 'test'
+  ...
+# Subtest: journal: post-read revocation, abort and PostgreSQL failure disclose no private result
+ok 20 - journal: post-read revocation, abort and PostgreSQL failure disclose no private result
+  ---
+  duration_ms: 1.53279
+  type: 'test'
+  ...
+# Subtest: journal: service-role or wrong project configuration rejected
+ok 21 - journal: service-role or wrong project configuration rejected
+  ---
+  duration_ms: 0.540996
+  type: 'test'
+  ...
+# Subtest: journal: real gateway boundary uses requesting bearer and publishable key on all Auth/RLS reads (mock HTTP provider)
+ok 22 - journal: real gateway boundary uses requesting bearer and publishable key on all Auth/RLS reads (mock HTTP provider)
+  ---
+  duration_ms: 29.039214
+  type: 'test'
+  ...
+# Subtest: HTTP journal: only three exact read routes, strict methods/body/query/origin/Auth
+ok 23 - HTTP journal: only three exact read routes, strict methods/body/query/origin/Auth
+  ---
+  duration_ms: 200.300919
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation verified is not a route
+ok 24 - HTTP journal: internal operation verified is not a route
+  ---
+  duration_ms: 11.686525
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation cas is not a route
+ok 25 - HTTP journal: internal operation cas is not a route
+  ---
+  duration_ms: 4.64967
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation stage is not a route
+ok 26 - HTTP journal: internal operation stage is not a route
+  ---
+  duration_ms: 5.827263
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation approve is not a route
+ok 27 - HTTP journal: internal operation approve is not a route
+  ---
+  duration_ms: 7.130154
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation prepare is not a route
+ok 28 - HTTP journal: internal operation prepare is not a route
+  ---
+  duration_ms: 7.18616
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation sign is not a route
+ok 29 - HTTP journal: internal operation sign is not a route
+  ---
+  duration_ms: 2.690085
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation submit is not a route
+ok 30 - HTTP journal: internal operation submit is not a route
+  ---
+  duration_ms: 3.261982
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation sql is not a route
+ok 31 - HTTP journal: internal operation sql is not a route
+  ---
+  duration_ms: 9.567047
+  type: 'test'
+  ...
+# Subtest: HTTP journal: internal operation run is not a route
+ok 32 - HTTP journal: internal operation run is not a route
+  ---
+  duration_ms: 4.034678
+  type: 'test'
+  ...
+# Subtest: HTTP journal: logout invalidates an in-flight read before response even if remote logout fails
+ok 33 - HTTP journal: logout invalidates an in-flight read before response even if remote logout fails
+  ---
+  duration_ms: 9.159649
+  type: 'test'
+  ...
+# Subtest: official SEP-53 ASCII signature verifies
+ok 34 - official SEP-53 ASCII signature verifies
+  ---
+  duration_ms: 15.611114
+  type: 'test'
+  ...
+# Subtest: official ASCII signature rejects altered message bytes
+ok 35 - official ASCII signature rejects altered message bytes
+  ---
+  duration_ms: 1.133394
+  type: 'test'
+  ...
+# Subtest: official SEP-53 Japanese signature verifies
+ok 36 - official SEP-53 Japanese signature verifies
+  ---
+  duration_ms: 7.283859
+  type: 'test'
+  ...
+# Subtest: official Japanese signature rejects altered message bytes
+ok 37 - official Japanese signature rejects altered message bytes
+  ---
+  duration_ms: 0.861495
+  type: 'test'
+  ...
+# Subtest: official SEP-53 binary signature verifies
+ok 38 - official SEP-53 binary signature verifies
+  ---
+  duration_ms: 0.898395
+  type: 'test'
+  ...
+# Subtest: official binary signature rejects altered message bytes
+ok 39 - official binary signature rejects altered message bytes
+  ---
+  duration_ms: 1.215793
+  type: 'test'
+  ...
+# Subtest: UTF-8 string and exact bytes have the same digest
+ok 40 - UTF-8 string and exact bytes have the same digest
+  ---
+  duration_ms: 1.75399
+  type: 'test'
+  ...
+# Subtest: caller buffers remain unchanged and hash output has no shared state
+ok 41 - caller buffers remain unchanged and hash output has no shared state
+  ---
+  duration_ms: 0.533797
+  type: 'test'
+  ...
+# Subtest: signature rejects another expected public key
+ok 42 - signature rejects another expected public key
+  ---
+  duration_ms: 12.65863
+  type: 'test'
+  ...
+# Subtest: exact signing input preserves JSON field order and whitespace
+ok 43 - exact signing input preserves JSON field order and whitespace
+  ---
+  duration_ms: 3.825679
+  type: 'test'
+  ...
+# Subtest: Unicode normalization is not silently applied
+ok 44 - Unicode normalization is not silently applied
+  ---
+  duration_ms: 1.096694
+  type: 'test'
+  ...
+# Subtest: rejects signature over raw message
+ok 45 - rejects signature over raw message
+  ---
+  duration_ms: 1.289793
+  type: 'test'
+  ...
+# Subtest: rejects signature over unprefixed SHA256
+ok 46 - rejects signature over unprefixed SHA256
+  ---
+  duration_ms: 1.442592
+  type: 'test'
+  ...
+# Subtest: rejects signature over double SHA256
+ok 47 - rejects signature over double SHA256
+  ---
+  duration_ms: 2.303787
+  type: 'test'
+  ...
+# Subtest: rejects signature over wrong prefix newline
+ok 48 - rejects signature over wrong prefix newline
+  ---
+  duration_ms: 1.734691
+  type: 'test'
+  ...
+# Subtest: rejects malformed, noncanonical or wrong-size base64 signatures
+ok 49 - rejects malformed, noncanonical or wrong-size base64 signatures
+  ---
+  duration_ms: 0.537697
+  type: 'test'
+  ...
+# Subtest: signature mutation is rejected
+ok 50 - signature mutation is rejected
+  ---
+  duration_ms: 0.698196
+  type: 'test'
+  ...
+# Subtest: rejects missing, StrKey-text or invalid-size raw public keys
+ok 51 - rejects missing, StrKey-text or invalid-size raw public keys
+  ---
+  duration_ms: 0.221998
+  type: 'test'
+  ...
+# Subtest: rejects objects or invalid UTF-16 instead of inventing signing bytes
+ok 52 - rejects objects or invalid UTF-16 instead of inventing signing bytes
+  ---
+  duration_ms: 1.878789
+  type: 'test'
+  ...
+# Subtest: accepts Uint8Array binary input without text conversion
+ok 53 - accepts Uint8Array binary input without text conversion
+  ---
+  duration_ms: 1.424592
+  type: 'test'
+  ...
+# Subtest: missing or malformed verification input fails closed without throwing
+ok 54 - missing or malformed verification input fails closed without throwing
+  ---
+  duration_ms: 0.236698
+  type: 'test'
+  ...
+1..54
+# tests 54
+# suites 0
+# pass 54
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13853.772156

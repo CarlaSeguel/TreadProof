@@ -1,0 +1,292 @@
+{
+  "pass": true,
+  "originalCredentialsUsed": false,
+  "remoteSupabaseConnections": 0,
+  "originalDatabaseConnections": 0,
+  "stellarRequests": 0,
+  "containers": [
+    {
+      "container": "d2-docker-20261110t050454z-backup-list",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "bind",
+          "target": "/lab",
+          "readOnly": true,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-source-attestation",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "bind",
+          "target": "/lab",
+          "readOnly": true,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-proposed-assets-gate",
+      "network": "container:e8d45a2f18879cbfd691c12307c81bae1f0b631b34e59bd6df30e39d06a9a84b",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "bind",
+          "target": "/lab",
+          "readOnly": true,
+          "labOnly": true
+        },
+        {
+          "type": "bind",
+          "target": "/app/backend/sql",
+          "readOnly": true,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-fixture-support",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "bind",
+          "target": "/app/backend/test",
+          "readOnly": true,
+          "labOnly": true
+        },
+        {
+          "type": "bind",
+          "target": "/app/web/src/nfu-xdr-budget.mjs",
+          "readOnly": true,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-cli-startup",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "bind",
+          "target": "/lab",
+          "readOnly": true,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-restore-storage-init",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "volume",
+          "target": "/var/lib/treadproof/storage",
+          "readOnly": false,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-restore",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "bind",
+          "target": "/lab",
+          "readOnly": true,
+          "labOnly": true
+        },
+        {
+          "type": "volume",
+          "target": "/var/lib/treadproof/postgres",
+          "readOnly": false,
+          "labOnly": true
+        },
+        {
+          "type": "volume",
+          "target": "/var/lib/treadproof/storage",
+          "readOnly": false,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-auth-proof",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "bind",
+          "target": "/app/backend/test",
+          "readOnly": true,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-runtime-final",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "bind",
+          "target": "/app/Dockerfile.d2.stellar",
+          "readOnly": true,
+          "labOnly": true
+        },
+        {
+          "type": "bind",
+          "target": "/app/Dockerfile.d2.stellar.dockerignore",
+          "readOnly": true,
+          "labOnly": true
+        },
+        {
+          "type": "bind",
+          "target": "/app/deploy/test",
+          "readOnly": true,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-db",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "bind",
+          "target": "/lab",
+          "readOnly": true,
+          "labOnly": true
+        },
+        {
+          "type": "volume",
+          "target": "/var/lib/treadproof/postgres",
+          "readOnly": false,
+          "labOnly": true
+        },
+        {
+          "type": "volume",
+          "target": "/var/lib/treadproof/storage",
+          "readOnly": false,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-storage-init",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "volume",
+          "target": "/var/lib/treadproof/storage",
+          "readOnly": false,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-runtime-tests",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "bind",
+          "target": "/app/Dockerfile.d2.stellar",
+          "readOnly": true,
+          "labOnly": true
+        },
+        {
+          "type": "bind",
+          "target": "/app/deploy/test",
+          "readOnly": true,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-seeded",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "bind",
+          "target": "/lab",
+          "readOnly": true,
+          "labOnly": true
+        },
+        {
+          "type": "volume",
+          "target": "/var/lib/treadproof/postgres",
+          "readOnly": false,
+          "labOnly": true
+        },
+        {
+          "type": "volume",
+          "target": "/var/lib/treadproof/storage",
+          "readOnly": false,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-regression",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "bind",
+          "target": "/app/backend/test",
+          "readOnly": true,
+          "labOnly": true
+        },
+        {
+          "type": "bind",
+          "target": "/app/deploy/test",
+          "readOnly": true,
+          "labOnly": true
+        }
+      ]
+    },
+    {
+      "container": "d2-docker-20261110t050454z-probe",
+      "network": "none",
+      "publishedPorts": false,
+      "running": false,
+      "mounts": [
+        {
+          "type": "bind",
+          "target": "/lab",
+          "readOnly": true,
+          "labOnly": true
+        }
+      ]
+    }
+  ],
+  "allStopped": true
+}
