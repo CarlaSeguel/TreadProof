@@ -51,7 +51,9 @@ export function createD2DocumentReader({gateway,origin,manifest,proof,stellar=ne
    const version=await db.objectVersion(row.storage_path);requireThat(version?.byteSize===D2_DOCUMENT.byteSize&&version.contentType==='application/pdf'&&/^"[A-Za-z0-9-]{16,160}"$/.test(version.etag??'')&&Number.isFinite(Date.parse(version.lastModified)),409,'evidence_integrity_mismatch');
    const readStellar={manifest,getBatch:async id=>{
     requireThat(id==='3',404,'evidence_not_available');alive();const b=await stellar.getBatch(id);alive();
-    requireThat(b?.id==='3'&&b.status?.length===1&&b.status[0]==='Valorized'&&b.valorized_mass==='900'&&b.received_mass==='925'&&b.evidence_hash===D2_DOCUMENT.sha256&&DEMO_WALLET_PROPOSALS.every(p=>b[p.role]===p.stellar_address),409,'document_chain_mismatch');return b;
+    const status=b?.status;
+    const valorized=status==='Valorized'||(Array.isArray(status)&&status.length===1&&status[0]==='Valorized');
+    requireThat(b?.id==='3'&&valorized&&b.valorized_mass==='900'&&b.received_mass==='925'&&b.evidence_hash===D2_DOCUMENT.sha256&&DEMO_WALLET_PROPOSALS.every(p=>b[p.role]===p.stellar_address),409,'document_chain_mismatch');return b;
    }};
    // Existing service performs JWT/RLS metadata + binding checks and authenticated
    // download, then verifies the recovered bytes/hash. No writer is exposed here.

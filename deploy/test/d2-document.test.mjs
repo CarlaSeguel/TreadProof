@@ -22,6 +22,22 @@ function fixture(){
  f.make=()=>createD2DocumentReader({gateway:f.gateway,origin,manifest,proof:f.proof,stellar:f.stellar,monotonic:()=>f.time});f.reader=f.make();f.read=signal=>f.reader.read({token,origin,signal});return f;
 }
 test('terminal Valorized read returns the exact existing PDF bytes/hash with GET/HEAD reads only',async()=>{const f=fixture(),r=await f.read();assert.equal(r.mode,'authenticated_document_read_only');assert.equal(r.canSign,false);assert.equal(r.canSubmit,false);assert.equal(r.matches_onchain_hash,true);assert(Buffer.from(r.content_base64,'base64').equals(pdf));assert.equal(f.downloads,1);assert(!JSON.stringify(r).includes('storage_path'));assert(!JSON.stringify(r).includes('created_by'));});
+test('pinned Stellar CLI string state returns the exact PDF bytes',async()=>{
+ const f=fixture();
+ f.batch.status='Valorized';
+ const result=await f.read();
+ assert.equal(result.matches_onchain_hash,true);
+ assert.deepEqual(Buffer.from(result.content_base64,'base64'),pdf);
+ assert.equal(f.downloads,1);
+});
+test('document reader rejects other states and malformed enum representations before download',async()=>{
+ for(const status of ['Received','valorized','Valorized ',['Valorized','Received'],[],{0:'Valorized',length:1},null]){
+  const f=fixture();
+  f.batch.status=status;
+  await assert.rejects(()=>f.read(),error=>error.code==='document_chain_mismatch');
+  assert.equal(f.downloads,0);
+ }
+});
 for(const role of ['company','carrier'])test('denies '+role+' before downloading private bytes',async()=>{const f=fixture();f.role=role;await assert.rejects(()=>f.read(),e=>e.status===403);assert.equal(f.downloads,0);});
 test('missing SEP53 is rejected before download',async()=>{const f=fixture();f.proven=false;await assert.rejects(()=>f.read(),e=>e.code==='wallet_possession_required');assert.equal(f.downloads,0);});
 test('missing/invalid token or wrong origin cannot read',async()=>{const f=fixture();for(const args of[{token:'',origin},{token,origin:'http://127.0.0.1:5173'},{token,origin:'https://evil.test'}])await assert.rejects(()=>f.reader.read(args));assert.equal(f.downloads,0);});
@@ -66,8 +82,17 @@ async function http(t){
  t.after(()=>runtime.close());return{...f,runtime,base:'http://127.0.0.1:'+runtime.publicServer.address().port,fixture:f};
 }
 const path='/api/v1/evidence/'+D.evidenceId,headers={Origin:origin,Authorization:'Bearer '+token,'Content-Type':'application/json'};
-test('same-origin HTTPS composition proxies one authenticated GET through the existing service',async t=>{const f=await http(t),r=await fetch(f.base+path,{headers});assert.equal(r.status,200);assert.equal(r.headers.get('cache-control'),'no-store');const b=await r.json();assert(Buffer.from(b.content_base64,'base64').equals(pdf));assert.equal(f.fixture.downloads,1);assert.equal((await fetch(f.base+'/api/runtime-health')).status,200);});
+test('same-origin HTTPS composition accepts the CLI string and proxies one authenticated GET',async t=>{const f=await http(t);f.fixture.batch.status='Valorized';const r=await fetch(f.base+path,{headers});assert.equal(r.status,200);assert.equal(r.headers.get('cache-control'),'no-store');const b=await r.json();assert(Buffer.from(b.content_base64,'base64').equals(pdf));assert.equal(f.fixture.downloads,1);assert.equal((await fetch(f.base+'/api/runtime-health')).status,200);});
 test('browser same-origin GET without Origin is bound to configured HTTPS origin',async t=>{const f=await http(t),r=await fetch(f.base+path,{headers:{Authorization:headers.Authorization,'sec-fetch-site':'same-origin'}});assert.equal(r.status,200);});
 test('anonymous and unproven requests do not recover the document',async t=>{const f=await http(t);assert.equal((await fetch(f.base+path,{headers:{Origin:origin}})).status,401);f.fixture.proven=false;assert.equal((await fetch(f.base+path,{headers})).status,409);assert.equal(f.fixture.downloads,0);});
+for(const role of ['company','carrier'])test('same-origin PDF route denies authenticated '+role+' without bytes',async t=>{
+ const f=await http(t);
+ f.fixture.role=role;
+ f.fixture.batch.status='Valorized';
+ const response=await fetch(f.base+path,{headers});
+ assert.equal(response.status,403);
+ assert(!Object.hasOwn(await response.json(),'content_base64'));
+ assert.equal(f.fixture.downloads,0);
+});
 test('cross-origin, no browser provenance, query, other id and write methods are blocked',async t=>{const f=await http(t);for(const [url,options,expected]of [[path,{headers:{...headers,Origin:'https://evil.test'}},403],[path,{headers:{Authorization:headers.Authorization}},403],[path+'?download=1',{headers},404],[path.replace(D.evidenceId,'11111111-1111-4111-8111-111111111111'),{headers},404],[path,{method:'POST',headers},405]])assert.equal((await fetch(f.base+url,options)).status,expected);assert.equal(f.fixture.downloads,0);});
 test('logout invalidates pending reads and no route uploads or dispatches',async t=>{const f=await http(t);assert.equal((await fetch(f.base+'/api/auth/logout',{method:'POST',headers})).status,200);assert.equal((await fetch(f.base+path,{headers})).status,401);for(const route of ['review','prepare','simulate','approve','authorize-sign','signed','submit','query'])assert.equal((await fetch(f.base+'/api/v1/nfu-live/'+route,{method:'POST',headers})).status,404);for(const route of ['/api/v1/nfu-evidence/store','/api/v1/nfu-preparations/create-batch','/private/valorization900.pdf'])assert.notEqual((await fetch(f.base+route,{method:'POST',headers})).status,200);assert.equal(f.fixture.downloads,0);});
