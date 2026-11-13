@@ -24,6 +24,7 @@
 !deploy/d2-readonly-server.mjs
 !deploy/d2-runtime-entrypoint.mjs
 !deploy/build-d2-public.mjs
+!deploy/d3-review-archive.mjs
 !deployments/
 !deployments/testnet.json
 !docs/

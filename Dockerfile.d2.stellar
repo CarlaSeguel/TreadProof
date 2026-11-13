@@ -42,7 +42,7 @@ COPY deployments/testnet.json ./deployments/testnet.json
 
 COPY --from=frontend /app/web/dist ./web/dist
 COPY docs/instawards/evidence/d2-final/manifest.json ./docs/instawards/evidence/d2-final/manifest.json
-COPY deploy/d2-readonly-server.mjs deploy/d2-runtime-entrypoint.mjs deploy/build-d2-public.mjs ./deploy/
+COPY deploy/d2-readonly-server.mjs deploy/d2-runtime-entrypoint.mjs deploy/build-d2-public.mjs deploy/d3-review-archive.mjs ./deploy/
 RUN node deploy/build-d2-public.mjs web/dist docs/instawards/evidence/d2-final/manifest.json deploy/d2-dist
 
 COPY --from=stellar-cli /usr/local/bin/stellar /usr/local/bin/stellar

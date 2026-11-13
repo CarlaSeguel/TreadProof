@@ -49,7 +49,7 @@ export function createD3ReviewerStore(config,key,fetcher=fetch){
   });
 }
 
-export function createD3Reviewer({gateway,store,stellar,releaseVersion,archive=null,now=Date.now}){
+export function createD3Reviewer({gateway,store,stellar,releaseVersion,archive=[],now=Date.now}){
   const contract=stellar.manifest.tire_registry;
   requireThat(typeof releaseVersion==='string'&&/^[a-zA-Z0-9._-]{1,100}$/.test(releaseVersion),503,'d3_review_release_required');
   async function eligible(token){
@@ -93,17 +93,12 @@ export function createD3Reviewer({gateway,store,stellar,releaseVersion,archive=n
     return row;
   }
   function transactionReference(batch,binding,chain){
-    // The deployed D2 archive already seals the operation reference. Live
-    // transaction/result verification is separate from the current get_batch read.
-    const op=archive?.operations?.find(o=>o.action==='confirm_valorization');
-    const matches=archive?.mode==='archived_verified_testnet'&&archive.batchUuid===batch.id&&
-      archive.batchId===batch.onchain_batch_id&&archive.network==='Stellar Testnet'&&
-      archive.state==='Valorized'&&op?.stellar==='SUCCESS'&&sha256.test(op.hash)&&
-      Number.isSafeInteger(op.ledger)&&op.ledger>0&&Number.isFinite(Date.parse(op.verifiedAt))&&
-      op.actor===archive.actors?.plant&&op.actor===binding.plant_address&&
-      (!chain||chain.status==='Valorized'&&String(op.massGrams)===chain.mass&&archive.evidence?.sha256===chain.evidenceHash);
+    const op=archive.find(row=>row.batchUuid===batch.id&&row.batchId===batch.onchain_batch_id&&
+      row.contract===batch.tire_registry_address&&row.plant===binding.plant_address);
+    const matches=op&&sha256.test(op.hash)&&Number.isSafeInteger(op.ledger)&&op.ledger>0&&Number.isFinite(Date.parse(op.observedAt))&&
+      (!chain||chain.status==='Valorized'&&op.massGrams===chain.mass&&op.evidenceSha256===chain.evidenceHash);
     return matches?{
-      ...field(op.hash,'D2 archived confirm_valorization receipt','archived_stellar'),ledger:String(op.ledger),observedAt:op.verifiedAt,
+      ...field(op.hash,op.source,'archived_stellar'),ledger:String(op.ledger),observedAt:op.observedAt,
     }:field(null,null,'unverified');
   }
   return Object.freeze({

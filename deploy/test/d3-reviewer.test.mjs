@@ -13,6 +13,7 @@ import { createAuthApi,createAuthSession } from '../../web/src/auth-session.mjs'
 import { exportD3ReviewHtml } from '../../web/src/d3-review-report.mjs';
 import { createD2PublicServer } from '../d2-readonly-server.mjs';
 import { createD2ReadOnlyApi } from '../d2-runtime-entrypoint.mjs';
+import { d3ReviewArchive } from '../d3-review-archive.mjs';
 
 const manifest=JSON.parse(await readFile(new URL('../../deployments/testnet.json',import.meta.url),'utf8'));
 const origin='https://review.example.test';
@@ -30,7 +31,7 @@ const listen=(server,port=0)=>new Promise(ok=>server.listen(port,'127.0.0.1',ok)
 const close=server=>new Promise(ok=>server.close(ok));
 const url=server=>'http://127.0.0.1:'+server.address().port;
 
-async function fixture(t,{archive=null}={}){
+async function fixture(t,{archive=[]}={}){
   const root=await mkdtemp(join(tmpdir(),'d3-reviewer-'));
   t.after(()=>rm(root,{recursive:true,force:true}));
   await writeFile(join(root,'reviewer.html'),'<title>Revisión de lotes NFU</title>');
@@ -154,11 +155,9 @@ test('grant is required on report, export check and PDF; writes and cross-origin
 });
 
 test('one report model preserves exact u64 values, sources and date in JSON and printable HTML',async t=>{
-  const archive={mode:'archived_verified_testnet',batchUuid:batch,batchId:networkId,network:'Stellar Testnet',
-    state:'Valorized',actors:wallets,evidence:{sha256:digest},operations:[{
-      action:'confirm_valorization',hash:archiveHash,ledger:5700000,stellar:'SUCCESS',actor:wallets.plant,
-      massGrams:mass,verifiedAt:'2026-11-13T08:30:00Z',
-    }]};
+  const archive=[{batchUuid:batch,batchId:networkId,contract:manifest.tire_registry,
+    plant:wallets.plant,evidenceSha256:digest,hash:archiveHash,ledger:5700000,
+    massGrams:mass,observedAt:'2026-11-13T08:30:00Z',source:'Synthetic archived receipt'}];
   const f=await fixture(t,{archive});
   const response=await f.request(route+'report');
   assert.equal(response.status,200);
@@ -183,6 +182,31 @@ test('one report model preserves exact u64 values, sources and date in JSON and 
   assert.equal((await f.request(route+'access')).status,200);
   f.flags.grant='revoked';
   assert.equal((await f.request(route+'access')).status,403);
+});
+
+test('archived references keep D2 and M4 separate and leave the public snapshot untouched',async()=>{
+  const file=new URL('../../docs/instawards/evidence/d2-final/evidence/runtime-public-snapshot.json',import.meta.url);
+  const snapshot=JSON.parse(await readFile(file,'utf8')),before=JSON.stringify(snapshot);
+  const [d2,m4]=d3ReviewArchive(snapshot);
+  assert.equal(JSON.stringify(snapshot),before);
+  assert.equal(d2.batchId,'3');
+  assert.equal(d2.hash,snapshot.operations.at(-1).hash);
+  assert.equal(m4.batchId,'4');
+  assert.equal(m4.ledger,5706169);
+  assert.equal(m4.hash,'fb8646a3790d92b6673964b02e1b78be03a22bad939aaeda638afaae9aa0cd6c');
+  assert.equal(m4.massGrams,'4900000');
+  assert.notEqual(m4.batchUuid,d2.batchUuid);
+  assert.ok(!before.includes(m4.hash));
+});
+
+test('a reference with the wrong PDF hash never reaches an otherwise authorized report',async t=>{
+  const archive=[{batchUuid:batch,batchId:networkId,contract:manifest.tire_registry,
+    plant:wallets.plant,evidenceSha256:'f'.repeat(64),hash:archiveHash,ledger:5700000,
+    massGrams:mass,observedAt:'2026-11-13T08:30:00Z',source:'Synthetic archived receipt'}];
+  const f=await fixture(t,{archive});
+  const response=await f.request(route+'report');
+  assert.equal(response.status,200);
+  assert.equal((await response.json()).batch.transactionHash.verification,'unverified');
 });
 
 test('authorized PDF is exact and never returned with a stale grant or mismatched hash',async t=>{

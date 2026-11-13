@@ -21,6 +21,7 @@ import {DEMO_WALLET_PROPOSALS} from '../backend/src/demo-wallet-proposals.js';
 import {canonical} from '../backend/src/create-batch-preparation-store.js';
 import {requireThat} from '../backend/src/validation.js';
 import {createD2PublicServer} from './d2-readonly-server.mjs';
+import {d3ReviewArchive} from './d3-review-archive.mjs';
 
 const run=promisify(execFile);
 export function validateD2Origin(origin){
@@ -67,7 +68,7 @@ export function createD2DocumentReader({gateway,origin,manifest,proof,stellar=ne
   }
  });
 }
-export function createD2ReadOnlyApi({config,origin,internalPort=3002,gateway=token=>new ApprovedWalletGateway(config,token),persistReadGrant,journalReader,authClient,walletProofService,stellar,documentMonotonic,associationStore=null,reviewerStore=null,reviewReleaseVersion,archive=null}={}){
+export function createD2ReadOnlyApi({config,origin,internalPort=3002,gateway=token=>new ApprovedWalletGateway(config,token),persistReadGrant,journalReader,authClient,walletProofService,stellar,documentMonotonic,associationStore=null,reviewerStore=null,reviewReleaseVersion,archive=[]}={}){
  validateD2Origin(origin);
  const manifest=JSON.parse(readFileSync(new URL('../deployments/testnet.json',import.meta.url)));
  const proof=walletProofService??new WalletChallengeService({gateway,origin});
@@ -132,7 +133,8 @@ export async function startD2Runtime({config,origin,root=resolve('deploy/d2-dist
  const snapshot=JSON.parse(await readFile(resolve(root,'batch3.json'),'utf8'));
  let api,publicServer;
  try{
-  api=await apiFactory({config,origin,internalPort,associationStore,reviewerStore,reviewReleaseVersion:build.commit,archive:snapshot});await listen(api,internalPort,'127.0.0.1');
+  const archive=reviewerStore?d3ReviewArchive(snapshot):[];
+  api=await apiFactory({config,origin,internalPort,associationStore,reviewerStore,reviewReleaseVersion:build.commit,archive});await listen(api,internalPort,'127.0.0.1');
   const actualPort=api.address().port;
   publicServer=createD2PublicServer({root,origin,backendUrl:'http://127.0.0.1:'+actualPort,snapshot,build:{...build,node:process.versions.node},
    associationEnabled:associationStore!==null,reviewerEnabled:reviewerStore!==null});
@@ -147,11 +149,12 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
   const origin=validateD2Origin(process.env.TREADPROOF_DEPLOYMENT_ORIGIN);
   const config=supabaseConfig(),port=Number(process.env.PORT||8080);
   requireThat(Number.isInteger(port)&&port>0&&port<65536,503,'invalid_public_port');
-  requireThat(!process.env.TREADPROOF_CODE_COMMIT||/^[a-f0-9]{40}$/.test(process.env.TREADPROOF_CODE_COMMIT),503,'invalid_build_commit');
+  const commit=process.env.TREADPROOF_CODE_COMMIT||process.env.RENDER_GIT_COMMIT||null;
+  requireThat(!commit||/^[a-f0-9]{40}$/.test(commit),503,'invalid_build_commit');
   stopPostgres=await startRestoredD2Postgres({mode:process.env.TP_D2_POSTGRES_MODE,dataDirectory:process.env.TP_D2_PGDATA});
   const associationStore=process.env.TP_D3_ASSOCIATION_KEY?createD3AssociationStore(config,process.env.TP_D3_ASSOCIATION_KEY):null;
   const reviewerStore=process.env.TP_D3_REVIEWER_KEY?createD3ReviewerStore(config,process.env.TP_D3_REVIEWER_KEY):null;
-  runtime=await startD2Runtime({config,origin,port,host:process.env.HOST||'0.0.0.0',associationStore,reviewerStore,build:{commit:process.env.TREADPROOF_CODE_COMMIT??null,buildId:process.env.TREADPROOF_BUILD_ID??null}});
+  runtime=await startD2Runtime({config,origin,port,host:process.env.HOST||'0.0.0.0',associationStore,reviewerStore,build:{commit,buildId:process.env.TREADPROOF_BUILD_ID??null}});
   console.log(JSON.stringify({service:'treadproof-d2-runtime',profile:'authenticated_read_only',node:process.versions.node,nfuEnabled:false}));
   for(const signal of['SIGINT','SIGTERM'])process.once(signal,async()=>{await runtime.close();await stopPostgres?.();process.exit(0);});
  }catch{await runtime?.close();await stopPostgres?.().catch(()=>{});console.error('D2 runtime startup rejected: verify approved origin, restored database and private read credentials.');process.exitCode=1;}
