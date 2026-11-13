@@ -87,9 +87,7 @@ export function validateNfuApproval(raw,hash,manifest,{now,forSubmission=false}=
   BigInt(tx.fee)>0n&&BigInt(tx.fee)<=nfuFeeCapStroops({...raw,batchId:raw.target?.batch_id})&&tx.memo.type==='none'&&tx.toEnvelope().value.tx.ext.type==='sorobanData'&&
   hex(tx.hash())===hash&&operation.func.toXdr('base64')===xdr.Operation.fromXdr(encoded.operationXdr,'base64').body.value.hostFunction.toXdr('base64'),
   409,'approval_transaction_mismatch');
- requireThat(operation.auth.length<=1&&operation.auth.every(entry=>entry.credentials.type==='sorobanCredentialsSourceAccount'&&
-  entry.rootInvocation.subInvocations.length===0&&entry.rootInvocation.function.type==='sorobanAuthorizedFunctionTypeContractFn'&&
-  entry.rootInvocation.function.value.toXdr('base64')===operation.func.value.toXdr('base64')),409,'invalid_confirmation_authorization');
+ requireThat(hasNfuSourceAccountAuthorization(operation),409,'invalid_confirmation_authorization');
  requireThat(raw.xdrProfile===undefined||remainingD2Scope(raw.xdrProfile,{...raw,batchId:raw.target?.batch_id})||company600Scope(raw.xdrProfile,raw.action,raw.role,raw.parameters?.declared_mass,raw.networkPassphrase)||carrier600Scope(raw.xdrProfile,{...raw,batchId:raw.target?.batch_id}),409,'invalid_xdr_profile');
  const expiry=Date.parse(raw.expiresAt),maxValiditySeconds=raw.xdrProfile===D2_REMAINING_XDR_PROFILE?660:raw.xdrProfile===CARRIER_PICKUP_XDR720_PROFILE?720:[COMPANY_XDR600_PROFILE,CARRIER_PICKUP_XDR600_PROFILE].includes(raw.xdrProfile)?600:raw.action==='create_batch'&&raw.role==='company'||(d1TimedOperation(raw.action,raw.role,raw.target?.batch_id,raw.parameters)||d2TimedOperation(raw.action,raw.role,raw.target?.batch_id,raw.parameters))?300:120;
  requireThat(tx.timeBounds&&Number.isSafeInteger(expiry)&&expiry===Number(tx.timeBounds.maxTime)*1000&&
@@ -112,11 +110,20 @@ export function validateNfuApproval(raw,hash,manifest,{now,forSubmission=false}=
   raw.transactionXdr,raw.beforeBatchXdr,raw.contextRevision]));
  return {context:frozen,tx,expiry,fingerprint};
 }
+export function hasNfuSourceAccountAuthorization(operation){
+ return operation.auth.length<=1&&operation.auth.every(entry=>entry.credentials.type==='sorobanCredentialsSourceAccount'&&
+  entry.rootInvocation.subInvocations.length===0&&entry.rootInvocation.function.type==='sorobanAuthorizedFunctionTypeContractFn'&&
+  entry.rootInvocation.function.value.toXdr('base64')===operation.func.value.toXdr('base64'));
+}
+export function verifyNfuEnvelopeSignature(tx,actor){
+ const key=Keypair.fromPublicKey(actor);
+ return tx.signatures.length===1&&hex(tx.signatures[0].hint.value)===hex(key.signatureHint())&&
+  key.verify(tx.hash(),tx.signatures[0].signature);
+}
 export function validateNfuSignature(text,approved){
- const tx=nfuEnvelope(text),key=Keypair.fromPublicKey(approved.context.actor);
+ const tx=nfuEnvelope(text);
  requireThat(tx.toEnvelope().value.tx.toXdr('base64')===approved.tx.toEnvelope().value.tx.toXdr('base64')&&
-  tx.signatures.length===1&&hex(tx.signatures[0].hint.value)===hex(key.signatureHint())&&
-  key.verify(tx.hash(),tx.signatures[0].signature),409,'confirmation_signature_mismatch');return tx;
+  verifyNfuEnvelopeSignature(tx,approved.context.actor),409,'confirmation_signature_mismatch');return tx;
 }
 function symbols(value){
  requireThat(value?.type==='scvVec'&&Array.isArray(value.value)&&value.value.length>0,502,'confirmation_batch_mismatch');return value.value;
@@ -150,6 +157,34 @@ export function validateNfuResult(raw,approved,{resultDigestVersion=NFU_RESULT_D
   requireThat(result.result.type!=='txSuccess',502,'confirmation_status_mismatch');
   return {state:'failed',ledger:raw.ledger,reason:'contract_execution_failed',receipt:null};
  }
+ const {id,batch,history}=validateNfuSuccessfulChange(raw,result,c);
+ if(c.action==='create_batch'){
+  requireThat(history.length===1&&u64(batch.created_at)===String(raw.createdAt)&&u64(batch.declared_mass)===c.parameters.declared_mass&&
+   ['pickup_mass','received_mass','valorized_mass','evidence_hash'].every(k=>batch[k].type==='scvVoid'),502,'confirmation_batch_mismatch');
+ }else{
+  const before=batchMap(decodeNfuXdr(c.beforeBatchXdr,xdr.ScVal)),prior=symbols(before.history);
+  const changing={confirm_pickup:['pickup_mass'],start_transit:[],confirm_reception:['received_mass'],
+   confirm_valorization:['valorized_mass','evidence_hash']}[c.action];
+  for(const field of Object.keys(before).filter(k=>!['history','status','updated_at',...changing].includes(k)))
+   requireThat(before[field].toXdr('base64')===batch[field].toXdr('base64'),502,'confirmation_history_changed');
+  requireThat(history.length===prior.length+1&&prior.every((v,i)=>v.toXdr('base64')===history[i].toXdr('base64')),
+   502,'confirmation_history_changed');
+  for(const field of changing.filter(k=>k!=='evidence_hash'))requireThat(u64(batch[field])===c.parameters[field],502,'confirmation_mass_mismatch');
+  if(c.action==='confirm_valorization')requireThat(batch.evidence_hash.type==='scvBytes'&&
+   hex(batch.evidence_hash.value.value)===c.parameters.evidence_hash&&BigInt(u64(batch.valorized_mass))<=BigInt(u64(batch.received_mass)),
+   502,'confirmation_evidence_mismatch');
+ }
+ return {state:'confirmed',ledger:raw.ledger,reason:null,receipt:Object.freeze({mode:'synthetic',onchainConfirmed:false,
+  verification:'synthetic_rpc_result_and_ledger_changes',transactionHash:c.hash,ledger:raw.ledger,createdAt:raw.createdAt,
+  contract:c.contract,action:c.action,onchainBatchId:id,actor:c.actor,userId:c.userId,organizationId:c.organizationId,
+   target:Object.freeze(structuredClone(c.target)),parameters:Object.freeze(structuredClone(c.parameters)),evidenceHash:c.parameters.evidence_hash??null,
+   resultDigest:nfuResultDigest(raw,approved,{version:resultDigestVersion}),
+   ...(resultDigestVersion===NFU_RESULT_DIGEST_RAW_V1?{}:{resultDigestVersion}),requiresAuthorizedPersistence:true})};
+}
+
+// Shared proof of the successful contract invocation and its ledger change.
+// Caller verifies the envelope and selects the expected action and actors.
+export function validateNfuSuccessfulChange(raw,result,c){
  requireThat(result.result.type==='txSuccess'&&result.result.value.length===1&&result.result.value[0].type==='opInner'&&
   result.result.value[0].value.type==='invokeHostFunction'&&result.result.value[0].value.value.type==='invokeHostFunctionSuccess',
   502,'confirmation_status_mismatch');
@@ -191,26 +226,5 @@ export function validateNfuResult(raw,approved,{resultDigestVersion=NFU_RESULT_D
  const previous=symbols(last.from);
  requireThat(c.action==='create_batch'?previous.length===1&&symbol(previous[0])==='Creation':
   previous.length===2&&symbol(previous[0])==='State'&&enumName(previous[1])===from,502,'confirmation_transition_mismatch');
- if(c.action==='create_batch'){
-  requireThat(history.length===1&&u64(batch.created_at)===String(raw.createdAt)&&u64(batch.declared_mass)===c.parameters.declared_mass&&
-   ['pickup_mass','received_mass','valorized_mass','evidence_hash'].every(k=>batch[k].type==='scvVoid'),502,'confirmation_batch_mismatch');
- }else{
-  const before=batchMap(decodeNfuXdr(c.beforeBatchXdr,xdr.ScVal)),prior=symbols(before.history);
-  const changing={confirm_pickup:['pickup_mass'],start_transit:[],confirm_reception:['received_mass'],
-   confirm_valorization:['valorized_mass','evidence_hash']}[c.action];
-  for(const field of Object.keys(before).filter(k=>!['history','status','updated_at',...changing].includes(k)))
-   requireThat(before[field].toXdr('base64')===batch[field].toXdr('base64'),502,'confirmation_history_changed');
-  requireThat(history.length===prior.length+1&&prior.every((v,i)=>v.toXdr('base64')===history[i].toXdr('base64')),
-   502,'confirmation_history_changed');
-  for(const field of changing.filter(k=>k!=='evidence_hash'))requireThat(u64(batch[field])===c.parameters[field],502,'confirmation_mass_mismatch');
-  if(c.action==='confirm_valorization')requireThat(batch.evidence_hash.type==='scvBytes'&&
-   hex(batch.evidence_hash.value.value)===c.parameters.evidence_hash&&BigInt(u64(batch.valorized_mass))<=BigInt(u64(batch.received_mass)),
-   502,'confirmation_evidence_mismatch');
- }
- return {state:'confirmed',ledger:raw.ledger,reason:null,receipt:Object.freeze({mode:'synthetic',onchainConfirmed:false,
-  verification:'synthetic_rpc_result_and_ledger_changes',transactionHash:c.hash,ledger:raw.ledger,createdAt:raw.createdAt,
-  contract:c.contract,action:c.action,onchainBatchId:id,actor:c.actor,userId:c.userId,organizationId:c.organizationId,
-   target:Object.freeze(structuredClone(c.target)),parameters:Object.freeze(structuredClone(c.parameters)),evidenceHash:c.parameters.evidence_hash??null,
-   resultDigest:nfuResultDigest(raw,approved,{version:resultDigestVersion}),
-   ...(resultDigestVersion===NFU_RESULT_DIGEST_RAW_V1?{}:{resultDigestVersion}),requiresAuthorizedPersistence:true})};
+ return {id,batch,history};
 }

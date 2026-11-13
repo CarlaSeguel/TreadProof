@@ -24,6 +24,15 @@ export function createTestnetReadOnlyRpc({manifest,fetcher=globalThis.fetch,time
  503,'invalid_readonly_rpc_manifest');
  const rpc=createTestnetRpc({fetcher,endpoint,timeoutMs,mode:'testnet_rpc_read_only'});realReaders.add(rpc);return rpc;
 }
+// Standalone verification accepts a reviewer-selected endpoint and exposes
+// only ledger reads. The existing fixed-endpoint profiles keep their guards.
+export function createNfuVerificationRpc({endpoint=URL,fetcher=globalThis.fetch,timeoutMs=15000}={}){
+ let url;try{url=new globalThis.URL(endpoint);}catch{fail('invalid_verification_rpc_endpoint',400);}
+ requireThat((url.protocol==='https:'||url.protocol==='http:'&&['127.0.0.1','[::1]','localhost'].includes(url.hostname))&&
+  !url.username&&!url.password&&!url.search&&!url.hash,400,'invalid_verification_rpc_endpoint');
+ const {network,readBatch,getTransaction}=createTestnetRpc({fetcher,endpoint:url.href,timeoutMs,mode:'independent_verification'});
+ return Object.freeze({endpoint:url.href,network,readBatch,getTransaction});
+}
 // Enabled only by trusted server composition, never request parameters. Default cannot send.
 export function createTestnetTransactionRpc({manifest,fetcher=globalThis.fetch,enabled=false,timeoutMs=15000}={}){
  createTestnetReadOnlyRpc({manifest,fetcher,timeoutMs});
@@ -49,7 +58,8 @@ function decode(text,Type){
 }
 // Explicit injected fetch-compatible transport, no implicit global fetch.
 function createTestnetRpc({fetcher,endpoint=URL,timeoutMs=15000,mode,allowSend=false}){
- requireThat(typeof fetcher==='function'&&endpoint===URL&&Number.isInteger(timeoutMs)&&timeoutMs>=5&&timeoutMs<=15000,
+ const independent=mode==='independent_verification';
+ requireThat(typeof fetcher==='function'&&(independent||endpoint===URL)&&Number.isInteger(timeoutMs)&&timeoutMs>=5&&timeoutMs<=15000,
  503,'invalid_simulation_rpc_configuration');
  async function call(method,params,signal){
   checkAbort(signal);const controller=new AbortController(),id=randomUUID();let timer,onAbort;
@@ -60,7 +70,7 @@ function createTestnetRpc({fetcher,endpoint=URL,timeoutMs=15000,mode,allowSend=f
   });
   try{
    const response=await Promise.race([stop,(async()=>{
-    const http=await fetcher(URL,{method:'POST',headers:{'Content-Type':'application/json'},redirect:'error',
+    const http=await fetcher(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},redirect:'error',
      signal:controller.signal,body:JSON.stringify({jsonrpc:'2.0',id,method,params})});
     requireThat(http?.ok===true,503,'simulation_rpc_unavailable');
     const length=http.headers?.get('content-length');
@@ -92,14 +102,17 @@ function createTestnetRpc({fetcher,endpoint=URL,timeoutMs=15000,mode,allowSend=f
    onProgress('rpc_simulation_response');return result;
  }
  const rpc={mode,
+  ...(independent?{network:()=>call('getNetwork',{})}:{}),
   async readBatch(id,{signal}={}){
-   requireThat(typeof id==='string'&&/^[1-9][0-9]{0,19}$/.test(id)&&BigInt(id)>1n&&BigInt(id)<=18446744073709551615n,400,'historical_batch_protected');
+   requireThat(typeof id==='string'&&/^[1-9][0-9]{0,19}$/.test(id)&&(independent||BigInt(id)>1n)&&BigInt(id)<=18446744073709551615n,400,'historical_batch_protected');
    const key=xdr.LedgerKey.contractData(new xdr.LedgerKeyContractData({contract:new Address(CONTRACT).toScAddress(),
     key:xdr.ScVal.scvVec([xdr.ScVal.scvSymbol('Batch'),xdr.ScVal.scvU64(BigInt(id))]),durability:xdr.ContractDataDurability.persistent})).toXdr('base64');
    const net=await call('getNetwork',{},signal);requireThat(net.passphrase===NETWORK,409,'simulation_network_mismatch');
    const raw=await call('getLedgerEntries',{keys:[key],xdrFormat:'base64'},signal);
    requireThat(Number.isInteger(raw.latestLedger)&&raw.latestLedger>0&&Array.isArray(raw.entries)&&raw.entries.length===1,503,'batch_read_unavailable');
-   const e=raw.entries[0];requireThat(e.key===key&&Number.isInteger(e.liveUntilLedgerSeq)&&e.liveUntilLedgerSeq>=raw.latestLedger,503,'batch_read_unavailable');
+   const e=raw.entries[0];
+   if(independent)requireThat(e.key===key,502,'batch_read_mismatch');
+   requireThat(e.key===key&&Number.isInteger(e.liveUntilLedgerSeq)&&e.liveUntilLedgerSeq>=raw.latestLedger,503,'batch_read_unavailable');
    const entry=decode(e.xdr,xdr.LedgerEntryData),wanted=xdr.LedgerKey.fromXdr(key,'base64').value;
    requireThat(entry.type==='contractData'&&entry.value.contract.toXdr('base64')===wanted.contract.toXdr('base64')&&
     entry.value.key.toXdr('base64')===wanted.key.toXdr('base64')&&entry.value.durability===wanted.durability,502,'batch_read_mismatch');
