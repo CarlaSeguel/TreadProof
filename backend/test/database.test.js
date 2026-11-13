@@ -4,6 +4,14 @@ import {readFile,readdir} from 'node:fs/promises';
 import {PGlite} from '@electric-sql/pglite';
 import {requireD3ReviewGrant} from '../src/d3-review-access.js';
 import {SupabaseGateway} from '../src/supabase.js';
+import {generateKeyPairSync,sign} from 'node:crypto';
+import {StrKey} from '@stellar/stellar-sdk/base';
+import {sep53MessageHash} from '../src/sep53.js';
+import {createD3WalletAssociation,createD3AssociationStore} from '../src/d3-wallet-association.js';
+import {WALLET_PROOF_NETWORK as network} from '../src/wallet-challenge.js';
+import {makeServer} from '../src/server.js';
+import {provePlantAssociation} from '../../web/src/d3-wallet-association.mjs';
+import {createD2PublicServer} from '../../deploy/d2-readonly-server.mjs';
 
 const db=new PGlite();
 const ids=Array.from({length:10},(_,i)=>`00000000-0000-4000-8000-${String(i+1).padStart(12,'0')}`);
@@ -209,4 +217,178 @@ test('D3 grant gate checks Auth and RLS per request without granting participant
   assert.equal((await db.query('select id from batch_evidence where batch_id=$1',[batch])).rows.length,1);
   assert.equal((await db.query('select name from storage.objects where name=$1',[path])).rows.length,1);
  });
+});
+
+test('D3.2 stores the exact SEP-53 proof and atomically rejects a concurrent duplicate',async t=>{
+ const origin='https://synthetic.example.test';
+ const key=generateKeyPairSync('ed25519'),otherKey=generateKeyPairSync('ed25519');
+ const wallet=StrKey.encodeEd25519PublicKey(key.publicKey.export({type:'spki',format:'der'}).subarray(-32));
+ const otherWallet=StrKey.encodeEd25519PublicKey(otherKey.publicKey.export({type:'spki',format:'der'}).subarray(-32));
+ const operator='00000000-0000-4000-8000-000000000019';
+ const otherPlant='00000000-0000-4000-8000-000000000020';
+ const plantToken='synthetic-d3-plant-token',otherPlantToken='synthetic-d3-other-plant-token',companyToken='synthetic-d3-company-token';
+ const identities={[plantToken]:userP,[otherPlantToken]:otherPlant,[companyToken]:userC};
+ const config={url:'https://fixture.invalid',key:'fixture-publishable'};
+ const serverKey='sb_'+'secret_synthetic_fixture';
+ const beforeRoles=(await db.query('select id,organization_id from profiles order by id')).rows;
+ const beforeGrants=(await db.query('select * from d3_reviewer_grants order by id')).rows;
+ await db.query('insert into auth.users values($1),($2)',[operator,otherPlant]);
+ await db.query('insert into profiles(id,organization_id,display_name) values($1,$2,$3)',[otherPlant,plant,'Second Plant member']);
+ await db.query('insert into d3_operators values($1)',[operator]);
+ const record=status=>db.transaction(async tx=>{
+  await tx.query("select set_config('request.jwt.claim.sub',$1,true)",[operator]);
+  await tx.exec('set local role authenticated');
+  await tx.query(`insert into d3_affiliation_reviews (organization_id,wallet,review_status,notes_reference)
+    values($1,$2,$3,'D3.2 synthetic association request')`,[plant,wallet,status]);
+ });
+ let barrier=null,consumeCalls=0;
+ const store=createD3AssociationStore(config,serverKey,async(url,options)=>{
+  const target=new URL(url);
+  assert.equal(options.headers.get('apikey'),serverKey);
+  assert.equal(options.headers.has('Authorization'),false);
+  const result=await db.transaction(async tx=>{
+   await tx.exec('set local role service_role');
+   if(target.pathname==='/rest/v1/d3_affiliation_reviews'){
+    assert.equal(options.method,'GET');
+    return tx.query(`select id,wallet,review_status from d3_affiliation_reviews where organization_id=$1
+      order by reviewed_at desc,id desc limit 1`,[target.searchParams.get('organization_id').slice(3)]);
+   }
+   if(target.pathname==='/rest/v1/rpc/d3_consume_association'){
+    assert.equal(options.method,'POST');consumeCalls++;
+    const {challenge_id,plant_user,plant_org,address,signed_message,proof_signature}=JSON.parse(options.body);
+    return tx.query('select * from d3_consume_association($1,$2,$3,$4,$5,$6)',
+      [challenge_id,plant_user,plant_org,address,signed_message,proof_signature]);
+   }
+   assert.equal(target.pathname,'/rest/v1/d3_association_challenges');
+   if(options.method==='GET')return tx.query('select * from d3_association_challenges where id=$1',[target.searchParams.get('id').slice(3)]);
+   assert.equal(options.method,'POST');
+   const {id,user_id,organization_id,approval_id,wallet,nonce,message,issued_at,expires_at}=JSON.parse(options.body);
+   return tx.query(`insert into d3_association_challenges (id,user_id,organization_id,approval_id,wallet,nonce,message,issued_at,expires_at)
+     values($1,$2,$3,$4,$5,$6,$7,$8,$9) returning *`,[id,user_id,organization_id,approval_id,wallet,nonce,message,issued_at,expires_at]);
+  });
+  if(barrier&&target.pathname==='/rest/v1/d3_association_challenges'&&options.method==='GET'){
+   if(++barrier.reads===2)barrier.resolve();
+   await barrier.promise;
+  }
+  return Response.json(result.rows);
+ });
+ const gateway=token=>new SupabaseGateway(config,token,async(url,options)=>{
+  const target=new URL(url),user=identities[token];
+  assert.equal(options.headers.Authorization,'Bearer '+token);
+  if(target.pathname==='/auth/v1/user')return Response.json(user?{id:user}:{},{status:user?200:401});
+  assert.ok(['/rest/v1/profiles','/rest/v1/organizations'].includes(target.pathname));
+  const id=target.searchParams.get('id').slice(3);
+  const rows=await as(user,async()=>(await db.query(
+   target.pathname.endsWith('/profiles')?'select id,organization_id from profiles where id=$1':
+    'select id,name,organization_type,stellar_address from organizations where id=$1',[id])).rows);
+  return Response.json(rows);
+ });
+ let now=Date.now()-1000;
+ const associationService=createD3WalletAssociation({gateway,store,origin,now:()=>now});
+ const allowedHosts=[];
+ const server=makeServer({config,gateway,authOnly:true,trustedOrigins:[origin],allowedHosts,associationService});
+ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+ const serverHost='127.0.0.1:'+server.address().port;
+ allowedHosts.push(serverHost);
+ t.after(()=>new Promise(resolve=>{server.closeAllConnections();server.close(resolve);}));
+ const proxy=createD2PublicServer({root:'.',origin,backendUrl:'http://'+serverHost,associationEnabled:true,
+  snapshot:{mode:'archived_verified_testnet',batchId:'3',operations:Array(5).fill(null)}});
+ await new Promise(resolve=>proxy.listen(0,'127.0.0.1',resolve));
+ t.after(()=>new Promise(resolve=>{proxy.closeAllConnections();proxy.close(resolve);}));
+ const base='http://127.0.0.1:'+proxy.address().port;
+ const call=async(step,input,token=plantToken,requestOrigin=origin)=>{
+  const response=await fetch(base+'/api/v1/d3/wallet-association/'+step,{
+   method:'POST',headers:{'content-type':'application/json',origin:requestOrigin,authorization:'Bearer '+token},
+   body:JSON.stringify(input),
+  });
+  return {status:response.status,body:await response.json()};
+ };
+ const input={stellar_address:wallet,network_passphrase:network};
+ const signed=(challenge,signer=key,message=challenge.message)=>({...input,challenge_id:challenge.challenge_id,
+  signature:sign(null,sep53MessageHash(message),signer.privateKey).toString('base64')});
+
+ await record('pending');
+ const health=await (await fetch(base+'/api/runtime-health')).json();
+ assert.equal(health.plantWalletAssociation,true);
+ assert.equal(health.writesEnabled,true);
+ assert.equal(health.nfuWritesEnabled,false);
+ assert.equal((await fetch(base+'/api/v1/nfu-live/submit',{method:'POST',headers:{origin}})).status,404);
+ const disabledProxy=createD2PublicServer({root:'.',origin,snapshot:{mode:'archived_verified_testnet',batchId:'3',
+  operations:Array(5).fill(null)},fetcher:()=>assert.fail('D2 must not proxy the D3 route by default')});
+ await new Promise(resolve=>disabledProxy.listen(0,'127.0.0.1',resolve));
+ t.after(()=>new Promise(resolve=>{disabledProxy.closeAllConnections();disabledProxy.close(resolve);}));
+ assert.equal((await fetch('http://127.0.0.1:'+disabledProxy.address().port+'/api/v1/d3/wallet-association/challenges',
+  {method:'POST',headers:{origin,'content-type':'application/json'},body:JSON.stringify(input)})).status,404);
+ assert.equal((await call('challenges',input)).status,403);
+ await record('approved');
+ assert.equal((await call('challenges',input,'invalid-fixture-token')).status,401);
+ assert.equal((await call('challenges',input,companyToken)).status,403);
+ assert.equal((await call('challenges',input,plantToken,'https://wrong.example.test')).status,403);
+ assert.equal((await call('challenges',{...input,network_passphrase:'mainnet'})).status,409);
+ assert.equal((await call('challenges',{...input,stellar_address:otherWallet})).status,403);
+ const issued=await call('challenges',input);assert.equal(issued.status,200);
+ const challenge=issued.body,parsed=JSON.parse(challenge.message);
+ assert.equal(challenge.signature_standard,'SEP-53');
+ assert.match(parsed.nonce,/^[a-f0-9]{64}$/);
+ assert.equal(challenge.message,`{"version":"treadproof-wallet-association-v1","domain":"${origin}","network":"${network}","challenge_id":"${challenge.challenge_id}","organization_id":"${plant}","stellar_address":"${wallet}","nonce":"${parsed.nonce}","issued_at":"${new Date(now).toISOString()}","expires_at":"${new Date(now+300000).toISOString()}"}`);
+ const browserContext={status:'authenticated',context:{organization:{id:plant,organization_type:'plant'}}};
+ const browserProof={origin,now:()=>now,observe:async()=>({address:wallet,networkPassphrase:network}),
+  auth:{getState:()=>browserContext,getRevision:()=>1,plantAssociation:async(step)=>{
+   assert.equal(step,'challenges');return {...challenge,message:challenge.message+'\n'};
+  }},
+  signMessage:()=>assert.fail('A changed message must not reach Freighter'),
+ };
+ await assert.rejects(provePlantAssociation(browserProof),/invalid_proof_response/);
+ const proof=signed(challenge);
+ assert.equal((await call('verify',proof,otherPlantToken)).status,403);
+ assert.equal((await call('verify',signed(challenge,otherKey))).status,400);
+ assert.equal((await call('verify',signed(challenge,key,challenge.message+'\n'))).status,400);
+ assert.equal(consumeCalls,0);
+ const raced=Promise.withResolvers();
+ barrier={...raced,reads:0};
+ const replies=await Promise.all([call('verify',proof),call('verify',proof)]);
+ barrier=null;
+ assert.deepEqual(replies.map(r=>r.status).sort(),[200,409]);
+ assert.equal(replies.find(r=>r.status===200).body.can_operate,false);
+ assert.equal(consumeCalls,2);
+ assert.deepEqual(await call('verify',proof),{status:409,body:{error:'challenge_already_used'}});
+ const {rows:[consumed]}=await db.query('select * from d3_association_challenges where id=$1',[challenge.challenge_id]);
+ assert.equal(consumed.message,challenge.message);assert.equal(consumed.signature,proof.signature);
+ assert.equal(consumed.signature_scheme,'SEP-53');assert.equal(consumed.state,'consumed');
+ assert.ok(consumed.consumed_at instanceof Date);
+
+ const expiry=(await call('challenges',input)).body;
+ now+=300000;
+ assert.deepEqual(await call('verify',signed(expiry)),{status:410,body:{error:'challenge_expired'}});
+ now-=300000;
+ now-=301000;
+ const sqlExpired=(await call('challenges',input)).body;
+ // Simulate a stale app clock. The PostgreSQL clock must still block consumption.
+ assert.equal((await call('verify',signed(sqlExpired))).status,409);
+ now+=301000;
+ const withdrawn=(await call('challenges',input)).body;
+ await record('rejected');
+ assert.equal((await call('verify',signed(withdrawn))).status,409);
+ assert.equal((await call('challenges',input)).status,403);
+ assert.equal((await db.query("select count(*)::int as n from d3_association_challenges where state='consumed'")).rows[0].n,1);
+ await as(userP,()=>assert.rejects(db.query('select * from d3_association_challenges'),{code:'42501'}));
+ await as(userP,()=>assert.rejects(db.query('select * from d3_consume_association($1,$2,$3,$4,$5,$6)',
+  [withdrawn.challenge_id,userP,plant,wallet,withdrawn.message,proof.signature]),{code:'42501'}));
+ assert.deepEqual((await db.query('select id,organization_id from profiles where id<>$1 order by id',[otherPlant])).rows,beforeRoles);
+ assert.deepEqual((await db.query('select * from d3_reviewer_grants order by id')).rows,beforeGrants);
+
+ await record('approved');
+ let signedMessage;
+ const browserResult=await provePlantAssociation({...browserProof,
+  auth:{...browserProof.auth,plantAssociation:async(step,payload)=>{
+   const response=await call(step,payload);assert.equal(response.status,200);
+   if(step==='challenges')signedMessage=response.body.message;
+   return response.body;
+  }},
+  signMessage:async(message,options)=>{
+   assert.equal(message,signedMessage);assert.deepEqual(options,{address:wallet});
+   return {signerAddress:wallet,signedMessage:sign(null,sep53MessageHash(message),key.privateKey).toString('base64')};
+  },
+ });
+ assert.equal(browserResult.possession_verified,true);assert.equal(browserResult.can_operate,false);
 });

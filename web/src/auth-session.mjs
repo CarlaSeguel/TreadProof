@@ -6,6 +6,11 @@ const uuid=/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i;
 const tokenPattern=/^[A-Za-z0-9._~-]{10,8192}$/;
 export class AuthError extends Error {constructor(code){super(code);this.code=code;}}
 export const AUTH_MESSAGES=Object.freeze({
+  d3_association_not_approved:'No hay una solicitud aprobada para esta wallet de Plant.',
+  d3_association_consume_conflict:'La prueba no se pudo registrar. Revisa la aprobación y la vigencia del desafío.',
+  challenge_already_used:'El desafío ya fue utilizado.',
+  challenge_expired:'El desafío venció. Inicia una nueva comprobación.',
+  invalid_wallet_signature:'El backend rechazó la firma.',
   document_context_expired:'La lectura documental perdió vigencia. No se aceptaron los bytes.',
   document_chain_mismatch:'La evidencia no coincide con el lote valorizado en Testnet.',
   evidence_not_available:'El comprobante no está disponible para esta identidad.',
@@ -91,6 +96,10 @@ export function createAuthApi(fetcher=fetch,{prefix='/api'}={}) {
     login:(email,password)=>request('/auth/login',{method:'POST',body:{email,password}}),
     context:(token,signal)=>request('/v1/me',{token,signal}),
     proofPrepare:proof.prepare,proofVerify:proof.verify,proofStatus:proof.status,
+    plantAssociation:(token,step,input,signal)=>{
+      if(prefix!=='/api'||!['challenges','verify'].includes(step))throw new AuthError('invalid_input');
+      return request('/v1/d3/wallet-association/'+step,{method:'POST',body:input,token,signal});
+    },
     logout:(token)=>request('/auth/logout',{method:'POST',token}),
     nfu:(token,step,input,signal)=>{
       if(!['catalog','list','prepare','approve','sign','submit','query','recover','cancel'].includes(step))throw new AuthError('invalid_input');
@@ -231,6 +240,7 @@ export function createAuthSession(api,{onChange=()=>{},diagnostic=()=>{},now=Dat
     if(now()>=expiresAt){await logout('session_expired');throw new AuthError('authentication_required');}return result;
   }
   const nfuStep=(step,input,signal)=>authenticatedNfuRequest(value=>api.nfu(value,step,input,signal),signal);
+  const plantAssociation=(step,input,signal)=>authenticatedNfuRequest(value=>api.plantAssociation(value,step,input,signal),signal);
   const transactionReadiness=(input,signal)=>authenticatedNfuRequest(value=>api.transactionReadiness(value,input,signal),signal);
   const company3MetadataReconcile=(input,signal)=>authenticatedNfuRequest(value=>api.company3MetadataReconcile(value,input,signal),signal);
   const companyBatch3Reference=(input,signal)=>authenticatedNfuRequest(value=>api.companyBatch3Reference(value,input,signal),signal);
@@ -239,5 +249,5 @@ export function createAuthSession(api,{onChange=()=>{},diagnostic=()=>{},now=Dat
   const liveNfu=(step,input,signal)=>authenticatedNfuRequest(value=>api.liveNfu(value,step,input,signal),signal);
   const evidenceStore=(step,input,signal)=>authenticatedNfuRequest(value=>api.evidenceStore(value,step,input,signal),signal);
   const createBatchPreparation=(input,signal)=>authenticatedNfuRequest(value=>api.createBatchPreparation(value,input,signal),signal);
-  return Object.freeze({getState:()=>state,getRevision:()=>generation,getIdentityRevision:()=>identityRevision,login,refresh,logout,walletProofStep,nfuStep,transactionReadiness,companyBatch3Reference,company3MetadataReconcile,journalRead,documentRead,createBatchPreparation,liveNfu,evidenceStore});
+  return Object.freeze({getState:()=>state,getRevision:()=>generation,getIdentityRevision:()=>identityRevision,login,refresh,logout,walletProofStep,plantAssociation,nfuStep,transactionReadiness,companyBatch3Reference,company3MetadataReconcile,journalRead,documentRead,createBatchPreparation,liveNfu,evidenceStore});
 }

@@ -9,6 +9,7 @@ import {makeServer} from '../backend/src/server.js';
 import {supabaseConfig} from '../backend/src/supabase.js';
 import {ApprovedWalletGateway} from '../backend/src/approved-wallet-gateway.js';
 import {WalletChallengeService} from '../backend/src/wallet-challenge.js';
+import {createD3AssociationStore,createD3WalletAssociation} from '../backend/src/d3-wallet-association.js';
 import {createNfuJournalReader} from '../backend/src/nfu-journal-reader.js';
 import {createHighIntegratedJournalRead} from '../backend/src/nfu-high-integrated-journal-read.js';
 import {createAuthenticatedHigh1Issuer} from '../backend/src/nfu-high1-authenticated-issuer.mjs';
@@ -65,7 +66,7 @@ export function createD2DocumentReader({gateway,origin,manifest,proof,stellar=ne
   }
  });
 }
-export function createD2ReadOnlyApi({config,origin,internalPort=3002,gateway=token=>new ApprovedWalletGateway(config,token),persistReadGrant,journalReader,authClient,walletProofService,stellar,documentMonotonic}={}){
+export function createD2ReadOnlyApi({config,origin,internalPort=3002,gateway=token=>new ApprovedWalletGateway(config,token),persistReadGrant,journalReader,authClient,walletProofService,stellar,documentMonotonic,associationStore=null}={}){
  validateD2Origin(origin);
  const manifest=JSON.parse(readFileSync(new URL('../deployments/testnet.json',import.meta.url)));
  const proof=walletProofService??new WalletChallengeService({gateway,origin});
@@ -87,7 +88,8 @@ export function createD2ReadOnlyApi({config,origin,internalPort=3002,gateway=tok
  }};
  const documentReadService=createD2DocumentReader({gateway,origin,manifest,proof,...(stellar?{stellar}:{}),...(documentMonotonic?{monotonic:documentMonotonic}:{})});
  // No liveWorkflow, preparation, evidence-storage, metadata or terminal writer is composed.
- return makeServer({config,gateway,authOnly:true,allowedHosts:['127.0.0.1:'+internalPort],trustedOrigins:[origin],walletProofService:proof,journalService,documentReadService,...(authClient?{authClient}:{})});
+ const associationService=associationStore?createD3WalletAssociation({gateway,origin,store:associationStore}):null;
+ return makeServer({config,gateway,authOnly:true,allowedHosts:['127.0.0.1:'+internalPort],trustedOrigins:[origin],walletProofService:proof,journalService,documentReadService,associationService,...(authClient?{authClient}:{})});
 }
 export async function prepareD2ReadSecrets({env=process.env}={}){
  for(const [name,destination]of[['treadproof_pgpass','/home/carla/.pgpass'],['treadproof_high1_pgpass','/home/carla/.treadproof-high1-issuer.pgpass']]){
@@ -111,26 +113,27 @@ export async function startRestoredD2Postgres({mode,dataDirectory,launch=run,rea
  await launch(executable,['-D',dataDirectory,'-l',resolve(dataDirectory,'runtime.log'),'-w','-t','30','-o','-h 127.0.0.1 -p 55440 -k /var/lib/treadproof/postgres -c log_statement=none -c log_min_error_statement=panic','start'],{timeout:35000});
  return ()=>launch(executable,['-D',dataDirectory,'-w','-t','30','-m','fast','stop'],{timeout:35000});
 }
-async function productionApi({config,origin,internalPort}){
+async function productionApi({config,origin,internalPort,associationStore}){
  requireThat(process.env.TP_HIGH1_LAB_DATABASE==='treadproof_d2_high_integrated',503,'integrated_read_database_required');
  const{persistHigh1Grant}=await import('../backend/src/nfu-high1-persist-grant.mjs');
  const{checkIntegratedExecution}=await import('../backend/src/d2-integrated-execution-check.js');
  await prepareD2ReadSecrets();
  checkIntegratedExecution({companyXdr600:true}); // Catalog compatibility only, not Company authority.
- return createD2ReadOnlyApi({config,origin,internalPort,persistReadGrant:grant=>{
+ return createD2ReadOnlyApi({config,origin,internalPort,associationStore,persistReadGrant:grant=>{
   requireThat(grant.operation==='read',403,'read_only');return persistHigh1Grant(grant);
  }});
 }
 const listen=(server,port,host)=>new Promise((ok,fail)=>{server.once('error',fail);server.listen(port,host,ok);});
 const close=server=>new Promise(ok=>server?.listening?server.close(ok):ok());
-export async function startD2Runtime({config,origin,root=resolve('deploy/d2-dist'),port=8080,host='0.0.0.0',internalPort=3002,apiFactory=productionApi,build={}}={}){
+export async function startD2Runtime({config,origin,root=resolve('deploy/d2-dist'),port=8080,host='0.0.0.0',internalPort=3002,apiFactory=productionApi,build={},associationStore=null}={}){
  validateD2Origin(origin);requireThat(config?.url==='https://eviifvhdipdqhxzqxmbm.supabase.co',503,'unexpected_supabase_project');
  const snapshot=JSON.parse(await readFile(resolve(root,'batch3.json'),'utf8'));
  let api,publicServer;
  try{
-  api=await apiFactory({config,origin,internalPort});await listen(api,internalPort,'127.0.0.1');
+  api=await apiFactory({config,origin,internalPort,associationStore});await listen(api,internalPort,'127.0.0.1');
   const actualPort=api.address().port;
-  publicServer=createD2PublicServer({root,origin,backendUrl:'http://127.0.0.1:'+actualPort,snapshot,build:{...build,node:process.versions.node}});
+  publicServer=createD2PublicServer({root,origin,backendUrl:'http://127.0.0.1:'+actualPort,snapshot,build:{...build,node:process.versions.node},
+   associationEnabled:associationStore!==null});
   await listen(publicServer,port,host);
   return{api,publicServer,close:async()=>{await close(publicServer);await close(api);}};
  }catch(e){await close(publicServer);await close(api);throw e;}
@@ -144,7 +147,8 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
   requireThat(Number.isInteger(port)&&port>0&&port<65536,503,'invalid_public_port');
   requireThat(!process.env.TREADPROOF_CODE_COMMIT||/^[a-f0-9]{40}$/.test(process.env.TREADPROOF_CODE_COMMIT),503,'invalid_build_commit');
   stopPostgres=await startRestoredD2Postgres({mode:process.env.TP_D2_POSTGRES_MODE,dataDirectory:process.env.TP_D2_PGDATA});
-  runtime=await startD2Runtime({config,origin,port,host:process.env.HOST||'0.0.0.0',build:{commit:process.env.TREADPROOF_CODE_COMMIT??null,buildId:process.env.TREADPROOF_BUILD_ID??null}});
+  const associationStore=process.env.TP_D3_ASSOCIATION_KEY?createD3AssociationStore(config,process.env.TP_D3_ASSOCIATION_KEY):null;
+  runtime=await startD2Runtime({config,origin,port,host:process.env.HOST||'0.0.0.0',associationStore,build:{commit:process.env.TREADPROOF_CODE_COMMIT??null,buildId:process.env.TREADPROOF_BUILD_ID??null}});
   console.log(JSON.stringify({service:'treadproof-d2-runtime',profile:'authenticated_read_only',node:process.versions.node,nfuEnabled:false}));
   for(const signal of['SIGINT','SIGTERM'])process.once(signal,async()=>{await runtime.close();await stopPostgres?.();process.exit(0);});
  }catch{await runtime?.close();await stopPostgres?.().catch(()=>{});console.error('D2 runtime startup rejected: verify approved origin, restored database and private read credentials.');process.exitCode=1;}

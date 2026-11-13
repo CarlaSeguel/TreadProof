@@ -17,7 +17,7 @@ async function readBody(req, maximum=7100000) {
   try{return JSON.parse(Buffer.concat(chunks).toString('utf8'));}catch{throw new ApiError(400,'invalid_json');}
 }
 export function makeServer({config,stellar,gateway=(token)=>new SupabaseGateway(config,token),rateLimit=60,trustedOrigins=[],authOnly=false,authClient=new SupabaseAuth(config),walletProofService=null,nfuService=null,
- allowedHosts=['127.0.0.1:3001','127.0.0.1:5173','127.0.0.1:4173'],readinessService=null,journalService=null,createPreparationService=null,liveWorkflow=null,simulationDiagnostics=null,evidenceService=null,batch3ReferenceService=null,company3MetadataService=null,documentReadService=null}) {
+ allowedHosts=['127.0.0.1:3001','127.0.0.1:5173','127.0.0.1:4173'],readinessService=null,journalService=null,createPreparationService=null,liveWorkflow=null,simulationDiagnostics=null,evidenceService=null,batch3ReferenceService=null,company3MetadataService=null,documentReadService=null,associationService=null}) {
   requireThat(documentReadService===null||authOnly&&documentReadService.mode==='authenticated_document_read_only'&&documentReadService.evidenceId==='0faee5e8-9543-42c3-a9ca-c8d4380ed30b'&&typeof documentReadService.read==='function'&&typeof documentReadService.invalidateSession==='function',503,'invalid_document_reader');
   requireThat(createPreparationService===null||createPreparationService.mode==='create_batch_preparation_only'&&typeof createPreparationService.prepare==='function',503,'preparation_only');
   requireThat(journalService===null||journalService.mode==='authenticated_journal_read_only'&&typeof journalService.read==='function',503,'journal_read_only');
@@ -44,6 +44,7 @@ export function makeServer({config,stellar,gateway=(token)=>new SupabaseGateway(
         res.end(JSON.stringify({status:'ok',network:'testnet',...local,...(nfuService?{nfu_mode:'synthetic',real_transactions:false}:{})}));return;
       }
       const authPath=['/auth/login','/auth/logout'].includes(path),contextPath=path==='/v1/me';
+      const associationPath=associationService!==null&&['/v1/d3/wallet-association/challenges','/v1/d3/wallet-association/verify'].includes(path);
       const documentPath=documentReadService!==null&&path==='/v1/evidence/'+documentReadService.evidenceId;
       // Proof routes are opt-in; the dedicated local Auth launcher injects the service.
       const proofPath=walletProofService!==null&&['/v1/wallet-proof/challenges','/v1/wallet-proof/verify','/v1/wallet-proof/status'].includes(path);
@@ -61,6 +62,17 @@ export function makeServer({config,stellar,gateway=(token)=>new SupabaseGateway(
       if(journalService!==null&&path.startsWith('/v1/nfu-journal/'))requireThat(journalMatch,404,'route_not_found');
       const trusted=trustedOrigins.includes(req.headers.origin);
       if(authOnly)requireThat(allowedHosts.includes(req.headers.host),403,'untrusted_host');
+      if(associationPath){
+        requireThat(trusted&&req.headers['sec-fetch-site']!=='cross-site',403,'untrusted_origin');
+        requireThat(req.method==='POST',405,'method_not_allowed');
+        requireThat(!url.search,400,'invalid_input');
+        const bearer=req.headers.authorization;
+        requireThat(typeof bearer==='string'&&bearer.startsWith('Bearer ')&&TOKEN.test(bearer.slice(7)),401,'authentication_required');
+        const input=await readBody(req,4096);
+        const args={token:bearer.slice(7),origin:req.headers.origin,input};
+        const result=await (path.endsWith('/challenges')?associationService.prepare(args):associationService.verify(args));
+        res.end(JSON.stringify(result));return;
+      }
       if(nfuMatch||liveMatch||readinessPath||batch3ReferencePath||metadataExecutionPath||journalMatch||preparationPath||evidenceMatch||documentPath)requireThat(['127.0.0.1','::ffff:127.0.0.1','::1'].includes(req.socket.remoteAddress),403,'loopback_required');
       if(authPath||proofPath||nfuMatch||liveMatch||readinessPath||batch3ReferencePath||metadataExecutionPath||journalMatch||preparationPath||evidenceMatch||documentPath)requireThat(trusted&&req.headers['sec-fetch-site']!=='cross-site',403,'untrusted_origin');
       else requireThat(!req.headers.origin||(contextPath&&trusted),403,'browser_origin_not_enabled');

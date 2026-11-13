@@ -11,7 +11,7 @@ const apiRoutes=new Map([
 ]);
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.txt':'text/plain; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.ico':'image/x-icon','.woff2':'font/woff2'};
 const safeOrigin=value=>{let u;try{u=new URL(value);}catch{throw Error('invalid_public_origin');}if(u.origin!==value||u.protocol!=='https:'||u.username||u.password)throw Error('invalid_public_origin');return u.origin;};
-export function createD2PublicServer({root,origin,backendUrl='http://127.0.0.1:3002',snapshot,build={},fetcher=fetch,proxyTimeoutMs=120000}={}){
+export function createD2PublicServer({root,origin,backendUrl='http://127.0.0.1:3002',snapshot,build={},fetcher=fetch,proxyTimeoutMs=120000,associationEnabled=false}={}){
  const base=resolve(root),trusted=safeOrigin(origin),backend=new URL(backendUrl);
  if(backend.protocol!=='http:'||backend.hostname!=='127.0.0.1'||backend.pathname!=='/'||backend.search||backend.username||backend.password||backend.hash)throw Error('invalid_internal_backend');
  if(snapshot?.mode!=='archived_verified_testnet'||snapshot?.batchId!=='3'||snapshot?.operations?.length!==5)throw Error('invalid_public_snapshot');
@@ -31,10 +31,14 @@ export function createD2PublicServer({root,origin,backendUrl='http://127.0.0.1:3
     if(!response.ok)throw Error('health_failed');const h=await response.json();
     if(h.status!=='ok'||h.service!=='treadproof-local-auth'||h.capabilities?.batch_operations!==false||
       ['nfu_live_workflow','nfu_simulation','nfu_signing','nfu_dispatch','create_batch_preparation','metadata_registration','nfu_evidence_storage','nfu_reconciliation'].some(k=>h.capabilities?.[k]===true))throw Error('unsafe_internal_api');
-    return json(res,200,{service:'treadproof-d2-runtime',status:'ok',internalApi:'authenticated_read_only',writesEnabled:false,high1ReadGrantsOnly:h.capabilities.journal_read_only===true,build},req.method==='HEAD');
+    return json(res,200,{service:'treadproof-d2-runtime',status:'ok',
+      internalApi:associationEnabled?'authenticated_d3_association':'authenticated_read_only',
+      writesEnabled:associationEnabled,high1ReadGrantsOnly:h.capabilities.journal_read_only===true,build,
+      ...(associationEnabled?{plantWalletAssociation:true,nfuWritesEnabled:false}:{})},req.method==='HEAD');
    }
    if(path==='/api'||path.startsWith('/api/')){
-    const target=path.slice(4),method=apiRoutes.get(target);
+    const target=path.slice(4),method=apiRoutes.get(target)??(associationEnabled&&
+      ['/v1/d3/wallet-association/challenges','/v1/d3/wallet-association/verify'].includes(target)?'POST':null);
     if(!method||url.search||req.url.includes('%'))return fail(404,'route_not_found');
     if(req.method!==method)return fail(405,'method_not_allowed');
     if(req.headers['sec-fetch-site']==='cross-site'||(req.method==='POST'&&req.headers.origin!==trusted)||(req.headers.origin&&req.headers.origin!==trusted))return fail(403,'untrusted_origin');
