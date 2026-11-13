@@ -2,6 +2,8 @@ import {before,after,test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,readdir} from 'node:fs/promises';
 import {PGlite} from '@electric-sql/pglite';
+import {requireD3ReviewGrant} from '../src/d3-review-access.js';
+import {SupabaseGateway} from '../src/supabase.js';
 
 const db=new PGlite();
 const ids=Array.from({length:10},(_,i)=>`00000000-0000-4000-8000-${String(i+1).padStart(12,'0')}`);
@@ -82,3 +84,129 @@ test('storage objects cannot be replaced or removed',()=>as(userP,async()=>{
  assert.equal((await db.query("update storage.objects set name='changed' returning *")).rows.length,0);
  assert.equal((await db.query('delete from storage.objects returning *')).rows.length,0);
 }));
+
+test('D3 affiliation is operator-only, append-only, Plant-scoped and attributed',async()=>{
+ const operator='00000000-0000-4000-8000-000000000011';
+ const record=(status,org=plant)=>db.query(`insert into d3_affiliation_reviews
+  (organization_id,wallet,review_status,notes_reference) values($1,$2,$3,$4)`,
+  [org,'G'+'C'.repeat(55),status,'Synthetic fixture']);
+ await db.query('insert into auth.users(id) values($1)',[operator]);
+ await db.query('insert into d3_operators(user_id) values($1)',[operator]);
+ await as(userP,()=>assert.rejects(record('approved'),{code:'42501'}));
+ await as(userP,()=>assert.rejects(db.query('insert into d3_operators values($1)',[userP]),{code:'42501'}));
+ await as(operator,()=>assert.rejects(record('approved',company),{code:'23503'}));
+ await as(operator,()=>assert.rejects(record('verified'),{code:'23514'}));
+ await as(operator,async()=>{
+  for(const status of ['pending','approved','rejected'])await record(status);
+  const {rows}=await db.query('select * from d3_affiliation_reviews order by reviewed_at');
+  assert.deepEqual(rows.map(row=>row.review_status),['pending','approved','rejected']);
+  assert.ok(rows.every(row=>row.organization_id===plant&&row.wallet==='G'+'C'.repeat(55)&&
+   row.reviewed_by===operator&&row.synthetic_fixture&&row.reviewed_at instanceof Date&&row.notes_reference==='Synthetic fixture'));
+  assert.equal((await db.query('select count(*)::int as n from profiles')).rows[0].n,0);
+ });
+ await as(operator,()=>assert.rejects(db.query("update d3_affiliation_reviews set review_status='approved'"),{code:'42501'}));
+ await as(operator,()=>assert.rejects(db.query('delete from d3_affiliation_reviews'),{code:'42501'}));
+ await as(operator,()=>assert.rejects(db.query(`insert into d3_affiliation_reviews
+  (organization_id,wallet,review_status,notes_reference,reviewed_by) values($1,$2,'approved','Spoofed',$3)`,
+  [plant,'G'+'C'.repeat(55),userP]),{code:'42501'}));
+});
+
+test('D3 grant gate checks Auth and RLS per request without granting participant access',async()=>{
+ const [operator,reviewer,unrelated,secondOperator,otherBatch]=[12,13,14,15,16].map(n=>
+  '00000000-0000-4000-8000-'+String(n).padStart(12,'0'));
+ for(const user of [operator,reviewer,unrelated,secondOperator])await db.query('insert into auth.users(id) values($1)',[user]);
+ await db.query('insert into d3_operators values($1),($2)',[operator,secondOperator]);
+ await db.query(`insert into tire_batches(id,tire_registry_address,onchain_batch_id,external_batch_code,
+  company_organization_id,carrier_organization_id,plant_organization_id,created_by)
+  values($1,$2,'2','TP-DEMO-0002',$3,$4,$5,$6)`,[otherBatch,address,company,carrier,plant,userC]);
+
+ function gateway(user){
+  return new SupabaseGateway({url:'https://fixture.invalid',key:'fixture'},'fixture-token',async(url,options)=>{
+   assert.equal(options.headers.Authorization,'Bearer fixture-token');
+   const path=new URL(url);
+   assert.equal(options.method,'GET');
+   if(path.pathname==='/auth/v1/user')return Response.json(user?{id:user,user_metadata:{role:'operator'}}:{},{status:user?200:401});
+   assert.equal(path.pathname,'/rest/v1/d3_reviewer_grants');
+   const params=path.searchParams;
+   assert.equal(params.get('reviewer_id'),'eq.'+user);
+   assert.equal(params.get('select'),'id');
+   const {rows}=await db.query('select id from d3_reviewer_grants where reviewer_id=$1 and batch_id=$2 limit 1',
+    [user,params.get('batch_id').slice(3)]);
+   return Response.json(rows);
+  });
+ }
+ const reviewerDb=gateway(reviewer);
+ const read=target=>requireD3ReviewGrant(reviewerDb,target);
+ const denied={status:403,code:'d3_review_access_denied'};
+ const issue=(actor=reviewer,scope=batch)=>db.query(`insert into d3_reviewer_grants (reviewer_id,batch_id,expires_at)
+  values($1,$2,statement_timestamp()+interval '1 hour') returning id,granted_by`,[actor,scope]);
+ await as(null,()=>assert.rejects(requireD3ReviewGrant(gateway(null),batch),{status:401}),'anon');
+ await as(reviewer,()=>assert.rejects(read(batch),denied));
+ await as(reviewer,()=>assert.rejects(issue(),{code:'42501'}));
+ await as(userP,()=>assert.rejects(issue(),{code:'42501'}));
+ await as(operator,()=>assert.rejects(issue(operator),{code:'42501'}));
+ // A grant issued to an operator or participant must not mix the permissions.
+ await db.query(`insert into d3_reviewer_grants (reviewer_id,batch_id,granted_by,expires_at)
+  values($1,$2,$3,statement_timestamp()+interval '1 hour'),($4,$2,$3,statement_timestamp()+interval '1 hour')`,
+  [secondOperator,batch,operator,userP]);
+ await as(secondOperator,()=>assert.rejects(requireD3ReviewGrant(gateway(secondOperator),batch),denied));
+ await as(userP,()=>assert.rejects(requireD3ReviewGrant(gateway(userP),batch),denied));
+ await as(operator,()=>assert.rejects(db.query(`insert into d3_reviewer_grants (reviewer_id,batch_id,expires_at)
+  values($1,$2,statement_timestamp()-interval '1 second')`,[reviewer,batch]),{code:'42501'}));
+ await as(operator,()=>assert.rejects(db.query(`insert into d3_reviewer_grants (reviewer_id,batch_id,expires_at)
+  values($1,$2,'infinity')`,[reviewer,batch]),{code:'23514'}));
+ await db.query(`insert into d3_reviewer_grants (reviewer_id,batch_id,granted_by,granted_at,expires_at)
+  values($1,$2,$3,statement_timestamp()-interval '2 hours',statement_timestamp()-interval '1 hour')`,[reviewer,otherBatch,operator]);
+ await as(reviewer,()=>assert.rejects(read(otherBatch),denied));
+
+ const grant=await db.transaction(async tx=>{
+  await tx.query("select set_config('request.jwt.claim.sub',$1,true)",[operator]);
+  await tx.exec('set local role authenticated');
+  return (await tx.query(`insert into d3_reviewer_grants(reviewer_id,batch_id,expires_at)
+   values($1,$2,statement_timestamp()+interval '1 hour') returning id,granted_by`,[reviewer,batch])).rows[0];
+ });
+ assert.equal(grant.granted_by,operator);
+ await as(operator,()=>assert.rejects(issue(),{code:'23505'}));
+ await as(reviewer,async()=>{
+  assert.equal(await read(batch),grant.id);
+  await assert.rejects(read(otherBatch),denied);
+  for(const table of ['profiles','organizations','tire_batches','batch_evidence','batch_events','storage.objects'])
+   assert.equal((await db.query('select * from '+table)).rows.length,0,table);
+  assert.equal((await db.query('select * from d3_affiliation_reviews')).rows.length,0);
+ });
+ await as(unrelated,()=>assert.rejects(requireD3ReviewGrant(gateway(unrelated),batch),denied));
+ const newEvidence='00000000-0000-4000-8000-000000000017';
+ await as(reviewer,()=>assert.rejects(db.query(`insert into batch_evidence
+  (id,batch_id,evidence_type,storage_path,sha256,file_name,content_type,byte_size,created_by)
+  values($1,$2,'other',$3,$4,'test.txt','text/plain',1,$5)`,
+  [newEvidence,batch,`${batch}/${newEvidence}/${hash}`,hash,reviewer]),{code:'42501'}));
+ await as(reviewer,()=>assert.rejects(db.query("insert into storage.objects(bucket_id,name) values('treadproof-evidence',$1)",[path]),{code:'42501'}));
+ await as(reviewer,()=>assert.rejects(db.query("update tire_batches set onchain_batch_id='3' where id=$1",[batch]),{code:'42501'}));
+ await as(reviewer,()=>assert.rejects(db.query('delete from batch_evidence where id=$1',[evidence]),{code:'42501'}));
+ await as(reviewer,async()=>{
+  assert.equal((await db.query("update storage.objects set name='changed' where name=$1",[path])).affectedRows,0);
+  assert.equal((await db.query('delete from storage.objects where name=$1',[path])).affectedRows,0);
+ });
+ for(const actor of [reviewer,unrelated])await as(actor,async()=>{
+  const result=await db.query('update d3_reviewer_grants set revoked_at=statement_timestamp() where id=$1',[grant.id]);
+  assert.equal(result.affectedRows,0);
+ });
+ await as(operator,()=>assert.rejects(db.query("update d3_reviewer_grants set expires_at=statement_timestamp() where id=$1",[grant.id]),{code:'42501'}));
+ await as(operator,()=>assert.rejects(db.query('delete from d3_reviewer_grants where id=$1',[grant.id]),{code:'42501'}));
+ const revoked=await db.transaction(async tx=>{
+  await tx.query("select set_config('request.jwt.claim.sub',$1,true)",[secondOperator]);
+  await tx.exec('set local role authenticated');
+  return tx.query('update d3_reviewer_grants set revoked_at=statement_timestamp() where id=$1',[grant.id]);
+ });
+ assert.equal(revoked.affectedRows,1);
+ await as(reviewer,()=>assert.rejects(read(batch),denied));
+ await as(operator,async()=>{
+  const restored=await db.query('update d3_reviewer_grants set revoked_at=null where id=$1',[grant.id]);
+  assert.equal(restored.affectedRows,0);
+ });
+ for(const user of [userC,userT,userP])await as(user,async()=>{
+  assert.equal((await db.query('select id from tire_batches where id=$1',[batch])).rows.length,1);
+  assert.equal((await db.query('select id from batch_evidence where batch_id=$1',[batch])).rows.length,1);
+  assert.equal((await db.query('select name from storage.objects where name=$1',[path])).rows.length,1);
+ });
+});
