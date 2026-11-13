@@ -9,6 +9,7 @@ import { SupabaseGateway, supabaseConfig } from './supabase.js';
 import { StellarReader, loadManifest } from './stellar.js';
 import { TreadProofService } from './service.js';
 import { SupabaseAuth, authorizedContext, TOKEN } from './auth.js';
+import { reviewerBatchRoute, reviewerLoginRoute } from './d3-reviewer.js';
 
 async function readBody(req, maximum=7100000) {
   requireThat(req.headers['content-type']?.split(';')[0] === 'application/json',415,'json_required');
@@ -17,7 +18,8 @@ async function readBody(req, maximum=7100000) {
   try{return JSON.parse(Buffer.concat(chunks).toString('utf8'));}catch{throw new ApiError(400,'invalid_json');}
 }
 export function makeServer({config,stellar,gateway=(token)=>new SupabaseGateway(config,token),rateLimit=60,trustedOrigins=[],authOnly=false,authClient=new SupabaseAuth(config),walletProofService=null,nfuService=null,
- allowedHosts=['127.0.0.1:3001','127.0.0.1:5173','127.0.0.1:4173'],readinessService=null,journalService=null,createPreparationService=null,liveWorkflow=null,simulationDiagnostics=null,evidenceService=null,batch3ReferenceService=null,company3MetadataService=null,documentReadService=null,associationService=null}) {
+ allowedHosts=['127.0.0.1:3001','127.0.0.1:5173','127.0.0.1:4173'],readinessService=null,journalService=null,createPreparationService=null,liveWorkflow=null,simulationDiagnostics=null,evidenceService=null,batch3ReferenceService=null,company3MetadataService=null,documentReadService=null,associationService=null,reviewerService=null}) {
+  requireThat(reviewerService===null||authOnly,503,'reviewer_requires_read_only_runtime');
   requireThat(documentReadService===null||authOnly&&documentReadService.mode==='authenticated_document_read_only'&&documentReadService.evidenceId==='0faee5e8-9543-42c3-a9ca-c8d4380ed30b'&&typeof documentReadService.read==='function'&&typeof documentReadService.invalidateSession==='function',503,'invalid_document_reader');
   requireThat(createPreparationService===null||createPreparationService.mode==='create_batch_preparation_only'&&typeof createPreparationService.prepare==='function',503,'preparation_only');
   requireThat(journalService===null||journalService.mode==='authenticated_journal_read_only'&&typeof journalService.read==='function',503,'journal_read_only');
@@ -62,6 +64,30 @@ export function makeServer({config,stellar,gateway=(token)=>new SupabaseGateway(
       if(journalService!==null&&path.startsWith('/v1/nfu-journal/'))requireThat(journalMatch,404,'route_not_found');
       const trusted=trustedOrigins.includes(req.headers.origin);
       if(authOnly)requireThat(allowedHosts.includes(req.headers.host),403,'untrusted_host');
+      const reviewerMatch=reviewerService&&path.match(reviewerBatchRoute);
+      const reviewerLogin=reviewerService&&path===reviewerLoginRoute;
+      if(reviewerLogin||reviewerMatch){
+        requireThat(trusted&&req.headers['sec-fetch-site']!=='cross-site',403,'untrusted_origin');
+        requireThat(!url.search&&!req.url.includes('%'),400,'invalid_input');
+        requireThat(['127.0.0.1','::ffff:127.0.0.1','::1'].includes(req.socket.remoteAddress),403,'loopback_required');
+        requireThat(req.method===(reviewerLogin?'POST':'GET'),405,'method_not_allowed');
+        if(reviewerLogin){
+          const loginKey=key+':login',count=requests.get(loginKey)||{count:0,until:now+60000};
+          requireThat(++count.count<=10,429,'auth_rate_limited');requests.set(loginKey,count);
+          const session=await authClient.login(await readBody(req,4096));
+          try{
+            const context=await reviewerService.eligible(session.access_token);
+            requireThat(!res.destroyed,408,'auth_cancelled');
+            res.end(JSON.stringify({...session,context}));return;
+          }catch(error){await authClient.logout(session.access_token).catch(()=>{});throw error;}
+        }
+        const bearer=req.headers.authorization;
+        requireThat(typeof bearer==='string'&&bearer.startsWith('Bearer ')&&TOKEN.test(bearer.slice(7)),401,'authentication_required');
+        const result=await reviewerService.read({token:bearer.slice(7),id:reviewerMatch[1],
+          step:reviewerMatch[3]?'evidence':reviewerMatch[2],evidenceId:reviewerMatch[3]});
+        if(!res.destroyed)res.end(JSON.stringify(result));
+        return;
+      }
       if(associationPath){
         requireThat(trusted&&req.headers['sec-fetch-site']!=='cross-site',403,'untrusted_origin');
         requireThat(req.method==='POST',405,'method_not_allowed');

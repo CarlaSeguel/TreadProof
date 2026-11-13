@@ -4,7 +4,7 @@ FROM node:24.19.0-trixie-slim@sha256:ab3eebe934147fee049b5eb83c570f68c849a13c930
 WORKDIR /app/web
 COPY web/package.json web/package-lock.json ./
 RUN npm ci --ignore-scripts
-COPY web/index.html web/nfu-lab.html web/nfu-tracking.html web/vite.config.mjs ./
+COPY web/index.html web/nfu-lab.html web/nfu-tracking.html web/reviewer.html web/vite.config.mjs ./
 COPY web/src/ ./src/
 COPY web/public/ ./public/
 RUN npm run build

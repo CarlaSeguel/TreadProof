@@ -2,6 +2,7 @@ import {createServer} from 'node:http';
 import {readFile,realpath,stat} from 'node:fs/promises';
 import {resolve,sep,extname} from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {reviewerBatchRoute,reviewerLoginRoute} from '../backend/src/d3-reviewer.js';
 
 const apiRoutes=new Map([
  ['/auth/login','POST'],['/auth/logout','POST'],['/v1/me','GET'],
@@ -11,7 +12,7 @@ const apiRoutes=new Map([
 ]);
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.txt':'text/plain; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.ico':'image/x-icon','.woff2':'font/woff2'};
 const safeOrigin=value=>{let u;try{u=new URL(value);}catch{throw Error('invalid_public_origin');}if(u.origin!==value||u.protocol!=='https:'||u.username||u.password)throw Error('invalid_public_origin');return u.origin;};
-export function createD2PublicServer({root,origin,backendUrl='http://127.0.0.1:3002',snapshot,build={},fetcher=fetch,proxyTimeoutMs=120000,associationEnabled=false}={}){
+export function createD2PublicServer({root,origin,backendUrl='http://127.0.0.1:3002',snapshot,build={},fetcher=fetch,proxyTimeoutMs=120000,associationEnabled=false,reviewerEnabled=false}={}){
  const base=resolve(root),trusted=safeOrigin(origin),backend=new URL(backendUrl);
  if(backend.protocol!=='http:'||backend.hostname!=='127.0.0.1'||backend.pathname!=='/'||backend.search||backend.username||backend.password||backend.hash)throw Error('invalid_internal_backend');
  if(snapshot?.mode!=='archived_verified_testnet'||snapshot?.batchId!=='3'||snapshot?.operations?.length!==5)throw Error('invalid_public_snapshot');
@@ -37,13 +38,15 @@ export function createD2PublicServer({root,origin,backendUrl='http://127.0.0.1:3
       ...(associationEnabled?{plantWalletAssociation:true,nfuWritesEnabled:false}:{})},req.method==='HEAD');
    }
    if(path==='/api'||path.startsWith('/api/')){
-    const target=path.slice(4),method=apiRoutes.get(target)??(associationEnabled&&
+    const target=path.slice(4),reviewerMatch=reviewerEnabled&&target.match(reviewerBatchRoute);
+    const reviewerMethod=reviewerMatch?'GET':reviewerEnabled&&target===reviewerLoginRoute?'POST':null;
+    const method=reviewerMethod??apiRoutes.get(target)??(associationEnabled&&
       ['/v1/d3/wallet-association/challenges','/v1/d3/wallet-association/verify'].includes(target)?'POST':null);
     if(!method||url.search||req.url.includes('%'))return fail(404,'route_not_found');
     if(req.method!==method)return fail(405,'method_not_allowed');
     if(req.headers['sec-fetch-site']==='cross-site'||(req.method==='POST'&&req.headers.origin!==trusted)||(req.headers.origin&&req.headers.origin!==trusted))return fail(403,'untrusted_origin');
     const headers={Accept:'application/json'};for(const k of ['authorization','origin','content-type','sec-fetch-site'])if(req.headers[k])headers[k]=req.headers[k];
-    if(target==='/v1/evidence/0faee5e8-9543-42c3-a9ca-c8d4380ed30b'){
+    if(reviewerMatch||target==='/v1/evidence/0faee5e8-9543-42c3-a9ca-c8d4380ed30b'){
      // Same-origin GET fetches need not carry Origin. Bind only this route to the
      // configured origin after browser provenance checks, never Host/Referer.
      if(!req.headers.origin&&req.headers['sec-fetch-site']!=='same-origin')return fail(403,'untrusted_origin');
@@ -59,7 +62,8 @@ export function createD2PublicServer({root,origin,backendUrl='http://127.0.0.1:3
     try{
      const r=await fetcher(new URL(target,backend),{method:req.method,headers,body:req.method==='POST'?Buffer.concat(chunks):undefined,redirect:'error',signal:controller.signal});
      if(!r.headers.get('content-type')?.startsWith('application/json'))throw Error('invalid_internal_response');
-     let size=0;const body=[];for await(const chunk of r.body){size+=chunk.length;if(size>524288)throw Error('invalid_internal_response');body.push(chunk);}
+     const limit=reviewerMatch?.[3]?6991104:524288;
+     let size=0;const body=[];for await(const chunk of r.body){size+=chunk.length;if(size>limit)throw Error('invalid_internal_response');body.push(chunk);}
      if(controller.signal.aborted||res.destroyed)return;
      const value=JSON.parse(Buffer.concat(body).toString('utf8'));return json(res,r.status,value);
     }finally{clearTimeout(timer);req.removeListener('aborted',abort);res.removeListener('close',abort);}
@@ -67,7 +71,8 @@ export function createD2PublicServer({root,origin,backendUrl='http://127.0.0.1:3
    if(!['GET','HEAD'].includes(req.method))return fail(405,'method_not_allowed');
    const decoded=decodeURIComponent(path);if(decoded.includes('\0')||decoded.includes('\\')||decoded.split('/').some(s=>s==='..'||s.startsWith('.')))return fail(403,'invalid_path');
    const rel=decoded==='/'?'index.html':decoded.slice(1);
-   if(!(['index.html','operator.html','nfu-tracking.html','batch3.json','evidence/nfu-demo-d2-001-valorization.txt'].includes(rel)||/^assets\/[A-Za-z0-9_-]+\.(js|css|svg|png|woff2)$/.test(rel)))return fail(404,'resource_not_published');
+   if(!(['index.html','operator.html','nfu-tracking.html','batch3.json','evidence/nfu-demo-d2-001-valorization.txt'].includes(rel)||
+    reviewerEnabled&&rel==='reviewer.html'||/^assets\/[A-Za-z0-9_-]+\.(js|css|svg|png|woff2)$/.test(rel)))return fail(404,'resource_not_published');
    const f=resolve(base,rel),real=await realpath(f),realBase=await realpath(base);
    if(!real.startsWith(realBase+sep)||!(await stat(real)).isFile())return fail(403,'invalid_path');
    const type=mime[extname(real)];if(!type)return fail(415,'unsupported_type');

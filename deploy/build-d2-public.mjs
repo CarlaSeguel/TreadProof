@@ -39,6 +39,12 @@ export async function buildD2Public({webDist,manifestFile,outDir}){
  }
  const operator=(await readFile(resolve(source,'index.html'),'utf8')).replace('<body>','<body data-d2-document-reader><aside style="padding:1rem;background:#fff4cc">Perfil autenticado de solo lectura. Operaciones NFU, cargas, firma y envío bloqueados en backend. <a href="/">Volver al cierre verificado del lote #3</a>.</aside>');
  await writeFile(resolve(out,'operator.html'),operator);await copyFile(resolve(source,'nfu-tracking.html'),resolve(out,'nfu-tracking.html'));
+ const reviewer=resolve(source,'reviewer.html');
+ const reviewerStat=await lstat(reviewer).catch(error=>{if(error.code!=='ENOENT')throw error;});
+ if(reviewerStat){
+  if(!reviewerStat.isFile())throw Error('invalid_build_asset');
+  await copyFile(reviewer,resolve(out,'reviewer.html'));
+ }
  await mkdir(resolve(out,'evidence'));await copyFile(resolve(source,'evidence/nfu-demo-d2-001-valorization.txt'),resolve(out,'evidence/nfu-demo-d2-001-valorization.txt'));
  await writeFile(resolve(out,'index.html'),renderBatch3(snapshot));await writeFile(resolve(out,'batch3.json'),JSON.stringify(snapshot,null,2)+'\n');
  return snapshot;

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Revisión NFU · TreadProof</title>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="/"><span class="brand-mark">TP</span>TreadProof</a><span class="environment">Stellar Testnet · Solo lectura</span></header>
+  <main>
+    <section class="intro">
+      <h1>Revisión de lotes NFU</h1>
+      <p>Consulta el lote que te asignó el operador. La afiliación de Planta y las observaciones de Stellar se muestran por separado.</p>
+    </section>
+    <section class="wallet-card" aria-labelledby="reviewer-session">
+      <h2 id="reviewer-session">Acceso del revisor</h2>
+      <form class="auth-form" data-auth-form hidden>
+        <label>Correo <input type="email" name="email" autocomplete="username" required></label>
+        <label>Contraseña <input type="password" name="password" autocomplete="current-password" required></label>
+        <button class="primary" data-login>Iniciar sesión</button>
+      </form>
+      <button class="secondary" type="button" data-logout hidden>Cerrar sesión</button>
+      <form class="auth-form" data-batch-form hidden>
+        <label>UUID del lote asignado <input name="batch" autocomplete="off" maxlength="36" required></label>
+        <button class="primary">Consultar lote</button>
+      </form>
+      <p class="error" data-status role="status" aria-live="polite"></p>
+      <noscript>Activa JavaScript para iniciar sesión y consultar el lote.</noscript>
+    </section>
+    <section class="access-card" data-results hidden>
+      <div class="wallet-card" data-report></div>
+      <div class="actions">
+        <button class="secondary" type="button" data-export="json">Descargar JSON</button>
+        <button class="secondary" type="button" data-export="html">Descargar HTML imprimible</button>
+        <button class="secondary" type="button" data-export="pdf" hidden>Descargar evidencia privada</button>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="./src/reviewer.mjs"></script>
+</body>
+</html>

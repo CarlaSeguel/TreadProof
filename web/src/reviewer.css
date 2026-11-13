@@ -1,0 +1,5 @@
+[data-report] dt{font-weight:650;margin-top:.6rem}
+[data-report] table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
+[data-report] th,[data-report] td{border-bottom:1px solid #edf0e8;vertical-align:top;text-align:left;padding:.55rem .25rem;overflow-wrap:anywhere}
+[data-report] h3{margin-top:1.5rem}
+@media(max-width:650px){[data-report] table{font-size:11px}}

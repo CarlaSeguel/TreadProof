@@ -119,6 +119,28 @@ test('D3 affiliation is operator-only, append-only, Plant-scoped and attributed'
   [plant,'G'+'C'.repeat(55),userP]),{code:'42501'}));
 });
 
+test('D3.3 allows the server to read only the four actor-binding columns',async()=>{
+ const migration=await readFile(new URL('../../supabase/migrations/20261113155135_d3_reviewer_actor_read.sql',import.meta.url),'utf8');
+ await db.transaction(async tx=>{
+  await tx.exec(`create table public.batch_actor_bindings (
+   batch_id uuid, company_address text, carrier_address text, plant_address text, evidence_reference text
+  );
+  alter table public.batch_actor_bindings enable row level security;
+  revoke all on public.batch_actor_bindings from public, anon, authenticated, service_role;`);
+  await tx.exec(migration);
+  const {rows:[permissions]}=await tx.query(`select
+   has_column_privilege('service_role','public.batch_actor_bindings','batch_id','SELECT')
+   and has_column_privilege('service_role','public.batch_actor_bindings','company_address','SELECT')
+   and has_column_privilege('service_role','public.batch_actor_bindings','carrier_address','SELECT')
+   and has_column_privilege('service_role','public.batch_actor_bindings','plant_address','SELECT') as readable,
+   has_column_privilege('service_role','public.batch_actor_bindings','evidence_reference','SELECT') as notes,
+   has_table_privilege('service_role','public.batch_actor_bindings','INSERT,UPDATE,DELETE') as write,
+   has_column_privilege('authenticated','public.batch_actor_bindings','batch_id','SELECT') as browser`);
+  assert.deepEqual(permissions,{readable:true,notes:false,write:false,browser:false});
+  await tx.exec('drop table public.batch_actor_bindings');
+ });
+});
+
 test('D3 grant gate checks Auth and RLS per request without granting participant access',async()=>{
  const [operator,reviewer,unrelated,secondOperator,otherBatch]=[12,13,14,15,16].map(n=>
   '00000000-0000-4000-8000-'+String(n).padStart(12,'0'));

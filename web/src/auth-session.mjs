@@ -6,6 +6,9 @@ const uuid=/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i;
 const tokenPattern=/^[A-Za-z0-9._~-]{10,8192}$/;
 export class AuthError extends Error {constructor(code){super(code);this.code=code;}}
 export const AUTH_MESSAGES=Object.freeze({
+  d3_review_access_denied:'No hay un permiso de revisión vigente para este lote.',
+  d3_review_batch_unavailable:'El lote autorizado no está disponible para revisión.',
+  d3_batch_mismatch:'La vinculación del lote no coincide con Stellar.',
   d3_association_not_approved:'No hay una solicitud aprobada para esta wallet de Plant.',
   d3_association_consume_conflict:'La prueba no se pudo registrar. Revisa la aprobación y la vigencia del desafío.',
   challenge_already_used:'El desafío ya fue utilizado.',
@@ -74,8 +77,8 @@ export function validateContext(value) {
     organization:Object.freeze({id:org.id,name:org.name,organization_type:org.organization_type,stellar_address:org.stellar_address}),
     source:value.source});
 }
-export function createAuthApi(fetcher=fetch,{prefix='/api'}={}) {
-  if(!['/api','/lab-api'].includes(prefix))throw new AuthError('invalid_input');
+export function createAuthApi(fetcher=fetch,{prefix='/api',reviewer=false}={}) {
+  if(!['/api','/lab-api'].includes(prefix)||reviewer&&prefix!=='/api')throw new AuthError('invalid_input');
   const proof=createWalletProofApi(fetcher);
   async function request(path,{method='GET',body,token,signal,nfu=false,timeoutMs=20000}={}) {
     const timeout=AbortSignal.timeout(timeoutMs);
@@ -93,8 +96,13 @@ export function createAuthApi(fetcher=fetch,{prefix='/api'}={}) {
     return data;
   }
   return Object.freeze({
-    login:(email,password)=>request('/auth/login',{method:'POST',body:{email,password}}),
+    login:(email,password)=>request(reviewer?'/v1/d3/reviewer/login':'/auth/login',{method:'POST',body:{email,password}}),
     context:(token,signal)=>request('/v1/me',{token,signal}),
+    reviewRead:(token,batch,part,signal)=>{
+      if(!reviewer||typeof batch!=='string'||!uuid.test(batch)||typeof part!=='string'||
+        !(part==='report'||part==='access'||part.startsWith('evidence/')&&uuid.test(part.slice(9))))throw new AuthError('invalid_input');
+      return request('/v1/d3/reviewer/batches/'+batch.toLowerCase()+'/'+part.toLowerCase(),{token,signal,timeoutMs:90000});
+    },
     proofPrepare:proof.prepare,proofVerify:proof.verify,proofStatus:proof.status,
     plantAssociation:(token,step,input,signal)=>{
       if(prefix!=='/api'||!['challenges','verify'].includes(step))throw new AuthError('invalid_input');
@@ -151,7 +159,7 @@ export function walletAuthorization(auth,wallet) {
   // Equality is only a comparison. No possession proof, signed action or batch permission granted.
   return 'wallet_matches_unproven';
 }
-export function createAuthSession(api,{onChange=()=>{},diagnostic=()=>{},now=Date.now,schedule=setTimeout,unschedule=clearTimeout}={}) {
+export function createAuthSession(api,{onChange=()=>{},diagnostic=()=>{},now=Date.now,schedule=setTimeout,unschedule=clearTimeout,contextValidator=validateContext}={}) {
   let token=null,expiresAt=0,generation=0,timer=null,tokenEpoch=0,identityRevision=0;
   let state=Object.freeze({status:'signed_out',context:null,error:null,canOperate:false});
   const emit=(status,context=null,error=null)=>{state=Object.freeze({status,context,error,canOperate:false});
@@ -171,7 +179,7 @@ export function createAuthSession(api,{onChange=()=>{},diagnostic=()=>{},now=Dat
         received.expires_in<=5||received.expires_in>86400)throw new AuthError('invalid_auth_response');
       if(current!==generation){await revoke(received.access_token).catch(()=>{});return;}
       // Backend also validates /user and RLS before returning this context.
-      const context=validateContext(received.context);
+      const context=contextValidator(received.context);
       token=received.access_token;identityRevision++;expiresAt=now()+(received.expires_in-5)*1000;
       const boundEpoch=++tokenEpoch;
       timer=schedule(()=>{if(tokenEpoch===boundEpoch)void logout('session_expired');},expiresAt-now());
@@ -186,7 +194,7 @@ export function createAuthSession(api,{onChange=()=>{},diagnostic=()=>{},now=Dat
     if(now()>=expiresAt){await logout('session_expired');return;}
     const previousContext=state.context,current=++generation,currentToken=token;emit('checking');
     try{
-      const context=validateContext(await api.context(currentToken));
+      const context=contextValidator(await api.context(currentToken));
       if(current===generation&&token===currentToken){
         if(now()>=expiresAt){await logout('session_expired');return;}
         if(JSON.stringify(context)!==JSON.stringify(previousContext))identityRevision++;
@@ -241,6 +249,7 @@ export function createAuthSession(api,{onChange=()=>{},diagnostic=()=>{},now=Dat
   }
   const nfuStep=(step,input,signal)=>authenticatedNfuRequest(value=>api.nfu(value,step,input,signal),signal);
   const plantAssociation=(step,input,signal)=>authenticatedNfuRequest(value=>api.plantAssociation(value,step,input,signal),signal);
+  const reviewRead=(batch,part,signal)=>authenticatedNfuRequest(value=>api.reviewRead(value,batch,part,signal),signal);
   const transactionReadiness=(input,signal)=>authenticatedNfuRequest(value=>api.transactionReadiness(value,input,signal),signal);
   const company3MetadataReconcile=(input,signal)=>authenticatedNfuRequest(value=>api.company3MetadataReconcile(value,input,signal),signal);
   const companyBatch3Reference=(input,signal)=>authenticatedNfuRequest(value=>api.companyBatch3Reference(value,input,signal),signal);
@@ -249,5 +258,5 @@ export function createAuthSession(api,{onChange=()=>{},diagnostic=()=>{},now=Dat
   const liveNfu=(step,input,signal)=>authenticatedNfuRequest(value=>api.liveNfu(value,step,input,signal),signal);
   const evidenceStore=(step,input,signal)=>authenticatedNfuRequest(value=>api.evidenceStore(value,step,input,signal),signal);
   const createBatchPreparation=(input,signal)=>authenticatedNfuRequest(value=>api.createBatchPreparation(value,input,signal),signal);
-  return Object.freeze({getState:()=>state,getRevision:()=>generation,getIdentityRevision:()=>identityRevision,login,refresh,logout,walletProofStep,plantAssociation,nfuStep,transactionReadiness,companyBatch3Reference,company3MetadataReconcile,journalRead,documentRead,createBatchPreparation,liveNfu,evidenceStore});
+  return Object.freeze({getState:()=>state,getRevision:()=>generation,getIdentityRevision:()=>identityRevision,login,refresh,logout,walletProofStep,plantAssociation,reviewRead,nfuStep,transactionReadiness,companyBatch3Reference,company3MetadataReconcile,journalRead,documentRead,createBatchPreparation,liveNfu,evidenceStore});
 }

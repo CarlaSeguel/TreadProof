@@ -35,5 +35,5 @@ export default defineConfig({
   preview: { host: '127.0.0.1', port: 4173, strictPort: true, cors: false, proxy: authProxy },
   optimizeDeps: { entries: ['index.html','nfu-lab.html'], include: ['@stellar/freighter-api', '@stellar/stellar-sdk/base'] },
   build: { outDir: 'dist', emptyOutDir: true, target: 'es2022', sourcemap: false,
-    rollupOptions:{input:{main:fileURLToPath(new URL('index.html',import.meta.url)),nfu:fileURLToPath(new URL('nfu-lab.html',import.meta.url)),tracking:fileURLToPath(new URL('nfu-tracking.html',import.meta.url))}} },
+    rollupOptions:{input:{main:fileURLToPath(new URL('index.html',import.meta.url)),nfu:fileURLToPath(new URL('nfu-lab.html',import.meta.url)),tracking:fileURLToPath(new URL('nfu-tracking.html',import.meta.url)),reviewer:fileURLToPath(new URL('reviewer.html',import.meta.url))}} },
 });
